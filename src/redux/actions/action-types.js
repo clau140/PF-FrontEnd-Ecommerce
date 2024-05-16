@@ -1,0 +1,1 @@
+export const GET_TEMPLATE_ID = "GET_TEMPLATE_ID";
