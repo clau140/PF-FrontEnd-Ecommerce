@@ -1,1 +1,2 @@
 export const GET_TEMPLATE_ID = "GET_TEMPLATE_ID";
+export const GET_TEMPLATE_BY_NAME = "GET_TEMPLATE_BY_NAME";
