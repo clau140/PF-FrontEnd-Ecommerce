@@ -1,0 +1,8 @@
+.div-hidden {
+    visibility: hidden;
+  }
+  
+  .div-visible:hover .div-hidden {
+    visibility: visible;
+  }
+  
