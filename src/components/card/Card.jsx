@@ -1,3 +1,5 @@
+import image from '../../assets/images/image-1.jpeg';
+
 const Card = ({ template }) => {
   return (
     <div
@@ -24,15 +26,15 @@ const Card = ({ template }) => {
               </svg>
             ))}
           </div>
-      <img className="w-full" src={template.image} alt={template.name} />
+      <img className="w-full" src={image} alt={template.name} />
       <div className="absolute top-0 right-0 m-2 z-10 opacity-1 transition-opacity duration-300">
         
           <svg
             className="h-4 w-4 text-slate-800 mt-1"
             fill="white"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
             viewBox="0 0 24 24"
             stroke="currentColor" 
           >
