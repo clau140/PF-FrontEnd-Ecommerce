@@ -1,4 +1,4 @@
-import { GET_TEMPLATE_ID, GET_TEMPLATE_BY_NAME } from '../actions/action-types'
+import { GET_TEMPLATE_ID, GET_TEMPLATE_BY_NAME, GET_TEMPLATES } from '../actions/action-types'
 const initialState = {
     allTemplates: [],
     detailTemplate: [],
@@ -8,8 +8,14 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
     
     switch (action.type) {
-        
-      case GET_TEMPLATE_ID: 
+
+        case GET_TEMPLATES:
+          return {
+            ...state,
+            allTemplates: action.payload,
+            templates: action.payload
+          }
+        case GET_TEMPLATE_ID: 
         return {
           ...state,
           detailTemplate: action.payload
