@@ -112,7 +112,7 @@ const Detail = () => {
                 <h2 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
                   Category 
                   {
-                      template.categories.map(c => <p>{c.name}</p>)
+                      template.categories && template.categories.map(c => <p>{c.name}</p>)
                     }
                   
                 </h2>
@@ -123,7 +123,7 @@ const Detail = () => {
                 <h3 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
                   Technologies
                   {
-                      template.technologies.map(c => <p>{c.name}</p>)
+                     template.technologies && template.technologies.map(c => <p>{c.name}</p>)
                     }
                   
                   </h3>
