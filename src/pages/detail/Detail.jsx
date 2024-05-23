@@ -85,7 +85,7 @@ const Detail = () => {
               </div>
                 <br />
                 <h1 className="text-start text-xl  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider  border-green-900">
-                  Nombre
+                  {template.name}
                 </h1>
                 <br />
                 <div className="flex items-center ">
@@ -105,19 +105,27 @@ const Detail = () => {
                
                 <br />
                 <span className="font-bold text-2xl text-bgred text-start  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors  tracking-wider   border-green-900">
-                  $500
+                  {template.price}
                 </span>
                 <br />
                 <br />
                 <h2 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
-                  Category: 
+                  Category 
+                  {
+                      template.categories.map(c => <p>{c.name}</p>)
+                    }
+                  
                 </h2>
 
                 <h3 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
-                  Description
+                  {template.description}
                   </h3>
                 <h3 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
                   Technologies
+                  {
+                      template.technologies.map(c => <p>{c.name}</p>)
+                    }
+                  
                   </h3>
                 
                 <br />
