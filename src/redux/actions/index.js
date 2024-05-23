@@ -4,7 +4,7 @@ import {  GET_TEMPLATE_ID, GET_TEMPLATE_BY_NAME, GET_TEMPLATES } from './action-
 export function getTemplateById(id) {
     return async (dispatch) => {
         try {
-            const { data } = await axios.get(`http://localhost:3001/template/${id}`);
+            const { data } = await axios.get(`http://localhost:3001/templates/${id}`);
             return dispatch({
                 type: GET_TEMPLATE_ID,
                 payload: data
