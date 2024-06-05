@@ -1,43 +1,54 @@
-import { GET_TEMPLATE_ID, GET_TEMPLATE_BY_NAME, GET_TEMPLATES } from '../actions/action-types'
+import {
+  GET_TEMPLATE_ID,
+  GET_TEMPLATE_BY_SEARCH,
+  GET_TEMPLATES,
+  ADD_FAV,
+  REMOVE_FAV,
+} from "../actions/action-types";
+
 const initialState = {
-    allTemplates: [],
-    detailTemplate: [],
-    templates: [],
-  };
+  allTemplates: [],
+  detailTemplate: [],
+  templates: [],
+  myFavorites: [],
+};
 
 const rootReducer = (state = initialState, action) => {
-    
-    switch (action.type) {
+  switch (action.type) {
+    case GET_TEMPLATES:
+      return {
+        ...state,
+        templates: action.payload,
+      };
+    case GET_TEMPLATE_ID:
+      return {
+        ...state,
+        detailTemplate: action.payload,
+      };
+    case GET_TEMPLATE_BY_SEARCH:
+      return {
+        ...state,
+        
+      };
+    case ADD_FAV:
+      return {
+        ...state,
+        myFavorites: [...state.myFavorites, action.payload],
+      };
+    case REMOVE_FAV:
+      const favorites = [...state.myFavorites];
+      const myFavs = favorites.filter((favorite) => {
+        favorite.id != id;
+      });
+      return {
+        ...state,
+        myFavorites: myFavs,
+      };
+    default:
+      return {
+        ...state,
+      };
+  }
+};
 
-        case GET_TEMPLATES:
-          return {
-            ...state,
-            allTemplates: action.payload,
-            templates: action.payload
-          }
-        case GET_TEMPLATE_ID: 
-        return {
-          ...state,
-          detailTemplate: action.payload
-        }
-        case GET_TEMPLATE_BY_NAME:
-          if (action.payload.error) {
-            return {
-              ...state,
-              templates: [],
-            } 
-          } else {
-            return {
-              ...state,
-            templates: action.payload
-            }
-          }
-        default:
-          return {
-              ...state,
-          };
-       
-    }
-}
-  
 export default rootReducer;
