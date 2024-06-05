@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {  GET_TEMPLATE_ID, GET_TEMPLATE_BY_NAME, GET_TEMPLATES } from './action-types';
+import {  GET_TEMPLATE_ID, GET_TEMPLATE_BY_NAME, GET_TEMPLATES, GET_REVIEWS_TEMPLATE } from './action-types';
 
 export function getTemplateById(id) {
     return async (dispatch) => {
@@ -43,3 +43,9 @@ export const getTemplates = () => {
         }
     }
 };
+
+export const getReviewsTemplate = (id) => {
+
+}
+    
+   

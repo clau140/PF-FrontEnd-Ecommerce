@@ -1,8 +1,9 @@
-import { GET_TEMPLATE_ID, GET_TEMPLATE_BY_NAME, GET_TEMPLATES } from '../actions/action-types'
+import { GET_TEMPLATE_ID, GET_TEMPLATE_BY_NAME, GET_TEMPLATES, GET_REVIEWS_TEMPLATE} from '../actions/action-types'
 const initialState = {
     allTemplates: [],
     detailTemplate: [],
     templates: [],
+    reviews: []
   };
 
 const rootReducer = (state = initialState, action) => {
@@ -32,6 +33,11 @@ const rootReducer = (state = initialState, action) => {
             templates: action.payload
             }
           }
+          case GET_REVIEWS_TEMPLATE:
+            return {
+                ...state,
+                reviews: action.payload
+            }
         default:
           return {
               ...state,
