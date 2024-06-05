@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   GET_TEMPLATE_ID,
   GET_TEMPLATE_BY_SEARCH,
@@ -12,6 +13,15 @@ const initialState = {
   templates: [],
   myFavorites: [],
 };
+=======
+import { GET_TEMPLATE_ID, GET_TEMPLATE_BY_NAME, GET_TEMPLATES, GET_REVIEWS_TEMPLATE} from '../actions/action-types'
+const initialState = {
+    allTemplates: [],
+    detailTemplate: [],
+    templates: [],
+    reviews: []
+  };
+>>>>>>> 14a5c5c1b53e6192c28104ee0ca6b2ec86654f5c
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -51,4 +61,43 @@ const rootReducer = (state = initialState, action) => {
   }
 };
 
+<<<<<<< HEAD
+=======
+        case GET_TEMPLATES:
+          return {
+            ...state,
+            allTemplates: action.payload,
+            templates: action.payload
+          }
+        case GET_TEMPLATE_ID: 
+        return {
+          ...state,
+          detailTemplate: action.payload
+        }
+        case GET_TEMPLATE_BY_NAME:
+          if (action.payload.error) {
+            return {
+              ...state,
+              templates: [],
+            } 
+          } else {
+            return {
+              ...state,
+            templates: action.payload
+            }
+          }
+          case GET_REVIEWS_TEMPLATE:
+            return {
+                ...state,
+                reviews: action.payload
+            }
+        default:
+          return {
+              ...state,
+          };
+       
+    }
+}
+  
+>>>>>>> 14a5c5c1b53e6192c28104ee0ca6b2ec86654f5c
 export default rootReducer;

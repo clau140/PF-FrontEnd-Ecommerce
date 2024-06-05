@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import ImageGallery from 'react-image-gallery'
 import { Rating } from "@mui/material";
 import { ToastContainer, toast } from 'react-toastify';
-import { getTemplateById } from "../../redux/actions/index";
+import { getTemplateById, getReviewsTemplate } from "../../redux/actions/index";
 import "react-image-gallery/styles/css/image-gallery.css"
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -22,11 +22,15 @@ const Detail = () => {
     const dispatch = useDispatch();
 
     let template = useSelector((state) => state.detailTemplate);
+    const reviews= useSelector((state) => state.reviews)
 
     useEffect(() => {
-        dispatch(getTemplateById(id));
+        dispatch(getTemplateById(id))
+        .then(() => {
+          dispatch(getReviewsProduct(id))
+      })
         
-      }, [dispatch]);
+      }, [id, dispatch]);
 
       const images = [
 
@@ -51,13 +55,20 @@ const Detail = () => {
 
     return (
         <div className=" ">
+<<<<<<< HEAD
         {/* Modal */}
+=======
+          <Navbar />
+       
+      
+        
+>>>>>>> 14a5c5c1b53e6192c28104ee0ca6b2ec86654f5c
         <div className=" p-4  shadow-md">
         
-          {/* Contenido del modal */}
+         
           
           <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
-            {/* Imagen a la izquierda en pantallas grandes */}
+            
               <div className="bg-white   w-[70%] mb-5 mt-10 mr-10 relative overflow-hidden flex items-center justify-center ml-10">
               
               <ImageGallery 
@@ -152,7 +163,40 @@ const Detail = () => {
               
               </div>
             </div>
+
+            {
+              reviews.length ? 
+
+            <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
+            <div className="bg-white mr-10 relative overflow-hidden  ml-10">
+            
+            <h2 className="text-start text-xl  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider  border-green-900">Reviews</h2>
+
+            {
+              reviews.map(r =>{
+                return (
+                  <div key={r.id}>
+                    <p>User: {r.autor}</p>
+                    <Rating readOnly value={r.points}/>
+                    <p>{r.title}</p>
+                    <span>{r.description}</span> 
+                  </div>
+
+                                    
+                )
+              })
+            }
+            
+            </div>
+            
+          </div> :
+
+          <div></div>
+
+            }
+            
           </div>
+          
         </div>
             
         
