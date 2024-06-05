@@ -1,9 +1,27 @@
+import { useDispatch, useSelector} from 'react-redux'
+import { addFav, removeFav } from '../../redux/actions';
 import image from '../../assets/images/image-1.jpeg';
+import './Card.css';
 
-const Card = ({ template }) => {
+const Card = ({ template, id }) => {
+const myFavorites = useSelector((state) => state.myFavorites);
+const dispatch = useDispatch();
+
+const isFavorite = myFavorites.includes(id);
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    if (isFavorite) {
+      dispatch(removeFav(id))
+    }
+    else {
+      dispatch(addFav(id))
+    } 
+  };
+
   return (
     <div
-      className="max-w-xs rounded relative overflow-hidden shadow-lg transition-transform transform hover:scale-105"
+      className="max-w-xs rounded relative overflow-hidden shadow-custom transition-transform transform hover:scale-105"
       key={template.id}
     >
         <div className="flex items-center ml-4 mt-4 mb-2">
@@ -29,18 +47,25 @@ const Card = ({ template }) => {
       <img className="w-full" src={image} alt={template.name} />
       <div className="absolute top-0 right-0 m-2 z-10 opacity-1 transition-opacity duration-300">
         
-          <svg
+        
+          <svg onClick={handleClick}
             className="h-4 w-4 text-slate-800 mt-1"
-            fill="white"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="2"
             viewBox="0 0 24 24"
             stroke="currentColor" 
           >
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          { isFavorite ? (
+            <path 
+            fill='black'
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          ) : (
+            <path
+            fill='white'
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          )}
           </svg>
-        
       </div>
       <div className="px-6 py-4">
         <div className="font-inter text-l">{template.name}</div>
