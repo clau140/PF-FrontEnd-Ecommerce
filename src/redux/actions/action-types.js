@@ -1,9 +1,5 @@
 export const GET_TEMPLATE_ID = "GET_TEMPLATE_ID";
 export const GET_TEMPLATE_BY_SEARCH = "GET_TEMPLATE_BY_SEARCH";
 export const GET_TEMPLATES = "GET_TEMPLATES";
-<<<<<<< HEAD
 export const ADD_FAV = "ADD_FAV";
 export const REMOVE_FAV = "REMOVE_FAV";
-=======
-export const GET_REVIEWS_TEMPLATE= 'GET_REVIEWS_TEMPLATE'
->>>>>>> 14a5c5c1b53e6192c28104ee0ca6b2ec86654f5c
