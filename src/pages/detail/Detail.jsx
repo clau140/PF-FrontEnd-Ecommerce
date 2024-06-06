@@ -55,14 +55,7 @@ const Detail = () => {
 
     return (
         <div className=" ">
-<<<<<<< HEAD
         {/* Modal */}
-=======
-          <Navbar />
-       
-      
-        
->>>>>>> 14a5c5c1b53e6192c28104ee0ca6b2ec86654f5c
         <div className=" p-4  shadow-md">
         
          
