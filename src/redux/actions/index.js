@@ -1,9 +1,5 @@
 import axios from 'axios';
-<<<<<<< HEAD
-import {  GET_TEMPLATE_ID, GET_TEMPLATE_BY_SEARCH, GET_TEMPLATES, ADD_FAV, REMOVE_FAV } from './action-types';
-=======
-import {  GET_TEMPLATE_ID, GET_TEMPLATE_BY_NAME, GET_TEMPLATES, GET_REVIEWS_TEMPLATE } from './action-types';
->>>>>>> 14a5c5c1b53e6192c28104ee0ca6b2ec86654f5c
+import {  GET_TEMPLATE_ID, GET_TEMPLATE_BY_SEARCH, GET_TEMPLATES, ADD_FAV, REMOVE_FAV, GET_REVIEWS_TEMPLATE } from './action-types';
 
 export function getTemplateById(id) {
     return async (dispatch) => {
@@ -35,7 +31,6 @@ export const getTemplates = () => {
     }
 };
 
-<<<<<<< HEAD
 
 export const getTemplateBySearch = (payload) => {
     return async (dispatch) => {
@@ -100,10 +95,3 @@ export const removeFav = (payload) => {
         }
     }
 };
-=======
-export const getReviewsTemplate = (id) => {
-
-}
-    
-   
->>>>>>> 14a5c5c1b53e6192c28104ee0ca6b2ec86654f5c

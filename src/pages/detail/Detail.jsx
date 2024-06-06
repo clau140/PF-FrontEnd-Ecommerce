@@ -55,14 +55,7 @@ const Detail = () => {
 
     return (
         <div className=" ">
-<<<<<<< HEAD
         {/* Modal */}
-=======
-          <Navbar />
-       
-      
-        
->>>>>>> 14a5c5c1b53e6192c28104ee0ca6b2ec86654f5c
         <div className=" p-4  shadow-md">
         
          
@@ -111,7 +104,7 @@ const Detail = () => {
     
                
                 <br />
-                <span className="font-bold text-2xl text-bgred text-start  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors  tracking-wider   border-green-900">
+                <span className="text-2xl text-bgred text-start  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors  tracking-wider   border-green-900">
                   {template.price}
                 </span>
                 <br />
