@@ -95,3 +95,8 @@ export const removeFav = (payload) => {
         }
     }
 };
+
+
+export const getReviewsTemplate = (id) => {
+
+}

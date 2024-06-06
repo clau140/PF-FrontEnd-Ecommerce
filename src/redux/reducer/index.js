@@ -11,6 +11,7 @@ const initialState = {
   detailTemplate: [],
   templates: [],
   myFavorites: [],
+  reviews: []
 };
 
 const rootReducer = (state = initialState, action) => {
