@@ -4,17 +4,24 @@ import {
   GET_TEMPLATES,
   ADD_FAV,
   REMOVE_FAV,
+  GET_TECHNOLOGIES,
+  GET_CATEGORIES,
 } from "../actions/action-types";
 
-const initialState = {
-  allTemplates: [],
-  detailTemplate: [],
-  templates: [],
-  myFavorites: [],
-  reviews: []
+const templatesState = {
+
+    allTemplates: [],
+    detailTemplate: [],
+    templates: [],
+    myFavorites: [],
+    reviews: [],
+    filters: {
+      technologies: [],
+      categories: []
+    }
 };
 
-const rootReducer = (state = initialState, action) => {
+const rootReducer = (state = templatesState, action) => {
   switch (action.type) {
     case GET_TEMPLATES:
       return {
@@ -29,15 +36,25 @@ const rootReducer = (state = initialState, action) => {
     case GET_TEMPLATE_BY_SEARCH:
       return {
         ...state,
-        
+
       };
     case ADD_FAV:
       return {
         ...state,
-        myFavorites: [...state.myFavorites, action.payload],
+        myFavorites: [ ...state.myFavorites, action.payload ],
+      };
+    case GET_TECHNOLOGIES:
+      return {
+        ...state,
+        filters: {...state.filters, technologies: action.payload},
+      };
+    case GET_CATEGORIES:
+      return {
+        ...state,
+        filters: {...state.filters, categories: action.payload},
       };
     case REMOVE_FAV:
-      const favorites = [...state.myFavorites];
+      const favorites = [ ...state.myFavorites ];
       const myFavs = favorites.filter((favorite) => {
         favorite.id != id;
       });
