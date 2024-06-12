@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { getCategories, getTechnologies } from "../../redux/actions";
+import { getCategories, getFilteredTemplates, getTechnologies } from "../../redux/actions";
+import DropdownMenu from "../dropDownMenu/DropDownMenu";
 
 const Filters = () => {
   const { technologies, categories } = useSelector(state => state.filters);
@@ -13,6 +14,10 @@ const Filters = () => {
     dispatch(getTechnologies())
     dispatch(getCategories())
   }, [ dispatch ]);
+
+  useEffect(() => {
+    dispatch(getFilteredTemplates(selectedTechnologies, selectedCategories))
+  }, [ selectedCategories, selectedTechnologies, dispatch]);
 
   const handleTechnologyChange = (technology) => {
     setSelectedTechnologies(prevSelected =>
@@ -28,38 +33,22 @@ const Filters = () => {
         ? prevSelected.filter(c => c !== category)
         : [ ...prevSelected, category ]
     );
+    console.log(selectedCategories);
   };
 
   return (
-    <div>
-      <div>
-        <h3>Tecnologías</h3>
-        { technologies.map((tech, index) => (
-          <div key={ index }>
-            <input
-              type="checkbox"
-              id={ tech.id }
-              checked={ selectedTechnologies.includes(tech.name) }
-              onChange={ () => handleTechnologyChange(tech.name) }
-            />
-            <label htmlFor={ `tech-${tech.name}` }>{ tech.name }</label>
-          </div>
-        )) }
-      </div>
-      <div>
-        <h3>Categorías</h3>
-        { categories.map((cat, index) => (
-          <div key={ index }>
-            <input
-              type="checkbox"
-              id={ cat.id }
-              checked={ selectedCategories.includes(cat.name) }
-              onChange={ () => handleCategoryChange(cat.name) }
-            />
-            <label htmlFor={ `tech-${cat.name}` }>{ cat.name }</label>
-          </div>
-        )) }
-      </div>
+    <div className="sticky top-0 bg-white z-10 gap-8 mt-12 mr-12 mb-12">
+      <DropdownMenu
+        title="Tecnologías"
+        items={ technologies }
+        selectedItems={ selectedTechnologies }
+        handleItemChange={ handleTechnologyChange } />
+      <DropdownMenu
+        title="Categorías"
+        items={ categories }
+        selectedItems={ selectedCategories }
+        handleItemChange={ handleCategoryChange }
+      />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {  GET_TEMPLATE_ID, GET_TEMPLATE_BY_SEARCH, GET_TEMPLATES, ADD_FAV, REMOVE_FAV, GET_REVIEWS_TEMPLATE, GET_TECHNOLOGIES, GET_CATEGORIES } from './action-types';
+import {  GET_TEMPLATE_ID, GET_TEMPLATE_BY_SEARCH, GET_TEMPLATES, ADD_FAV, REMOVE_FAV, GET_REVIEWS_TEMPLATE, GET_TECHNOLOGIES, GET_CATEGORIES, GET_FILTERED_TEMPLATES } from './action-types';
 
 export function getTemplateById(id) {
     return async (dispatch) => {
@@ -23,6 +23,25 @@ export const getTemplates = () => {
             const response = await axios('http://localhost:3001/templates')
             return dispatch ({
                 type: GET_TEMPLATES,
+                payload: response.data
+            })
+        } catch (error) {
+            throw Error(error.message)
+        }
+    }
+};
+
+export const getFilteredTemplates = (selectedTechnologies, selectedCategories) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios('http://localhost:3001/templates', {
+                params: {
+                  technology: selectedTechnologies?.join(','),
+                  category: selectedCategories?.join(','),
+                }
+              })
+            return dispatch ({
+                type: GET_FILTERED_TEMPLATES,
                 payload: response.data
             })
         } catch (error) {

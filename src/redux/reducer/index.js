@@ -6,6 +6,7 @@ import {
   REMOVE_FAV,
   GET_TECHNOLOGIES,
   GET_CATEGORIES,
+  GET_FILTERED_TEMPLATES,
 } from "../actions/action-types";
 
 const templatesState = {
@@ -24,6 +25,11 @@ const templatesState = {
 const rootReducer = (state = templatesState, action) => {
   switch (action.type) {
     case GET_TEMPLATES:
+      return {
+        ...state,
+        templates: action.payload,
+      };
+    case GET_FILTERED_TEMPLATES:
       return {
         ...state,
         templates: action.payload,
