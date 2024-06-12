@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {  GET_TEMPLATE_ID, GET_TEMPLATE_BY_SEARCH, GET_TEMPLATES, ADD_FAV, REMOVE_FAV } from './action-types';
+import {  GET_TEMPLATE_ID, GET_TEMPLATE_BY_SEARCH, GET_TEMPLATES, ADD_FAV, REMOVE_FAV, GET_REVIEWS_TEMPLATE } from './action-types';
 
 export function getTemplateById(id) {
     return async (dispatch) => {
@@ -95,3 +95,8 @@ export const removeFav = (payload) => {
         }
     }
 };
+
+
+export const getReviewsTemplate = (id) => {
+
+}
