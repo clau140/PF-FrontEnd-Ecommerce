@@ -10,7 +10,6 @@ import { getTemplateById, getReviewsTemplate } from "../../redux/actions/index";
 import "react-image-gallery/styles/css/image-gallery.css"
 import 'react-toastify/dist/ReactToastify.css';
 
-import Navbar from "../../components/navbar/Navbar";
 
 import imageExample1 from "./imageEj1.jpg"
 import imageExample2 from "./imageEj2.jpg"
@@ -56,10 +55,7 @@ const Detail = () => {
 
     return (
         <div className=" ">
-          <Navbar />
-       
-      
-        
+        {/* Modal */}
         <div className=" p-4  shadow-md">
         
          

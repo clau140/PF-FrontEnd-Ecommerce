@@ -9,10 +9,8 @@ const Cards = ({allTemplates}) => {
         <div className="grid grid-cols-3 gap-8 mt-12 mr-12 mb-12">
                 {templates?.map((template) => (
                     <Link to={`/detail/${template.id}`}>
-                    <Card template={template} key={template.id} />
+                    <Card template={template} key={template.id}/>
                     </Link>
-                    
-                    
                 ))}
         </div>
     </div>
