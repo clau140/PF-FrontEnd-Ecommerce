@@ -47,5 +47,11 @@ export const getTemplates = () => {
 export const getReviewsTemplate = (id) => {
 
 }
+
+export const postReviews = () => {
+
+}
+
+
     
    
