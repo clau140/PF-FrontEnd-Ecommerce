@@ -19,7 +19,8 @@ const templatesState = {
     filters: {
       technologies: [],
       categories: []
-    }
+    },
+    totalPages: 1
 };
 
 const rootReducer = (state = templatesState, action) => {
@@ -32,7 +33,8 @@ const rootReducer = (state = templatesState, action) => {
     case GET_FILTERED_TEMPLATES:
       return {
         ...state,
-        templates: action.payload,
+        templates: action.payload.templates,
+        totalPages: action.payload.totalPages
       };
     case GET_TEMPLATE_ID:
       return {

@@ -3,21 +3,16 @@ import { useDispatch, useSelector } from "react-redux"
 import { getCategories, getFilteredTemplates, getTechnologies } from "../../redux/actions";
 import DropdownMenu from "../dropDownMenu/DropDownMenu";
 
-const Filters = () => {
+const Filters = ({setSelectedTechnologies, setSelectedCategories, selectedTechnologies, selectedCategories}) => {
   const { technologies, categories } = useSelector(state => state.filters);
   const dispatch = useDispatch();
-
-  const [ selectedTechnologies, setSelectedTechnologies ] = useState([]);
-  const [ selectedCategories, setSelectedCategories ] = useState([]);
 
   useEffect(() => {
     dispatch(getTechnologies())
     dispatch(getCategories())
   }, [ dispatch ]);
 
-  useEffect(() => {
-    dispatch(getFilteredTemplates(selectedTechnologies, selectedCategories))
-  }, [ selectedCategories, selectedTechnologies, dispatch]);
+
 
   const handleTechnologyChange = (technology) => {
     setSelectedTechnologies(prevSelected =>
@@ -33,11 +28,10 @@ const Filters = () => {
         ? prevSelected.filter(c => c !== category)
         : [ ...prevSelected, category ]
     );
-    console.log(selectedCategories);
   };
 
   return (
-    <div className="sticky top-0 bg-white z-10 gap-8 mt-12 mr-12 mb-12">
+    <div className="sticky top-0 bg-white z-10 flex flex-col gap-8">
       <DropdownMenu
         title="Tecnologías"
         items={ technologies }

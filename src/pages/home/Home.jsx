@@ -1,18 +1,35 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTemplates, getTemplateBySearch } from "../../redux/actions";
+import { getTemplateBySearch, getFilteredTemplates } from "../../redux/actions";
 import Searchbar from "../../components/searchbar/Searchbar";
 import Cards from "../../components/cards/Cards";
 import Card from "../../components/card/Card";
 import banner from "../../assets/images/banner-home2.avif";
 import image from "../../assets/images/image-1.jpeg";
 import Filters from "../../components/filters/Filters";
+import SortOptions from "../../components/filters/SortOptions";
+import Pagination from "../../components/pagination/Pagination";
+
 
 const Home = () => {
   const allTemplates = useSelector((state) => state.templates);
+  const totalPages = useSelector((state) => state.totalPages);
+  const itemsPerPage = 5
   const dispatch = useDispatch();
   const [ searchString, setSearchString ] = useState("");
   const [ showResults, setShowResults ] = useState(false);
+
+  const [ currentPage, setCurrentPage ] = useState(1);
+  const [ sortBy, setSortBy ] = useState('');
+  const [ order, setOrder ] = useState('');
+  const [ selectedTechnologies, setSelectedTechnologies ] = useState([]);
+  const [ selectedCategories, setSelectedCategories ] = useState([]);
+  useEffect(() => {
+    dispatch(getFilteredTemplates(selectedTechnologies, selectedCategories, sortBy, order, currentPage, itemsPerPage));
+}, [dispatch, selectedTechnologies, selectedCategories, sortBy, order, currentPage]);
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -27,9 +44,9 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(getTemplates());
-  }, [ dispatch ]);
+  // useEffect(() => {
+  //   dispatch(getTemplates());
+  // }, [ dispatch ]);
 
   return (
     <div>
@@ -64,11 +81,17 @@ const Home = () => {
         className="w-full object-cover max-h-[600px] mt-4"
       />
       <div className="flex w-full">
-        <div className="w-1/4">
-          <Filters />
+        <div className="w-1/4 pt-8">
+          <Filters
+            setSelectedTechnologies={ setSelectedTechnologies }
+            setSelectedCategories={ setSelectedCategories }
+            selectedTechnologies={ selectedTechnologies }
+            selectedCategories={ selectedCategories } />
         </div>
-        <div className="w-3/4">
+        <div className="w-3/4 pt-8 ">
+          <SortOptions setSortBy={ setSortBy } setOrder={ setOrder } />
           <Cards allTemplates={ allTemplates } />
+          <Pagination currentPage={ currentPage } totalPages={totalPages} onPageChange={handlePageChange} />
         </div>
       </div>
     </div>
