@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {  GET_TEMPLATE_ID, GET_TEMPLATE_BY_SEARCH, GET_TEMPLATES, ADD_FAV, REMOVE_FAV, GET_REVIEWS_TEMPLATE, GET_TECHNOLOGIES, GET_CATEGORIES, GET_FILTERED_TEMPLATES } from './action-types';
+import { GET_TEMPLATE_ID, GET_TEMPLATE_BY_SEARCH, GET_TEMPLATES, ADD_FAV, REMOVE_FAV, GET_REVIEWS_TEMPLATE, GET_TECHNOLOGIES, GET_CATEGORIES, GET_FILTERED_TEMPLATES } from './action-types';
 
 export function getTemplateById(id) {
     return async (dispatch) => {
@@ -10,44 +10,59 @@ export function getTemplateById(id) {
                 payload: data
             });
         } catch (error) {
-            
+
             console.log(`error: ${error}`);
         }
     };
 }
 
 
-export const getTemplates = () => {
-    return async (dispatch) => {
-        try {
-            const response = await axios('http://localhost:3001/templates')
-            return dispatch ({
-                type: GET_TEMPLATES,
-                payload: response.data
-            })
-        } catch (error) {
-            throw Error(error.message)
-        }
-    }
-};
+// export const getTemplates = () => {
+//     return async (dispatch) => {
+//         try {
+//             const response = await axios('http://localhost:3001/templates')
+//             return dispatch({
+//                 type: GET_TEMPLATES,
+//                 payload: response.data
+//             })
+//         } catch (error) {
+//             throw Error(error.message)
+//         }
+//     }
+// };
 
-export const getFilteredTemplates = (selectedTechnologies, selectedCategories) => {
+export const getFilteredTemplates = (selectedTechnologies, selectedCategories, sortBy, order, page, pageSize) => {
     return async (dispatch) => {
-        try {
-            const response = await axios('http://localhost:3001/templates', {
-                params: {
-                  technology: selectedTechnologies?.join(','),
-                  category: selectedCategories?.join(','),
-                }
-              })
-            return dispatch ({
-                type: GET_FILTERED_TEMPLATES,
-                payload: response.data
-            })
-        } catch (error) {
-            throw Error(error.message)
+        const params = {
+            page: page,
+            pageSize: pageSize
+        };
+        if (selectedTechnologies && selectedTechnologies.length > 0) {
+            params.technology = selectedTechnologies.join(',');
         }
-    }
+        if (selectedCategories && selectedCategories.length > 0) {
+            params.category = selectedCategories.join(',');
+        }
+        if (sortBy) {
+            params.sortBy = sortBy;
+        }
+        if (order) {
+            params.order = order.toUpperCase();
+        }
+        try {
+            
+            const {data} = await axios.get('http://localhost:3001/templates', { params });
+            return dispatch({
+                type: GET_FILTERED_TEMPLATES,
+                payload: {
+                    templates: data.data,
+                    totalPages: data.totalPages
+                }
+            });
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    };
 };
 
 
@@ -56,7 +71,7 @@ export const getTemplateBySearch = (payload) => {
         try {
             console.log("Payload recibido:", payload);
 
-        
+
             let response = await axios(`http://localhost:3001/templates/?technology=${payload}`);
             if (response.data && response.data.length > 0) {
                 console.log("Respuesta de la API (technology):", response.data);
@@ -64,9 +79,9 @@ export const getTemplateBySearch = (payload) => {
                     type: GET_TEMPLATE_BY_SEARCH,
                     payload: response.data
                 });
-            } 
+            }
 
-        
+
             response = await axios(`http://localhost:3001/templates/?category=${payload}`);
             if (response.data && response.data.length > 0) {
                 console.log("Respuesta de la API (category):", response.data);
@@ -75,7 +90,7 @@ export const getTemplateBySearch = (payload) => {
                     payload: response.data
                 });
             } else {
-            
+
                 console.log("No hay ninguna coincidencia para su búsqueda.");
             }
 
@@ -91,7 +106,7 @@ export const addFav = (payload) => {
     return async (dispatch) => {
         try {
             const response = await axios.post('http://localhost:3001/templates/favorites', payload)
-            return dispatch ({
+            return dispatch({
                 type: ADD_FAV,
                 payload: response.data
             })
@@ -105,7 +120,7 @@ export const removeFav = (payload) => {
     return async (dispatch) => {
         try {
             const response = await axios.delete('http://localhost:3001/templates/favorites', payload)
-            return dispatch ({
+            return dispatch({
                 type: REMOVE_FAV,
                 payload: response.data
             })
@@ -119,7 +134,7 @@ export const getTechnologies = () => {
     return async (dispatch) => {
         try {
             const response = await axios.get('http://localhost:3001/templates/technologies')
-            return dispatch ({
+            return dispatch({
                 type: GET_TECHNOLOGIES,
                 payload: response.data
             })
@@ -133,7 +148,7 @@ export const getCategories = () => {
     return async (dispatch) => {
         try {
             const response = await axios.get('http://localhost:3001/templates/categories')
-            return dispatch ({
+            return dispatch({
                 type: GET_CATEGORIES,
                 payload: response.data
             })
