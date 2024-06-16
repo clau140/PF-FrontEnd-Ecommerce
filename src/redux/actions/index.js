@@ -16,21 +16,6 @@ export function getTemplateById(id) {
     };
 }
 
-
-// export const getTemplates = () => {
-//     return async (dispatch) => {
-//         try {
-//             const response = await axios('http://localhost:3001/templates')
-//             return dispatch({
-//                 type: GET_TEMPLATES,
-//                 payload: response.data
-//             })
-//         } catch (error) {
-//             throw Error(error.message)
-//         }
-//     }
-// };
-
 export const getFilteredTemplates = (selectedTechnologies, selectedCategories, sortBy, order, page, pageSize) => {
     return async (dispatch) => {
         const params = {
