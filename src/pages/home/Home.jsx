@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTemplateBySearch, getFilteredTemplates } from "../../redux/actions";
+import { getTemplateBySearch, getFilteredTemplates } from "../../redux/actions/templatesAction";
 import Searchbar from "../../components/searchbar/Searchbar";
 import Cards from "../../components/cards/Cards";
 import Card from "../../components/card/Card";
@@ -12,8 +12,8 @@ import Pagination from "../../components/pagination/Pagination";
 
 
 const Home = () => {
-  const allTemplates = useSelector((state) => state.templates);
-  const totalPages = useSelector((state) => state.totalPages);
+  const allTemplates = useSelector((state) => state.templates.templates);
+  const totalPages = useSelector((state) => state.templates.totalPages);
   const itemsPerPage = 5
   const dispatch = useDispatch();
   const [ searchString, setSearchString ] = useState("");
