@@ -44,7 +44,7 @@ const isFavorite = myFavorites.includes(id);
               </svg>
             ))}
           </div>
-      <img className="w-full" src={image} alt={template.name} />
+      <img className="w-full" src={template.image} alt={template.name} />
       <div className="absolute top-0 right-0 m-2 z-10 opacity-1 transition-opacity duration-300">
         
         
