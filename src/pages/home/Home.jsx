@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTemplateBySearch, getFilteredTemplates } from "../../redux/actions/templatesAction";
-import Searchbar from "../../components/searchbar/Searchbar";
+import { getFilteredTemplates } from "../../redux/actions/templatesAction";
 import Cards from "../../components/cards/Cards";
 import Filters from "../../components/filters/Filters";
 import SortOptions from "../../components/filters/SortOptions";

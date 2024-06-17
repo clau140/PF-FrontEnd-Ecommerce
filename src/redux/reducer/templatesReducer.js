@@ -7,6 +7,7 @@ import {
     GET_TECHNOLOGIES,
     GET_CATEGORIES,
     GET_FILTERED_TEMPLATES,
+    SEARCH_NOT_FOUND,
   } from "../actions/action-types";
 const initialTemplatesState = {
 
@@ -40,11 +41,17 @@ const templatesReducer = (state = initialTemplatesState, action) => {
           ...state,
           detailTemplate: action.payload,
         };
-      case GET_TEMPLATE_BY_SEARCH:
-        return {
-          ...state,
-  
-        };
+        case GET_TEMPLATE_BY_SEARCH:
+          return {
+            ...state,
+            templates: action.payload,
+          };
+        case SEARCH_NOT_FOUND:
+          return {
+            ...state,
+            templates: [],
+            searchError: "No se encontraron coincidencias para su búsqueda.",
+          };
       case ADD_FAV:
         return {
           ...state,

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch} from "react-redux";
-import { getTemplateBySearch } from "../../redux/actions";
+import { getTemplateBySearch } from "../../redux/actions/templatesAction";
 
 import Searchbar from "../searchbar/Searchbar";
 import logo from "../../assets/images/logo-14.png";
