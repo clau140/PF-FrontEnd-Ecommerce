@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFilteredTemplates } from "../../redux/actions";
+import { getFilteredTemplates } from "../../redux/actions/templatesAction";
 import Cards from "../../components/cards/Cards";
 import Filters from "../../components/filters/Filters";
 import SortOptions from "../../components/filters/SortOptions";
@@ -8,8 +8,8 @@ import Pagination from "../../components/pagination/Pagination";
 
 
 const Home = () => {
-  const allTemplates = useSelector((state) => state.templates);
-  const totalPages = useSelector((state) => state.totalPages);
+  const allTemplates = useSelector((state) => state.templates.templates);
+  const totalPages = useSelector((state) => state.templates.totalPages);
   const itemsPerPage = 5
   const dispatch = useDispatch();
  

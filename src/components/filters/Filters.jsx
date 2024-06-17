@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { getCategories, getFilteredTemplates, getTechnologies } from "../../redux/actions";
+import { getCategories, getFilteredTemplates, getTechnologies } from "../../redux/actions/templatesAction";
 import DropdownMenu from "../dropDownMenu/DropDownMenu";
 
 const Filters = ({setSelectedTechnologies, setSelectedCategories, selectedTechnologies, selectedCategories}) => {
-  const { technologies, categories } = useSelector(state => state.filters);
+  const { technologies, categories } = useSelector(state => state.templates.filters);
   const dispatch = useDispatch();
 
   useEffect(() => {
