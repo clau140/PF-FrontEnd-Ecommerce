@@ -53,39 +53,45 @@ export const getFilteredTemplates = (selectedTechnologies, selectedCategories, s
 
 export const getTemplateBySearch = (payload) => {
     return async (dispatch) => {
-        try {
-            console.log("Payload recibido:", payload);
-
-
-            let response = await axios(`http://localhost:3001/templates/?technology=${payload}`);
-            if (response.data && response.data.length > 0) {
-                console.log("Respuesta de la API (technology):", response.data);
-                return dispatch({
-                    type: GET_TEMPLATE_BY_SEARCH,
-                    payload: response.data
-                });
-            }
-
-
-            response = await axios(`http://localhost:3001/templates/?category=${payload}`);
-            if (response.data && response.data.length > 0) {
-                console.log("Respuesta de la API (category):", response.data);
-                return dispatch({
-                    type: GET_TEMPLATE_BY_SEARCH,
-                    payload: response.data
-                });
-            } else {
-
-                console.log("No hay ninguna coincidencia para su búsqueda.");
-            }
-
-        } catch (error) {
-            throw Error(error.message)
+      try {
+        console.log("Payload recibido:", payload);
+  
+        // Realiza la búsqueda por tecnología
+        let response = await axios.get(
+          `http://localhost:3001/templates/search/technology?technology=${payload}`
+        );
+  
+        // Verifica si se encontraron templates por tecnología
+        if (response.data.length > 0 && response.data[0].templates.length > 0) {
+          return dispatch({
+            type: GET_TEMPLATE_BY_SEARCH,
+            payload: response.data[0].templates,
+          });
         }
+  
+        // Si no se encontraron templates por tecnología, busca por categoría
+        response = await axios.get(
+          `http://localhost:3001/templates/search/category?category=${payload}`
+        );
+  
+        // Verifica si se encontraron templates por categoría
+        if (response.data.length > 0 && response.data[0].templates.length > 0) {
+          return dispatch({
+            type: GET_TEMPLATE_BY_SEARCH,
+            payload: response.data[0].templates,
+          });
+        }
+  
+        // Si no se encontraron templates por ninguna búsqueda
+        console.log("No se encontraron templates por tecnología ni por categoría.");
+        // Aquí podrías manejar la situación donde no se encontraron templates por ninguna búsqueda
+  
+      } catch (error) {
+        console.error("Error en la búsqueda:", error);
+      }
     };
-};
-
-
+  };
+  
 
 export const addFav = (payload) => {
     return async (dispatch) => {
