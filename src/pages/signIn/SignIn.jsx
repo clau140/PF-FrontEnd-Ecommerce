@@ -3,6 +3,7 @@ import 'tailwindcss/tailwind.css';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/actions/userAction';
+import { ToastContainer, toast } from 'react-toastify';
 
 // import toast from 'react-toastify';
 // import axios from 'axios';
@@ -16,12 +17,23 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login(email, password));
-    navigate("/home")
+    await dispatch(login(email, password))
+      .then(res => {
+        console.log(res);
+        if (res.status === 401) return toast.error(res.data)
+        if (res.status === 200) {
+          toast.success("Iniciaste sesion")
+          setTimeout(() => {
+            navigate("/home")
+          }, 3000);
+          return
+        }
+      })
   };
 
   return (
     <div title="Register - Ecommer App" className="flex justify-center items-center h-screen bg-gray-200">
+      <ToastContainer position="bottom-right" />
       <div className="border-2 border-green-500 bg-white p-12 rounded-lg shadow-lg">
         <form onSubmit={ handleSubmit }>
           <h4 className="text-black text-center text-lg font-bold mb-8 tracking-wide">INICIO DE SESIÓN</h4>

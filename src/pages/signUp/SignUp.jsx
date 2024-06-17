@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import 'tailwindcss/tailwind.css';
 import { signup } from '../../redux/actions/userAction';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 // import toast from 'react-toastify';
 // import axios from 'axios';
@@ -29,12 +30,23 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(signup(userInfo))
-    navigate("/SignIn")
+    if (userInfo.password != userInfo.confirmPassword) return toast.error("Las contraseñas no coinciden")
+    await dispatch(signup(userInfo))
+      .then(res => {
+        if (res.status === 400) return toast.error(res.data)
+        if (res.status === 201) {
+          toast.success("Usuario creado")
+          setTimeout(() => {
+            navigate("/SignIn")
+          }, 3000);
+          return
+        }
+      })
   };
 
   return (
     <div title="Register - Ecommer App" className="flex justify-center items-center h-screen bg-gray-200">
+      <ToastContainer position="bottom-right" />
       <div className="border-2 border-green-500 bg-white p-12 rounded-lg shadow-lg">
         <form onSubmit={ handleSubmit }>
           <h4 className="text-black text-center text-lg font-bold mb-8 tracking-wide">REGISTRARSE</h4>
@@ -45,7 +57,7 @@ const SignUp = () => {
               value={ name }
               onChange={ (e) => setName(e.target.value) }
               className="mt-2 p-3 form-control placeholder-opacity-50 text-sm"
-              placeholder="Enter Your Name"
+              placeholder="Ingresa tu nombre"
               required
               autoFocus
             />
@@ -57,7 +69,7 @@ const SignUp = () => {
               value={ lastname }
               onChange={ (e) => setLastname(e.target.value) }
               className="mt-2 p-3 form-control placeholder-opacity-50 text-sm"
-              placeholder="Enter Your LastName"
+              placeholder="Ingresa tu apellido"
               required
               autoFocus
             />
@@ -69,7 +81,7 @@ const SignUp = () => {
               value={ email }
               onChange={ (e) => setEmail(e.target.value) }
               className="mt-2 p-3 form-control placeholder-opacity-50 text-sm"
-              placeholder="Enter Your Email"
+              placeholder="Ingresa tu email"
               required
             />
           </div>
@@ -80,7 +92,7 @@ const SignUp = () => {
               value={ password }
               onChange={ (e) => setPassword(e.target.value) }
               className="mt-2 p-3 form-control placeholder-opacity-50 text-sm"
-              placeholder="Enter Your Password"
+              placeholder="Ingresa la contraseña"
               required
             />
           </div>
@@ -91,7 +103,7 @@ const SignUp = () => {
               value={ confirmPassword }
               onChange={ (e) => setConfirmPassword(e.target.value) }
               className="mt-2 p-3 form-control placeholder-opacity-50 text-sm"
-              placeholder="Enter Your Password"
+              placeholder="Confirma la contraseña"
               required
             />
           </div>
