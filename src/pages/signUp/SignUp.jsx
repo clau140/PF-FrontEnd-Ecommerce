@@ -33,7 +33,8 @@ const SignUp = () => {
     if (userInfo.password != userInfo.confirmPassword) return toast.error("Las contraseñas no coinciden")
     await dispatch(signup(userInfo))
       .then(res => {
-        if (res.status === 400) return toast.error(res.data)
+        if (res.status === 404) return toast.error(res.data);
+        if (res.status === 400) return toast.error(res.data);
         if (res.status === 201) {
           toast.success("Usuario creado")
           setTimeout(() => {
