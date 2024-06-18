@@ -4,7 +4,7 @@ import { useDispatch} from "react-redux";
 import { getTemplateBySearch } from "../../redux/actions/templatesAction";
 
 import Searchbar from "../searchbar/Searchbar";
-import logo from "../../assets/images/logo-14.png";
+import logo from "../../assets/images/VEGA.svg";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -33,7 +33,8 @@ const Navbar = () => {
               <img
                 src={logo}
                 alt="logo ReactiveMind"
-                className="w-[58px] h-[58px] mr-12"
+                className="w-[58px] h-[58px] mr-12 "
+                style={{ fill: "green" }}
               />
             </Link>
             <Link

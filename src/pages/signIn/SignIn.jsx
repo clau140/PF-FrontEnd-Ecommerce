@@ -5,10 +5,6 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../redux/actions/userAction';
 import { ToastContainer, toast } from 'react-toastify';
 
-// import toast from 'react-toastify';
-// import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
-
 const SignIn = () => {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');

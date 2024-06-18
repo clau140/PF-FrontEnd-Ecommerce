@@ -5,10 +5,6 @@ import { signup } from '../../redux/actions/userAction';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
-// import toast from 'react-toastify';
-// import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
-
 const SignUp = () => {
   const [ name, setName ] = useState('');
   const [ lastname, setLastname ] = useState('');
@@ -34,6 +30,7 @@ const SignUp = () => {
     await dispatch(signup(userInfo))
       .then(res => {
         if (res.status === 400) return toast.error(res.data)
+        if (res.status === 404) return toast.error(res.data)
         if (res.status === 201) {
           toast.success("Usuario creado")
           setTimeout(() => {
