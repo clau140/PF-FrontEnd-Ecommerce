@@ -1,10 +1,11 @@
 import { LOGIN, SIGNUP } from "../actions/action-types";
 
 const token = localStorage.getItem('token');
+const user = localStorage.getItem('user');
 
 const initialUserState = {
     sesion: token ? true : false,
-    userInfo: {},
+    userInfo: user ? JSON.parse(user) : {},
     isAdmin: false
 }
 
@@ -13,7 +14,8 @@ const userReducer = (state = initialUserState, action) => {
         case LOGIN:
             return {
                 ...state,
-                sesion: true
+                sesion: true,
+                userInfo: action.payload
             }
         default:
             return state;

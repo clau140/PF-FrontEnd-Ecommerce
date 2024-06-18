@@ -21,8 +21,8 @@ const Detail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
 
-    let template = useSelector((state) => state.detailTemplate);
-    const reviews= useSelector((state) => state.reviews)
+    let template = useSelector((state) => state.templates.detailTemplate);
+    const reviews= useSelector((state) => state.templates.reviews);
 
     useEffect(() => {
         dispatch(getTemplateById(id))
