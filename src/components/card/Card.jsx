@@ -1,10 +1,10 @@
 import { useDispatch, useSelector} from 'react-redux'
-import { addFav, removeFav } from '../../redux/actions';
+import { addFav, removeFav } from '../../redux/actions/templatesAction';
 import image from '../../assets/images/image-1.jpeg';
 import './Card.css';
 
 const Card = ({ template, id }) => {
-const myFavorites = useSelector((state) => state.myFavorites);
+const myFavorites = useSelector((state) => state.templates.myFavorites);
 const dispatch = useDispatch();
 
 const isFavorite = myFavorites.includes(id);
