@@ -1,10 +1,16 @@
+<<<<<<< HEAD
 import { useDispatch, useSelector} from 'react-redux';
 import { addFav, removeFav } from '../../redux/actions';
 // import image from '../../assets/images/image-1.jpeg';
+=======
+import { useDispatch, useSelector} from 'react-redux'
+import { addFav, removeFav } from '../../redux/actions/templatesAction';
+import image from '../../assets/images/image-1.jpeg';
+>>>>>>> 2f686206ddb3fbd2900973f343eb20d2512c8292
 import './Card.css';
 
 const Card = ({ template, id }) => {
-const myFavorites = useSelector((state) => state.myFavorites);
+const myFavorites = useSelector((state) => state.templates.myFavorites);
 const dispatch = useDispatch();
 const imagenUrl =  template.images.map(image => (
    image.content

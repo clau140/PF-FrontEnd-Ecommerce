@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import ImageGallery from 'react-image-gallery'
 import { Rating } from "@mui/material";
 import { ToastContainer, toast } from 'react-toastify';
-import { getTemplateById, getReviewsTemplate } from "../../redux/actions/index";
+import { getTemplateById, getReviewsTemplate } from "../../redux/actions/templatesAction";
 import "react-image-gallery/styles/css/image-gallery.css"
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -21,8 +21,8 @@ const Detail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
 
-    let template = useSelector((state) => state.detailTemplate);
-    const reviews= useSelector((state) => state.reviews)
+    let template = useSelector((state) => state.templates.detailTemplate);
+    const reviews= useSelector((state) => state.templates.reviews);
 
     useEffect(() => {
         dispatch(getTemplateById(id))

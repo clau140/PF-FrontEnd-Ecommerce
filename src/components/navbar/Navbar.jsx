@@ -1,8 +1,29 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch} from "react-redux";
+import { getTemplateBySearch } from "../../redux/actions/templatesAction";
+
 import Searchbar from "../searchbar/Searchbar";
 import logo from "../../assets/images/logo-14.png";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const [searchString, setSearchString] = useState("");
+  const [showResults, setShowResults] = useState(false);
+
+  const handleChange = (event) => {
+    event.preventDefault();
+    setSearchString(event.target.value);
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    if (searchString) {
+      dispatch(getTemplateBySearch(searchString));
+      setShowResults(true);
+    }
+  };
+
   return (
     <nav className="bg-white p-4 border-b-2 border-inherit shadow">
       <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,6 +43,8 @@ const Navbar = () => {
               ABOUT US
             </Link>
           </div>
+
+          <Searchbar handleChange={handleChange} handleSearch={handleSearch} />
 
           <div className="hidden md:block">
             <div className="ml-4 flex items-center md:ml-6">
