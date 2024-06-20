@@ -1,11 +1,15 @@
-import { useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux';
 import { addFav, removeFav } from '../../redux/actions';
-import image from '../../assets/images/image-1.jpeg';
+// import image from '../../assets/images/image-1.jpeg';
 import './Card.css';
 
 const Card = ({ template, id }) => {
 const myFavorites = useSelector((state) => state.myFavorites);
 const dispatch = useDispatch();
+const imagenUrl =  template.images.map(image => (
+   image.content
+));
+const UrlString= imagenUrl.join("")
 
 const isFavorite = myFavorites.includes(id);
 
@@ -44,7 +48,9 @@ const isFavorite = myFavorites.includes(id);
               </svg>
             ))}
           </div>
-      <img className="w-full" src={template.image} alt={template.name} />
+          
+            <img className="w-full" src={UrlString} alt={template.name} />
+        
       <div className="absolute top-0 right-0 m-2 z-10 opacity-1 transition-opacity duration-300">
         
         
