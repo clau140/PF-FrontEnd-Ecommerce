@@ -10,15 +10,12 @@ import Navbar from '../src/components/navbar/Navbar';
 import Favorites from './pages/favorites/Favorites';
 import ForgotPassword from './pages/Forgot Password/ForgotPassword';
 
-import {AuthProvider} from './components/context/authContex.jsx';
-
 function App() {
   const { pathname} = useLocation();
   
   return (
     <div>
        { pathname !== '/' && <Navbar/>}
-       <AuthProvider>
     <Routes>
      <Route path='/' element={<Landing/>}/>
      <Route path='/Home' element={<Home/>}/>
@@ -29,7 +26,6 @@ function App() {
      <Route path='/Profile' element={<ProfilePage/>}/>
      <Route path='/favorites' element={<Favorites/>}/>
     </Routes>
-       </AuthProvider>
     </div>
   )
 }

@@ -115,7 +115,7 @@ const SignUp = () => {
               <button
                 type="submit"
                 className="border-2 border-green-500 text-black mt-8 p-2 mx-auto block rounded-md hover:bg-green-500 hover:text-white transform hover:scale-110 transition duration-200"
-                > 
+              >
                 REGISTRAR
               </button>
             </form>
