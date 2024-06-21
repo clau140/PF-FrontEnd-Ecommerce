@@ -1,6 +1,5 @@
 import { useDispatch, useSelector} from 'react-redux';
 import { addFav, removeFav } from '../../redux/actions';
-
 import './Card.css';
 
 const Card = ({ template, id }) => {
@@ -17,7 +16,7 @@ const isFavorite = myFavorites.includes(id);
     event.preventDefault();
     if (isFavorite) {
       dispatch(removeFav(id))
-    }
+    } 
     else {
       dispatch(addFav(id))
     } 
