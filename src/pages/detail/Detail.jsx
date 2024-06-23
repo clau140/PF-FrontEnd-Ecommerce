@@ -5,11 +5,12 @@ import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import ImageGallery from 'react-image-gallery'
 import { Rating } from "@mui/material";
+import TextField from "@mui/material/TextField";
 import { ToastContainer, toast } from 'react-toastify';
-import { getTemplateById, getReviewsTemplate } from "../../redux/actions/templatesAction";
+import { getTemplateById, getCategories, getReviewsTemplate, createReviewTemplate } from "../../redux/actions/templatesAction";
 import "react-image-gallery/styles/css/image-gallery.css"
 import 'react-toastify/dist/ReactToastify.css';
-
+import { validate } from "./validation"
 
 import imageExample1 from "./imageEj1.jpg"
 import imageExample2 from "./imageEj2.jpg"
@@ -22,16 +23,85 @@ const Detail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
 
-    let template = useSelector((state) => state.templates.detailTemplate);
+    const template = useSelector((state) => state.templates.detailTemplate);
+    
     const reviews= useSelector((state) => state.templates.reviews);
+
+    const user = useSelector((state) => state.user.userInfo);
+    //const userDetail = useSelector((state) => state.userDetail);
+    console.log(user)
+
+    //state Form
+    const [state, setState] = useState({
+      rating: "",
+      content: "",
+      ProductId: id,
+      userId: user.id,
+    });
+
+    const opinar = () => toast.success('Gracias por tu opinion!');
+
+    const [errors, setErrors] = useState({})
+
+    //promedio rating
+    function promedio(rating){
+      let i = 0
+      let summ = 0;
+      while (i < rating.length) {
+        summ = summ + rating[i++];
+      }
+      return Math.round(summ / rating.length);
+    }
+    let rating = reviews?.map((e) => e.rating);
+    let resultRating = promedio(rating);
+
 
     useEffect(() => {
         dispatch(getTemplateById(id))
-        .then(() => {
-          dispatch(getReviewsProduct(id))
-      })
+        .then(()=> {
+          dispatch(getCategories())
+        })
+        /*.then(() => {
+          dispatch(getReviewsTemplate(id))
+      })*/
         
       }, [id, dispatch]);
+
+      //Form
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(createReviewTemplate(state));
+        setState({
+          rating: "",
+          content: "",
+          ProductId: id,
+          userId: user.id,
+          
+        });
+      };
+
+      // handle select valoracion
+    const handleChange = (e) => {
+    if (e.target.name === "rating") {
+      setState({
+        ...state,
+        [e.target.name]: parseInt(e.target.value),
+      });
+    } else {
+      setState({
+        ...state,
+        [e.target.name]: e.target.value,
+        
+        userId: user.id,
+      });
+    }
+    setErrors(
+      validate({
+        ...state,
+        [e.target.name]: e.target.value,
+      })
+    );
+  };
 
       const images = [
 
@@ -55,12 +125,10 @@ const Detail = () => {
       ];
 
     return (
-        <div className=" ">
-        {/* Modal */}
-        <div className=" p-4  shadow-md">
+        <div>
         
-         
-          
+        <div className=" p-4  shadow-md  font-inter font-semibold ">
+
           <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
             
               <div className="bg-white   w-[70%] mb-5 mt-10 mr-10 relative overflow-hidden flex items-center justify-center ml-10">
@@ -69,13 +137,10 @@ const Detail = () => {
                    items={images}
                    showPlayButton= {false}
                    showBullets={true}
-                   autoPlay={false}
-                   
+                   autoPlay={false}  
                 />
-              
               </div>
-    
-              
+
               <div className="md:w-[50%] mr-10">
               <div className="flex justify-end text-2xl">
 
@@ -90,14 +155,12 @@ const Detail = () => {
                 </h1>
                 <br />
                 <div className="flex items-center ">
-                 
-                  
                   
                   <div className="flex flex-row gap-4">
                   <Rating 
                   className="text-sm"
                   readOnly 
-                  value='' />
+                  value= {resultRating ? resultRating : 0}/>
                   </div>
                   
     
@@ -111,7 +174,7 @@ const Detail = () => {
                 <br />
                 <br />
                 <h2 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
-                  Category 
+                  Categorias
                   {
                       template.categories && template.categories.map(c => <p>{c.name}</p>)
                     }
@@ -122,7 +185,7 @@ const Detail = () => {
                   {template.description}
                   </h3>
                 <h3 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
-                  Technologies
+                  Tecnologias
                   {
                      template.technologies && template.technologies.map(c => <p>{c.name}</p>)
                     }
@@ -139,7 +202,7 @@ const Detail = () => {
                 <button onClick={()=> dispatch(addToCart(template.id))} className="bg-black text-white font-inter 
                    hover:bg-gray-900 font-bold py-2 px-4 rounded-full"
 
-                >Add to cart 
+                >Añadir a carrito
               </button>
 
               </div>
@@ -149,7 +212,7 @@ const Detail = () => {
                 <button className="bg-black text-white font-inter 
                    hover:bg-gray-900 font-bold py-2 px-4 rounded-full"
 
-                >Buy now
+                >Comprar ahora
               </button>
 
               </div>
@@ -170,10 +233,12 @@ const Detail = () => {
               reviews.map(r =>{
                 return (
                   <div key={r.id}>
-                    <p>User: {r.autor}</p>
-                    <Rating readOnly value={r.points}/>
-                    <p>{r.title}</p>
-                    <span>{r.description}</span> 
+                    
+                    <Rating 
+                    readOnly 
+                    value={r.rating}/>
+                    <p>{r.date}</p>
+                    <span>{r.content}</span> 
                   </div>
 
                                     
@@ -185,9 +250,59 @@ const Detail = () => {
             
           </div> :
 
-          <div></div>
+          <div className= "bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
+          
+          <div className="bg-zinc-50 text-lg font-inter font-semibold p-3">
+            <span> No existen opiniones de este producto</span>
+          </div>
+          </div>
 
             }
+
+            <form onSubmit={(e)=> handleSubmit(e)}>
+
+            <Rating
+              name="rating"
+              value={Number(state?.rating)}
+              onChange={handleChange}
+            />
+
+            {errors.rating && (
+              <p className='text-red-600'>
+                {errors.rating}</p>
+            )}
+
+            <TextField
+            fullWidth
+            name="content"
+            value={state?.content}
+            onChange={handleChange}
+            id="filled-textarea"
+            label="Tu opinion"
+            placeholder="Minimo 15 caracteres"
+            multiline
+            variant="filled"
+
+            />
+
+            {errors.content && (
+              <p className='text-red-600'>
+                {errors.content}</p>
+            )}
+
+            <button
+              disabled={
+                Object.keys(errors).length > 0 ||
+                state.content.length === 0
+              }
+              className=''
+              type="submit"
+              onClick={opinar}
+              >
+              Opinar
+              </button>
+
+            </form>
             
           </div>
           

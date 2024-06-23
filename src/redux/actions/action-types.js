@@ -10,11 +10,14 @@ export const GET_CATEGORIES= "GET_CATEGORIES";
 export const ADD_FAV = "ADD_FAV";
 export const REMOVE_FAV = "REMOVE_FAV";
 export const GET_REVIEWS_TEMPLATE= 'GET_REVIEWS_TEMPLATE'
+export const GET_REVIEWS_TEMPLATE_DETAIL= 'GET_REVIEWS_TEMPLATE_DETAIL'
 
 // User actions
 
 export const LOGIN = "LOGIN"
 export const SIGNUP = "SIGNUP"
+export const USER_ID= "USER_ID"
+export const ACTUAL_USER = "ACTUAL_USER"
 
 // Cart actions 
 
