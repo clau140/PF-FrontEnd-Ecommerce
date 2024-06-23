@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"
 import Profile from "../../components/profile/Profile";
 import Billing from "../../components/billing/Billing";
 import Security from "../../components/security/Security";
 import Reviews from "../../components/reviews/Reviews";
 
 const ProfilePage = () => {
+  const navigate = useNavigate();
   const [componenteSeleccionado, setComponenteSeleccionado] = useState(null);
 
   const handleClick = (componente) => {
@@ -49,6 +51,7 @@ const ProfilePage = () => {
       {componenteSeleccionado === "Billing" && <Billing />}
       {componenteSeleccionado === "Security" && <Security />}
       {componenteSeleccionado === "Reviews" && <Reviews />}
+    
     </div>
   );
 };

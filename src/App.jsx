@@ -10,6 +10,8 @@ import Navbar from '../src/components/navbar/Navbar';
 import Favorites from './pages/favorites/Favorites';
 import ForgotPassword from './pages/Forgot Password/ForgotPassword';
 
+
+
 function App() {
   const { pathname} = useLocation();
   
