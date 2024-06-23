@@ -15,6 +15,7 @@ import imageExample1 from "./imageEj1.jpg"
 import imageExample2 from "./imageEj2.jpg"
 import imageExample3 from "./imageEj3.jpg"
 import imageExample4 from "./imageEj4.jpg"
+import { addToCart } from "../../redux/actions/cartActions";
 
 const Detail = () => {
 
@@ -135,7 +136,7 @@ const Detail = () => {
                 <div className="flex items-center mt-3 mb-10 w-1/2">
                 
                 
-                <button className="bg-black text-white font-inter 
+                <button onClick={()=> dispatch(addToCart(template.id))} className="bg-black text-white font-inter 
                    hover:bg-gray-900 font-bold py-2 px-4 rounded-full"
 
                 >Add to cart 

@@ -15,3 +15,8 @@ export const GET_REVIEWS_TEMPLATE= 'GET_REVIEWS_TEMPLATE'
 
 export const LOGIN = "LOGIN"
 export const SIGNUP = "SIGNUP"
+
+// Cart actions 
+
+export const ADD_TO_CART = "ADD_TO_CART";
+export const DELETE_TO_CART = "DELETE_TO_CART";
