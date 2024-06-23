@@ -1,9 +1,37 @@
 import axios from "axios";
-import { ADD_TO_CART, DELETE_TO_CART } from "./action-types";
+import { ADD_TO_CART, DELETE_TO_CART, NOTFOUND_CART, VIEW_CART } from "./action-types";
 
 const localURL = "http://localhost:3001/cart"
 const URL = ""
-const token = localStorage.getItem('token');
+let token = localStorage.getItem('token');
+
+
+
+export function viewCart() {
+    return async (dispatch) => {
+        try {
+            const response = await axios.get(`${URL || localURL}/`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            console.log(response);
+            return dispatch({
+                type: VIEW_CART,
+                payload: response.data.data.inCart
+            });
+        } catch (error) {
+            console.log(error);
+            return dispatch({
+                type: NOTFOUND_CART,
+                payload: error.response.data.noCartFound
+            });
+        }
+    }
+};
+
+
 export function addToCart(template_id) {
     return async (dispatch) => {
         try {
@@ -12,8 +40,11 @@ export function addToCart(template_id) {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log(data.data);
-            if (data.data.inCart) {
+            console.log(data);
+            if (data.status === 200) {
+                return
+            }
+            if (data.status === 201) {
 
                 return dispatch({
                     type: ADD_TO_CART,
@@ -33,14 +64,15 @@ export function addToCart(template_id) {
 
 export function deleteToCart(template_id) {
     return async (dispatch) => {
-        console.log(token);
+
         try {
-            const { data } = await axios.post(`${URL || localURL}/deleteCart`, { template_id }, {
+            const { data } = await axios.delete(`${URL || localURL}/deleteCart`, {
+                params: { template_id },
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log(data);
+            console.log(data.data.inCart);
             return dispatch({
                 type: DELETE_TO_CART,
                 payload: data.data.inCart
@@ -51,3 +83,4 @@ export function deleteToCart(template_id) {
         }
     };
 }
+

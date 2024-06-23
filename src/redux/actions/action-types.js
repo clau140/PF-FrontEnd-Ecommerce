@@ -18,5 +18,7 @@ export const SIGNUP = "SIGNUP"
 
 // Cart actions 
 
+export const VIEW_CART = "VIEW_CART";
+export const NOTFOUND_CART = "NOTFOUND_CART";
 export const ADD_TO_CART = "ADD_TO_CART";
 export const DELETE_TO_CART = "DELETE_TO_CART";
