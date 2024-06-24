@@ -2,7 +2,7 @@ import { useState } from "react";
 import Profile from "../../components/profile/Profile";
 import Billing from "../../components/billing/Billing";
 import Security from "../../components/security/Security";
-import Reviews from "../../components/reviews/Reviews";
+import UserReviews from "../../components/reviews/UserReviews";
 
 const ProfilePage = () => {
   const [componenteSeleccionado, setComponenteSeleccionado] = useState(null);
@@ -48,7 +48,7 @@ const ProfilePage = () => {
       {componenteSeleccionado === "Profile" && <Profile />}
       {componenteSeleccionado === "Billing" && <Billing />}
       {componenteSeleccionado === "Security" && <Security />}
-      {componenteSeleccionado === "Reviews" && <Reviews />}
+      {componenteSeleccionado === "Reviews" && <UserReviews />}
     </div>
   );
 };
