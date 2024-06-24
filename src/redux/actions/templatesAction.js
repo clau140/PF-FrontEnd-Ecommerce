@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_TEMPLATE_ID, GET_TEMPLATE_BY_SEARCH, ADD_FAV, REMOVE_FAV, GET_REVIEWS_TEMPLATE, GET_REVIEWS_TEMPLATE_DETAIL, GET_TECHNOLOGIES, GET_CATEGORIES, GET_FILTERED_TEMPLATES } from './action-types';
+import { GET_TEMPLATE_ID, GET_TEMPLATE_BY_SEARCH, ADD_FAV, REMOVE_FAV, GET_TECHNOLOGIES, GET_CATEGORIES, GET_FILTERED_TEMPLATES } from './action-types';
 
 const localURL = "http://localhost:3001/templates"
 const URL = ""
@@ -151,42 +151,4 @@ export const getCategories = () => {
     }
 };
 
-//verificar ruta
-export const getReviewsTemplate = (id) => {
-    return async (dispatch)=>{
-        try {
-            const response = await axios.get(`${URL || localURL}/review/product?productId=${id}`)
-        dispatch({
-            type: GET_REVIEWS_TEMPLATE,
-            payload: response.data
-        })
-        } catch (error) {
-                return error.response
-    }
 
-}}
-
-export const getReviewsTemplateDetail = (id)=>{
-    return async (dispatch)=>{
-        try {
-            const response = await axios.get(`${URL || localURL}/review/detail?detailId=${id}`)
-            dispatch({
-                type: GET_REVIEWS_TEMPLATE_DETAIL,
-                payload: response.data
-            })
-        } catch (error) {
-            return error.response
-        }
-    }
-}
-
-export function createReviewTemplate(obj) {
-    return async function () {
-        console.log(obj)
-
-        return axios.post(`/review`,  obj )
-            .then(data => console.log('Review added!'))
-            .catch(error => alert(error.response.data))
-
-    }
-}

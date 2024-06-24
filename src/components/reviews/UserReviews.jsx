@@ -1,19 +1,24 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import UserReviewCard from "./UserReviewCard";
+import { getReviewsUser } from "../../redux/actions/reviewsAction";
 
 
 const UserReviews = () => {
 
-    const user = useSelector((state)=> state.user.userDetailId)
-    const products = useSelector((state)=> state.templates.allTemplates)
+    const reviews = useSelector((state)=> state.reviews.reviewsUser)
     
-    let reviews = user?.Reviews;
+    const dispatch = useDispatch()
+    
+    useEffect (() => {
+        dispatch(getReviewsUser())
+       
+      }, [dispatch]);
 
-    let productsReview = reviews?.map((e) => {
-        for (let i = 0; i < products?.length; i++) {
-            if (e.templateId === products[i]?.id)
+    /*let productsReview = reviews?.map((e) => {
+        //for (let i = 0; i < products?.length; i++) {
+          //  if (e.templateId === products[i]?.id)
               return {
                 content: e.content,
                 rating: e.rating,
@@ -21,9 +26,10 @@ const UserReviews = () => {
                 idTemplate: products[i]?.id,
                 //img: products[i]?.image,
                 nameTemplate: products[i]?.name,
-              };
-          }
+    };
     })
+    }) */
+
 
     return (
         <div>
@@ -34,7 +40,7 @@ const UserReviews = () => {
                     <h2>Mis opiniones</h2>
                 </div>
                 {
-                    productsReview?.map((e, index)=> (
+                    reviews?.map((e, index)=> (
                         <UserReviewCard
                         key={index}
                         id={e?.id}
@@ -44,7 +50,7 @@ const UserReviews = () => {
                         rating={e?.rating}
                         date= {e?.date}
                          />
-                    ))
+                    )) 
                 }
 
             </div>
