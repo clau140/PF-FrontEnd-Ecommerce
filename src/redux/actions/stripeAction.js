@@ -4,9 +4,9 @@ const URL = ""
 const token = localStorage.getItem('token');
 
 export function checkoutSession() {
-    return async (dispatch) =>{
+    return async (dispatch) => {
         try {
-            const { data } = await axios.post(`${URL || localURL}/checkout-session`, {},{
+            const { data } = await axios.post(`${URL || localURL}/checkout-session`, {}, {
 
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -24,10 +24,10 @@ export function checkoutSession() {
 }
 
 export function checkoutSuccess() {
-    return async (dispatch) =>{
+    return async (dispatch) => {
         const order = localStorage.getItem("orderId")
         try {
-            const { data } = await axios.post(`${URL || localURL}/checkout-success?order_id=${order}`, {},{
+            const { data } = await axios.post(`${URL || localURL}/checkout-success?order_id=${order}`, {}, {
 
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -44,17 +44,17 @@ export function checkoutSuccess() {
 }
 
 export function checkoutCancel() {
-    return async (dispatch) =>{
+    return async (dispatch) => {
         const order = localStorage.getItem("orderId")
         try {
-            const { data } = await axios.post(`${URL || localURL}/checkout-cancel?order_id=${order}`, {},{
+            const { data } = await axios.post(`${URL || localURL}/checkout-cancel?order_id=${order}`, {}, {
 
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (data.status === 201) {
-                window.open(data.session_url, '_blank');
+            if (data.status === 200) {
+                localStorage.removeItem("orderId");
             }
             return dispatch({});
         } catch (error) {
