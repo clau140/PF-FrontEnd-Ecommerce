@@ -8,7 +8,7 @@ import {
     UPDATE_PROFILE_FAILURE,
     CHANGE_PASSWORD_SUCCESS,
     CHANGE_PASSWORD_FAILURE,
- , USER_ID, ACTUAL_USER } from "../actions/action-types";
+  } from "../actions/action-types";
   
   const token = localStorage.getItem("token");
   const user = localStorage.getItem("user");
@@ -35,16 +35,6 @@ import {
           loggedIn: true,
           userInfo: action.payload
             }
-        case USER_ID:
-                return{
-                ...state,
-                userDetailId: action.payload
-            }
-        case ACTUAL_USER:
-            return {
-                ...state,
-                user: action.payload
-            };
       case LOGOUT:
         localStorage.removeItem('token');
         localStorage.removeItem('user');
