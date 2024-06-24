@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"
 import Profile from "../../components/profile/Profile";
 import Billing from "../../components/billing/Billing";
 import Security from "../../components/security/Security";
 import UserReviews from "../../components/reviews/UserReviews";
 
 const ProfilePage = () => {
+  const navigate = useNavigate();
   const [componenteSeleccionado, setComponenteSeleccionado] = useState(null);
 
   const handleClick = (componente) => {
@@ -18,7 +20,7 @@ const ProfilePage = () => {
           className="flex-1 text-center font-inter font-semibold text-gray-800"
           onClick={() => handleClick("Profile")}
         >
-          PROFILE
+          PERFIL
         </button>
 
         <span className="border-l border-gray-300 h-10"></span>
@@ -26,21 +28,21 @@ const ProfilePage = () => {
           className="flex-1 text-center font-inter font-semibold text-gray-800"
           onClick={() => handleClick("Billing")}
         >
-          BILLING
+           HISTORIAL DE PAGOS
         </button>
         <span className="border-l border-gray-300 h-10"></span>
         <button
           className="flex-1 text-center font-inter font-semibold text-gray-800"
           onClick={() => handleClick("Security")}
         >
-          SECURITY
+          SEGURIDAD
         </button>
         <span className="border-l border-gray-300 h-10"></span>
         <button
           className="flex-1 text-center font-inter font-semibold text-gray-800"
           onClick={() => handleClick("Reviews")}
         >
-          REVIEWS
+          RESEÑAS
         </button>
       </nav>
       <hr className="my-4 mt-1 border-b-1 border-gray-300" />
