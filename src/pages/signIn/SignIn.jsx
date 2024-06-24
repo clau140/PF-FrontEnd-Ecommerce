@@ -15,7 +15,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {login, loginWithGoogle, resetPassword} = useAuth();
+  const {loginWithGoogle, resetPassword} = useAuth();
   const [error, setError] = useState();
 
   const handleGoogleSignIn = async() => {
@@ -93,9 +93,6 @@ const SignIn = () => {
         hover:bg-green-500 hover:text-white
         transform hover:scale-110 transition duration-200">
       Google Login</button>
-
-
-
           </form>
           ) }
       </div>
