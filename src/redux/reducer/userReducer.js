@@ -8,7 +8,7 @@ import {
     UPDATE_PROFILE_FAILURE,
     CHANGE_PASSWORD_SUCCESS,
     CHANGE_PASSWORD_FAILURE,
-  } from "../actions/action-types";
+ , USER_ID, ACTUAL_USER } from "../actions/action-types";
   
   const token = localStorage.getItem("token");
   const user = localStorage.getItem("user");
@@ -17,6 +17,9 @@ import {
     loggedIn: !!token,
     userInfo: user ? JSON.parse(user) : {},
     isAdmin: false,
+    user: {},
+    userDetailId: {}
+,
     profile: {
       user: {},
       loading: false,
@@ -31,7 +34,17 @@ import {
           ...state,
           loggedIn: true,
           userInfo: action.payload
-        };
+            }
+        case USER_ID:
+                return{
+                ...state,
+                userDetailId: action.payload
+            }
+        case ACTUAL_USER:
+            return {
+                ...state,
+                user: action.payload
+            };
       case LOGOUT:
         localStorage.removeItem('token');
         localStorage.removeItem('user');

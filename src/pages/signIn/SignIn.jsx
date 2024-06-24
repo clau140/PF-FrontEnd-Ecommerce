@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import 'tailwindcss/tailwind.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/actions/userAction';
 import { ToastContainer, toast } from 'react-toastify';
+
+import { useAuth } from '../../components/context/authContex.jsx';
+import { Alert } from "../../components/alert.jsx";
 
 const SignIn = () => {
   const [ email, setEmail ] = useState('');
@@ -11,6 +14,18 @@ const SignIn = () => {
   const [ loading, setLoading ] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const {login, loginWithGoogle, resetPassword} = useAuth();
+  const [error, setError] = useState();
+
+  const handleGoogleSignIn = async() => {
+    try {
+      await loginWithGoogle();
+      navigate('/Home');
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,11 +44,11 @@ const SignIn = () => {
         }
         else return toast.error(res.data)
       })
-
   };
 
   return (
     <div title="Register - Ecommer App" className="flex justify-center items-center h-screen bg-gray-200">
+       {error && <p>{<Alert message={error}/>}</p>}
       <ToastContainer position="bottom-right" />
       <div className="border-2 border-green-500 bg-white p-12 rounded-lg shadow-lg">
         { loading ? (<div className="flex justify-center items-center">
@@ -73,6 +88,14 @@ const SignIn = () => {
         transform hover:scale-110 transition duration-200">
               INGRESAR
             </button>
+
+            <button onClick={handleGoogleSignIn} className="border-2 border-green-500 text-black mt-8 p-2 mx-auto block rounded-md
+        hover:bg-green-500 hover:text-white
+        transform hover:scale-110 transition duration-200">
+      Google Login</button>
+
+
+
           </form>
           ) }
       </div>

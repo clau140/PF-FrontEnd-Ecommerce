@@ -9,7 +9,9 @@ export const GET_TECHNOLOGIES = "GET_TECHNOLOGIES";
 export const GET_CATEGORIES= "GET_CATEGORIES";
 export const ADD_FAV = "ADD_FAV";
 export const REMOVE_FAV = "REMOVE_FAV";
+export const GET_REVIEWS_USER= 'GET_REVIEWS_USER'
 export const GET_REVIEWS_TEMPLATE= 'GET_REVIEWS_TEMPLATE'
+export const POST_REVIEW= 'POST_REVIEW'
 
 // User actions
 

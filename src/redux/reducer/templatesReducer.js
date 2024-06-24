@@ -8,6 +8,7 @@ import {
     GET_CATEGORIES,
     GET_FILTERED_TEMPLATES,
     SEARCH_NOT_FOUND,
+    
   } from "../actions/action-types";
 const initialTemplatesState = {
 
@@ -15,7 +16,7 @@ const initialTemplatesState = {
     detailTemplate: [],
     templates: [],
     myFavorites: [],
-    reviews: [],
+    
     filters: {
       technologies: [],
       categories: []
@@ -29,6 +30,8 @@ const templatesReducer = (state = initialTemplatesState, action) => {
         return {
           ...state,
           templates: action.payload,
+          allTemplates: action.payload,
+
         };
       case GET_FILTERED_TEMPLATES:
         return {
@@ -40,6 +43,7 @@ const templatesReducer = (state = initialTemplatesState, action) => {
         return {
           ...state,
           detailTemplate: action.payload,
+          
         };
         case GET_TEMPLATE_BY_SEARCH:
           return {
@@ -76,6 +80,7 @@ const templatesReducer = (state = initialTemplatesState, action) => {
           ...state,
           myFavorites: myFavs,
         };
+        
       default:
         return {
           ...state,
