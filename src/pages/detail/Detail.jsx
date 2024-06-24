@@ -17,7 +17,7 @@ import imageExample1 from "./imageEj1.jpg"
 import imageExample2 from "./imageEj2.jpg"
 import imageExample3 from "./imageEj3.jpg"
 import imageExample4 from "./imageEj4.jpg"
-import { createReviewTemplate } from "../../redux/actions/reviewsAction";
+import { createReviewTemplate, getReviewsTemplate } from "../../redux/actions/reviewsAction";
 
 const Detail = () => {
 
@@ -25,8 +25,11 @@ const Detail = () => {
     const dispatch = useDispatch();
 
     const template = useSelector((state) => state.templates.detailTemplate);
+    console.log(template);
     
     const reviews= useSelector((state) => state.reviews.reviews);
+   // const reviews = useSelector((state) => state.templates.detailTemplateCopy.reviews);
+    console.log(reviews);
 
     const user = useSelector((state) => state.user.userInfo);
     //const userDetail = useSelector((state) => state.userDetail);
@@ -55,18 +58,19 @@ const Detail = () => {
     }
     let rating = reviews?.map((e) => e.rating);
     let resultRating = promedio(rating);
+    
 
 
     useEffect(() => {
         dispatch(getTemplateById(id))
-        .then(()=> {
-          dispatch(getCategories())
-        })
-        /*.then(() => {
-          dispatch(getReviewsTemplate(id))
-      })*/
         
-      }, [id, dispatch]);
+          dispatch(getCategories())
+        
+       
+          dispatch(getReviewsTemplate(id))
+      }
+        
+      , [id, dispatch]);
 
       //Form
       const handleSubmit = (e) => {
@@ -93,7 +97,7 @@ const Detail = () => {
         ...state,
         [e.target.name]: e.target.value,
         
-        userId: user.id,
+        //userId: user.id,
       });
     }
     setErrors(
@@ -231,6 +235,7 @@ const Detail = () => {
             <h2 className="text-start text-xl  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider  border-green-900">Reviews</h2>
 
             {
+            
               reviews.map(r =>{
                 return (
                   <div key={r.id}>
