@@ -1,4 +1,12 @@
+import { useDispatch } from "react-redux";
+import { checkoutCancel } from "../../redux/actions/stripeAction";
+import { useEffect } from "react";
+
 const PayCancel = () => {
+    const dispatch = useDispatch()
+    useEffect(() => {
+      dispatch(checkoutCancel())
+    }, [ dispatch ]);
     return (
         <div className="flex items-center justify-center h-screen w-screen bg-gray-100">
             <div className="bg-white rounded-lg p-8 shadow-lg w-3/5 h-1/2 flex flex-col items-center justify-center">
