@@ -9,19 +9,13 @@ import ProfilePage from './pages/profilepage/ProfilePage';
 import Navbar from '../src/components/navbar/Navbar';
 import Favorites from './pages/favorites/Favorites';
 import ForgotPassword from './pages/Forgot Password/ForgotPassword';
-import Checkout from './pages/checkout/Checkout';
-
-
-import {AuthProvider} from './components/context/authContex.jsx';
 
 function App() {
   const { pathname} = useLocation();
   
   return (
     <div>
-      {console.log(import.meta.env.VITE_APP_STRIPE_PUBLIC_KEY)}
        { pathname !== '/' && <Navbar/>}
-       <AuthProvider>
     <Routes>
      <Route path='/' element={<Landing/>}/>
      <Route path='/Home' element={<Home/>}/>
@@ -31,10 +25,7 @@ function App() {
      <Route path='/ForgotPassword' element={<ForgotPassword />}/>
      <Route path='/Profile' element={<ProfilePage/>}/>
      <Route path='/favorites' element={<Favorites/>}/>
-     <Route path='/payment' element={<Checkout />}/>
-     
     </Routes>
-       </AuthProvider>
     </div>
   )
 }

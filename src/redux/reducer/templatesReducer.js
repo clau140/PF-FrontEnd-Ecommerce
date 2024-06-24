@@ -16,7 +16,7 @@ const initialTemplatesState = {
     detailTemplate: [],
     templates: [],
     myFavorites: [],
-    reviews: [],
+    
     filters: {
       technologies: [],
       categories: []
@@ -43,7 +43,7 @@ const templatesReducer = (state = initialTemplatesState, action) => {
         return {
           ...state,
           detailTemplate: action.payload,
-          reviews: action.payload.reviews,
+          
         };
         case GET_TEMPLATE_BY_SEARCH:
           return {

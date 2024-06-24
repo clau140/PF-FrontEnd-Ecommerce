@@ -7,7 +7,8 @@ import ImageGallery from 'react-image-gallery'
 import { Rating } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { ToastContainer, toast } from 'react-toastify';
-import { getTemplateById, getCategories, getReviewsTemplate, createReviewTemplate } from "../../redux/actions/templatesAction";
+import { getTemplateById, getCategories } from "../../redux/actions/templatesAction";
+
 import "react-image-gallery/styles/css/image-gallery.css"
 import 'react-toastify/dist/ReactToastify.css';
 import { validate } from "./validation"
@@ -16,6 +17,7 @@ import imageExample1 from "./imageEj1.jpg"
 import imageExample2 from "./imageEj2.jpg"
 import imageExample3 from "./imageEj3.jpg"
 import imageExample4 from "./imageEj4.jpg"
+import { createReviewTemplate } from "../../redux/actions/reviewsAction";
 import { addToCart } from "../../redux/actions/cartActions";
 
 const Detail = () => {
@@ -25,7 +27,7 @@ const Detail = () => {
 
     const template = useSelector((state) => state.templates.detailTemplate);
     
-    const reviews= useSelector((state) => state.templates.reviews);
+    const reviews= useSelector((state) => state.reviews.reviews);
 
     const user = useSelector((state) => state.user.userInfo);
     //const userDetail = useSelector((state) => state.userDetail);
@@ -35,8 +37,8 @@ const Detail = () => {
     const [state, setState] = useState({
       rating: "",
       content: "",
-      ProductId: id,
-      userId: user.id,
+      templateId: id,
+      
     });
 
     const opinar = () => toast.success('Gracias por tu opinion!');
@@ -74,8 +76,8 @@ const Detail = () => {
         setState({
           rating: "",
           content: "",
-          ProductId: id,
-          userId: user.id,
+          templateId: id,
+          
           
         });
       };
@@ -276,7 +278,7 @@ const Detail = () => {
             fullWidth
             name="content"
             value={state?.content}
-            onChange={handleChange}
+            onChange={(e)=> handleChange(e)}
             id="filled-textarea"
             label="Tu opinion"
             placeholder="Minimo 15 caracteres"
@@ -301,6 +303,8 @@ const Detail = () => {
               >
               Opinar
               </button>
+
+              <ToastContainer/>
 
             </form>
             
