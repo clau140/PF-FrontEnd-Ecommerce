@@ -5,10 +5,10 @@ const Searchbar = ({ handleChange, handleSearch }) => {
   return (
     <div className="relative mx-auto text-gray-600 w-2/5 mt-4">
       <input
-        className="w-full h-12 bg-gray-200 border border-transparent rounded-md py-4 px-8 focus:outline-none focus:border-gray-800 focus:shadow-outline-gray-800"
+        className="w-full h-12 bg-gray-200 border border-transparent rounded-md py-4 px-8 focus:outline-none focus:border-gray-800 transition-all duration-300 focus:scale-110 focus:shadow-outline-gray-800"
         type="text"
         name="search"
-        placeholder="Search"
+        placeholder="buscar"
         onChange={handleChange}
       />
       <button

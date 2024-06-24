@@ -57,7 +57,7 @@ const Navbar = () => {
               to="/About"
               className="text-[16px] mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors duration-300 tracking-wider hover:text-lime-800 hover:border-b-4 border-lime-700"
             >
-              ABOUT US
+              NOSOTROS
             </Link>
           </div>
 
@@ -94,19 +94,19 @@ const Navbar = () => {
                         to="/profile"
                         className="block px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100"
                       >
-                        Profile
+                        Mi Perfil
                       </Link>
                       <Link
                         to="/favorites"
                         className="block px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100"
                       >
-                        Favorites
+                        Mis Favoritos
                       </Link>
                       <button
                         onClick={handleLogout}
                         className="block w-full text-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
-                        Logout
+                        Cerrar sesión
                       </button>
                     </div>
                   )}

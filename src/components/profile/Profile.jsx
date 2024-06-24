@@ -22,7 +22,7 @@ const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
       setName(user.name);
       setLastname(user.lastname);
       setEmail(user.email);
-      setProfilePictureUrl(user.profilePictureUrl); // Assuming backend sends profile picture URL
+      setProfilePictureUrl(user.profilePictureUrl); 
     }
   }, [user]);
 
@@ -45,11 +45,11 @@ const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
     
     updateProfile(formData)
       .then(() => {
-        toast.success("Profile updated successfully");
+        toast.success("Perfil actualizado exitosamente");
       })
       .catch((error) => {
         console.error("Error updating profile:", error);
-        toast.error("Failed to update profile");
+        toast.error("Error al actualizar el perfil");
       });
   };
 
@@ -64,59 +64,30 @@ const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
   return (
     <div>
       <ToastContainer />
-      <div className="grid grid-cols-1 md:grid-cols-2 mt-12 mx-auto max-w-6xl">
-        <div className="bg-zinc-200 h-[330px] md:w-[346px]">
-          <div className="bg-zinc-50">
-            <div className="bg-zinc-50 text-lg font-semibold p-4 mb-6">
-              Profile Picture
-            </div>
-          </div>
-          <div className="flex flex-col items-center">
-            <img
-              className="rounded-full w-32 h-32 mb-4"
-              src={profilePictureUrl || ""}
-              alt="Profile"
-            />
-            <div className="text-sm text-gray-500 mb-6">
-              JPG or PNG no larger than 5 MB
-            </div>
-            <input
-              type="file"
-              accept=".jpg,.jpeg,.png"
-              onChange={handleFileChange}
-              className="hidden"
-              id="profilePicture"
-            />
-            <label
-              htmlFor="profilePicture"
-              className="bg-slate-700 text-white px-4 py-2 rounded-md hover:bg-slate-800 cursor-pointer"
-            >
-              Upload new image
-            </label>
-          </div>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 mt-12 mx-auto max-w-6xl ml-[780px]">
         <div className="bg-zinc-200 w-[700px] ml-[-114px]">
           <div className="bg-zinc-50">
             <div className="bg-zinc-50 text-lg font-semibold p-4 mb-6">
-              Account Details
+            Detalles de la Cuenta
             </div>
           </div>
           <div>
             <form onSubmit={handleSubmit} className="p-4">
               <div className="mb-4">
                 <label className="block mb-1" htmlFor="inputUsername">
-                  Username (how your name will appear to other users on the site)
+                Nombre de usuario (cómo aparecerá tu nombre a otros usuarios en el sitio)
                 </label>
                 <input
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Ingrese su username"
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
                 />
               </div>
               <div className="mb-4">
                 <label className="block mb-1" htmlFor="inputUsername">
-                  Name
+                  Nombre
                 </label>
                 <input
                   type="text"
@@ -127,7 +98,7 @@ const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
               </div>
               <div className="mb-4">
                 <label className="block mb-1" htmlFor="inputUsername">
-                  Lastname
+                  Apellido
                 </label>
                 <input
                   type="text"
@@ -138,7 +109,7 @@ const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
               </div>
               <div className="mb-4">
                 <label className="block mb-1" htmlFor="inputEmailAddress">
-                  Email address
+                  Email
                 </label>
                 <input
                   type="email"
@@ -152,7 +123,7 @@ const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
                 className="bg-slate-700 text-white px-4 py-2 rounded-md hover:bg-slate-800"
                 type="submit"
               >
-                Save changes
+                Guardar Cambios
               </button>
             </form>
           </div>

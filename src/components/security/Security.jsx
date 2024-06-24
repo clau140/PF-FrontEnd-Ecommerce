@@ -37,7 +37,7 @@ const Security = () => {
       setNewPassword('');
       setConfirmPassword('');
 
-      toast.success('Contraseña cambiada exitosamente.');
+      toast.success('Contraseña actualizada exitosamente.');
 
     } catch (error) {
       console.error('Error cambiando la contraseña:', error);
