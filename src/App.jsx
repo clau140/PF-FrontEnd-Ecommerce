@@ -13,6 +13,8 @@ import Checkout from './pages/checkout/Checkout';
 
 
 import {AuthProvider} from './components/context/authContex.jsx';
+import PaySuccess from './components/paysuccess/PaySuccess';
+import PayCancel from './components/payCancel/PayCancel.jsx';
 
 function App() {
   const { pathname} = useLocation();
@@ -31,7 +33,8 @@ function App() {
      <Route path='/ForgotPassword' element={<ForgotPassword />}/>
      <Route path='/Profile' element={<ProfilePage/>}/>
      <Route path='/favorites' element={<Favorites/>}/>
-     <Route path='/payment' element={<Checkout />}/>
+     <Route path='/paySuccess' element={<PaySuccess />}/>
+     <Route path='/payCancel' element={<PayCancel />}/>
      
     </Routes>
        </AuthProvider>
