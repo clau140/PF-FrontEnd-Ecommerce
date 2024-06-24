@@ -9,24 +9,20 @@ const Cart = () => {
   const [ items, setItems ] = useState([])
   const [ message, setMessage ] = useState("")
   const dispatch = useDispatch()
-  // const inCart = useSelector(state => state.cart.templatesInCart)
-  // const noFound = useSelector(state => state.cart.error)
+  const inCart = useSelector(state => state.cart.templatesInCart)
+  const noFound = useSelector(state => state.cart.error)
 
   const toggleCart = () => {
     setCartOpen(!isCartOpen);
+    dispatch(viewCart())
   };
 
-  // useEffect(() => {
-  // }, [ dispatch ]);
-
-  // useEffect(() => {
-  //   if (!inCart.length) {
-  //     dispatch(viewCart())
-  //     return setMessage(noFound)
-  //   }
-  //   dispatch(viewCart())
-  //   setItems(inCart)
-  // }, [ dispatch, noFound, inCart ]);
+  useEffect(() => {
+    if (inCart) {
+      setItems(inCart)
+    }
+    setMessage(noFound)
+  }, [ dispatch ]);
 
   return (
     <div className="relative">
