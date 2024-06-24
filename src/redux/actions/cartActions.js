@@ -1,5 +1,6 @@
 import axios from "axios";
-import { ADD_TO_CART, DELETE_TO_CART, NOTFOUND_CART, VIEW_CART } from "./action-types";
+import { ADD_TO_CART,  DELETE_TO_CART, NOTFOUND_CART, VIEW_CART } from "./action-types";
+import { toast } from "react-toastify";
 
 const localURL = "http://localhost:3001/cart"
 const URL = ""
@@ -15,7 +16,7 @@ export function viewCart() {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            
+
             console.log(response);
             return dispatch({
                 type: VIEW_CART,
@@ -29,7 +30,7 @@ export function viewCart() {
             });
         }
     }
-};
+}
 
 
 export function addToCart(template_id) {
@@ -40,12 +41,11 @@ export function addToCart(template_id) {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log(data);
             if (data.status === 200) {
-                return
+                return toast.warn(data.message)
             }
             if (data.status === 201) {
-
+                toast.success(data.message)
                 return dispatch({
                     type: ADD_TO_CART,
                     payload: data.data.inCart

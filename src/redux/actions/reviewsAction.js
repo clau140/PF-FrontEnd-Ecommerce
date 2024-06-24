@@ -26,12 +26,14 @@ export const getReviewsUser = () => {
 export const getReviewsTemplate = (id)=>{
     return async (dispatch)=>{
         try {
-            const response = await axios.get(`${URL || localURL}/?templateId=${id}`)
+            const response = await axios.get(`${URL || localURL}/template?templateId=${id}`)
+            console.log(response);
             dispatch({
                 type: GET_REVIEWS_TEMPLATE,
                 payload: response.data
             })
         } catch (error) {
+            console.log(error);
             return error.response
         }
     }

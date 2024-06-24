@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTemplateBySearch } from "../../redux/actions/templatesAction";
 import { logout } from "../../redux/actions/userAction";
@@ -17,6 +17,11 @@ const Navbar = () => {
 
   const [ searchString, setSearchString ] = useState("");
   const [ showProfileMenu, setShowProfileMenu ] = useState(false);
+
+
+  useEffect(() => {
+    setShowProfileMenu(false)
+  }, [navigate]);
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -122,7 +127,7 @@ const Navbar = () => {
                 >
                   <path d="M1.795 10.556a6.195 6.195 0 018.782-8.742l.423.424.424-.424a6.193 6.193 0 018.76 0 6.197 6.197 0 01.02 8.742l-8.404 8.9a1.1 1.1 0 01-1.6 0zM11 17.098l7.607-8.055.023-.022a3.999 3.999 0 000-5.651 3.997 3.997 0 00-5.652 0l-1.2 1.201a1.1 1.1 0 01-1.556 0L9.021 3.37A3.993 3.993 0 002.2 6.195a3.994 3.994 0 001.19 2.848z"></path>
                 </svg>
-                <Cart />
+                <Cart isLogged={isAuthenticated}/>
               </div>
             </div>
           ) : (
@@ -148,7 +153,7 @@ const Navbar = () => {
                   <path d="M1.795 10.556a6.195 6.195 0 018.782-8.742l.423.424.424-.424a6.193 6.193 0 018.76 0 6.197 6.197 0 01.02 8.742l-8.404 8.9a1.1 1.1 0 01-1.6 0zM11 17.098l7.607-8.055.023-.022a3.999 3.999 0 000-5.651 3.997 3.997 0 00-5.652 0l-1.2 1.201a1.1 1.1 0 01-1.556 0L9.021 3.37A3.993 3.993 0 002.2 6.195a3.994 3.994 0 001.19 2.848z"></path>
 
                 </svg>
-                <Cart />
+                <Cart isLogged={isAuthenticated}/>
               </div>
             </div>
           ) }
