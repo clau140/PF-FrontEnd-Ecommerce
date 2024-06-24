@@ -37,7 +37,7 @@ const SignIn = () => {
           setPassword("")
           toast.success(`Bienvenido de vuelta, ${res.data.userInfo.name}`)
           setTimeout(() => {
-            navigate("/home")
+            navigate("/profile")
           }, 2000);
           setLoading(false)
           return
