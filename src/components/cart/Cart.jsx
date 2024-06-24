@@ -9,24 +9,24 @@ const Cart = () => {
   const [ items, setItems ] = useState([])
   const [ message, setMessage ] = useState("")
   const dispatch = useDispatch()
-  const inCart = useSelector(state => state.cart.templatesInCart)
-  const noFound = useSelector(state => state.cart.error)
+  // const inCart = useSelector(state => state.cart.templatesInCart)
+  // const noFound = useSelector(state => state.cart.error)
 
   const toggleCart = () => {
     setCartOpen(!isCartOpen);
   };
 
-  useEffect(() => {
-  }, [ dispatch ]);
+  // useEffect(() => {
+  // }, [ dispatch ]);
 
-  useEffect(() => {
-    if (!inCart.length) {
-      dispatch(viewCart())
-      return setMessage(noFound)
-    }
-    dispatch(viewCart())
-    setItems(inCart)
-  }, [ dispatch, noFound, inCart ]);
+  // useEffect(() => {
+  //   if (!inCart.length) {
+  //     dispatch(viewCart())
+  //     return setMessage(noFound)
+  //   }
+  //   dispatch(viewCart())
+  //   setItems(inCart)
+  // }, [ dispatch, noFound, inCart ]);
 
   return (
     <div className="relative">
@@ -44,7 +44,7 @@ const Cart = () => {
         <div className="fixed top-0 right-0 h-screen w-2/5 bg-gray-200 z-50">
           { message ? <p>{ message }</p> : (
             <>
-              { items.map(t => (
+              { items?.map(t => (
                 <>
                   <p>{ t.name }</p>
                   <button onClick={ () => dispatch(deleteToCart(t.id)) }>Delete</button>

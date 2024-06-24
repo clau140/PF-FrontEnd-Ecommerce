@@ -15,7 +15,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {login, loginWithGoogle, resetPassword} = useAuth();
+  const {loginWithGoogle} = useAuth();
   const [error, setError] = useState();
 
   const handleGoogleSignIn = async() => {
