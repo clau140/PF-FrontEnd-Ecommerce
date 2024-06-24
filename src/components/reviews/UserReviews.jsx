@@ -16,20 +16,6 @@ const UserReviews = () => {
        
       }, [dispatch]);
 
-    /*let productsReview = reviews?.map((e) => {
-        //for (let i = 0; i < products?.length; i++) {
-          //  if (e.templateId === products[i]?.id)
-              return {
-                content: e.content,
-                rating: e.rating,
-                date: e.date,
-                idTemplate: products[i]?.id,
-                //img: products[i]?.image,
-                nameTemplate: products[i]?.name,
-    };
-    })
-    }) */
-
 
     return (
         <div>
@@ -45,7 +31,7 @@ const UserReviews = () => {
                         key={index}
                         id={e?.id}
                         //img={e?.image}
-                        nameTemplate={e?.name}
+                        
                         content={e?.content}
                         rating={e?.rating}
                         date= {e?.date}
