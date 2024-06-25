@@ -11,11 +11,11 @@ import {
  } from "../actions/action-types";
   
   const token = localStorage.getItem("token");
-  const user = localStorage.getItem("user");
+  const user = JSON.parse(localStorage.getItem("user"));
   
   const initialUserState = {
     loggedIn: !!token,
-    userInfo: user ? JSON.parse(user) : {},
+    userInfo: user ? user : {},
     isAdmin: false,
     user: {},
     userDetailId: {}

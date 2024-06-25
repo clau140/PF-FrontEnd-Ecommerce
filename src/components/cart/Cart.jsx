@@ -15,11 +15,7 @@ const Cart = ({ isLogged }) => {
 
   const toggleCart = () => {
     setCartOpen(!isCartOpen);
-    if (!isCartOpen) return dispatch(viewCart())
-
-
-
-
+    // if (!isCartOpen) return dispatch(viewCart())
 
   };
 
@@ -30,6 +26,7 @@ const Cart = ({ isLogged }) => {
       setMessage(noFound)
       setLoggedIn(isLogged)
     }
+    dispatch(viewCart)
     return
   }, [ dispatch, inCart, noFound, isLogged ]);
 
@@ -48,8 +45,8 @@ const Cart = ({ isLogged }) => {
       </button>
 
       { isCartOpen && (
-        <div className="flex flex-col fixed top-0 right-0 h-screen w-1/5 pb-8 pt-8 bg-gray-200 z-50">
-          <div className='bg-white h-full'>
+        <div className="flex flex-col fixed top-0 right-0 h-screen w-1/5 pb-8 pt-8 bg-gray-200 z-50 shadow-2xl">
+          <div className='bg-white h-full shadow-xl'>
             { loggedIn ? (
               <>
                 { message && !items.length ? (
@@ -58,15 +55,16 @@ const Cart = ({ isLogged }) => {
                     <p className="text-gray-500 ">Visita nuestra <a href="/home" className='text-green-500 font-bold hover:text-blue-500 hover:opacity-100 hover:transition-opacity duration-300 cursor-pointer'>tienda</a></p>
                   </div>
                 ) : (
-                  <>
+                  <div>
                     { items?.map(t => (
-                      <>
-                        <p>{ t.name }</p>
-                        <button onClick={ () => dispatch(deleteToCart(t.id)) }>Delete</button>
-                      </>
+                      <div key={ t.id } className='border-b-2'>
+                        <h3 className="text-lg font-bold">{ t.name }</h3>
+                        <p className='text-sm'>{ t.description }</p>
+                        <button className='border' onClick={ () => dispatch(deleteToCart(t.id)) }>Delete</button>
+                      </div>
                     )) }
 
-                  </>
+                  </div>
                 ) }
               </>
             ) : (
@@ -83,7 +81,7 @@ const Cart = ({ isLogged }) => {
           >
             X
           </button>
-          <button onClick={ () => dispatch(checkoutSession()) }>Comprar</button>
+          <button className='border border-green-500' onClick={ () => dispatch(checkoutSession()) }>Comprar</button>
         </div>
       ) }
     </div>

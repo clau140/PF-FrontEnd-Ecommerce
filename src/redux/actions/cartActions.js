@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADD_TO_CART,  DELETE_TO_CART, NOTFOUND_CART, VIEW_CART } from "./action-types";
+import { ADD_TO_CART, DELETE_TO_CART, NOTFOUND_CART, VIEW_CART } from "./action-types";
 import { toast } from "react-toastify";
 
 const localURL = "http://localhost:3001/cart"
@@ -56,7 +56,10 @@ export function addToCart(template_id) {
                 payload: data.data
             });
         } catch (error) {
-            console.log(error);
+            if (error.response.status === 401) {
+                return toast.error("Debes iniciar sesión para añadir articulos a tu carrito");
+            }
+            toast.error("Lo siento, a ocurrido un error inesperado.");
             return error.response
         }
     };

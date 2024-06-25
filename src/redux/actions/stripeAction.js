@@ -14,7 +14,7 @@ export function checkoutSession() {
             });
             if (data.status === 201) {
                 localStorage.setItem("orderId", data.order)
-                window.open(data.session_url, '_blank');
+                window.open(data.session_url, '_self');
             }
             return dispatch({});
         } catch (error) {
@@ -35,6 +35,7 @@ export function checkoutSuccess() {
             });
             if (data.status === 201) {
                 window.open(data.session_url, '_blank');
+                localStorage.removeItem("orderId")
             }
             return dispatch({});
         } catch (error) {

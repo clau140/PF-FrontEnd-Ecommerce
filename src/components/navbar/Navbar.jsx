@@ -7,6 +7,7 @@ import { logout } from "../../redux/actions/userAction";
 import Searchbar from "../searchbar/Searchbar";
 import logo from "../../assets/images/VEGA.svg";
 import Cart from "../cart/Cart";
+import { viewCart } from "../../redux/actions/cartActions";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,8 @@ const Navbar = () => {
 
   useEffect(() => {
     setShowProfileMenu(false)
-  }, [navigate]);
+    dispatch(viewCart())
+  }, [navigate, dispatch]);
 
   const handleChange = (event) => {
     event.preventDefault();
