@@ -15,6 +15,7 @@ import Checkout from './pages/checkout/Checkout';
 import {AuthProvider} from './components/context/authContex.jsx';
 import PaySuccess from './components/paysuccess/PaySuccess';
 import PayCancel from './components/payCancel/PayCancel.jsx';
+import CartPage from './pages/cartPage/CartPage.jsx';
 
 function App() {
   const { pathname} = useLocation();
@@ -35,6 +36,7 @@ function App() {
      <Route path='/favorites' element={<Favorites/>}/>
      <Route path='/paySuccess' element={<PaySuccess />}/>
      <Route path='/payCancel' element={<PayCancel />}/>
+     <Route path='/cartPage' element={<CartPage />}/>
      
     </Routes>
        </AuthProvider>

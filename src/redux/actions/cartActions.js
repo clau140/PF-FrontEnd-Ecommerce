@@ -17,10 +17,10 @@ export function viewCart() {
                 }
             });
 
-            console.log(response);
             return dispatch({
                 type: VIEW_CART,
-                payload: response.data.data.inCart
+                payload: response.data.data,
+
             });
         } catch (error) {
             console.log(error);
@@ -48,7 +48,7 @@ export function addToCart(template_id) {
                 toast.success(data.message)
                 return dispatch({
                     type: ADD_TO_CART,
-                    payload: data.data.inCart
+                    payload: data.data
                 });
             }
             return dispatch({
@@ -75,10 +75,10 @@ export function deleteToCart(template_id) {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log(data.data.inCart);
+
             return dispatch({
                 type: DELETE_TO_CART,
-                payload: data.data.inCart
+                payload: data.data
             });
         } catch (error) {
             console.log(error);

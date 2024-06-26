@@ -1,8 +1,8 @@
 import { ADD_TO_CART, DELETE_TO_CART, NOTFOUND_CART, VIEW_CART } from "../actions/action-types";
 
 const initialCartState = {
-    templatesInCart: [],
-    error: ""
+    InCart: {},
+    error: "",
 }
 
 const cartReducer = (state = initialCartState, action) => {
@@ -10,7 +10,7 @@ const cartReducer = (state = initialCartState, action) => {
         case VIEW_CART:
             return {
                 ...state,
-                templatesInCart: action.payload
+                InCart: action.payload,
             }
         case NOTFOUND_CART:
             return {
@@ -20,12 +20,12 @@ const cartReducer = (state = initialCartState, action) => {
         case ADD_TO_CART:
             return {
                 ...state,
-                templatesInCart: action.payload
+                InCart: action.payload
             }
         case DELETE_TO_CART:
             return {
                 ...state,
-                templatesInCart: action.payload
+                InCart: action.payload
             }
         default:
             return state;
