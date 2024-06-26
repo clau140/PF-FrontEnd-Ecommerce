@@ -16,7 +16,6 @@ const CartPage = () => {
     const noFound = useSelector(state => state.cart.error)
     const isLogged = localStorage.getItem("token") ? true : false
 
-    console.log(cart);
     useEffect(() => {
         if (isLogged) {
             setItems(cart.inCart)
@@ -26,7 +25,7 @@ const CartPage = () => {
         dispatch(viewCart)
         return
     }, [ dispatch, cart, noFound, isLogged ]);
-
+    
     return (
         <div className="relative">
             <div className='h-screen w-full p-8 flex'>
@@ -39,7 +38,7 @@ const CartPage = () => {
                             </div>
                         ) : (
                             <>
-                                <div className='h-full w-1/2'>
+                                <div className='h-full w-2/3'>
                                     <h1 className='font-bold text-2xl mb-4'>Tu carrito de compra</h1>
                                     { items?.map(t => (
                                         <div key={ t.id } className='flex border-b-2 w-full h-auto mb-1'>
@@ -59,11 +58,12 @@ const CartPage = () => {
                                         </div>
                                     )) }
                                 </div>
-                                <div className='flex flex-col w-1/2 h-auto ml-4'>
+                                <div className='flex flex-col w-1/3 h-auto ml-4'>
                                     <h1 className='font-bold text-2xl mb-2 ml-2'>Resumen de compra</h1>
-                                    <div>
-                                        <p>Total: {cart.total_amount}</p>
+                                    <div className='p-8 border-t-2'>
+                                        <p className='flex justify-between text-xl border-t-2 border-b-2 p-2'>Total: <span>$ {cart.total_amount}</span></p>
                                     </div>
+                                    <button onClick={()=>dispatch(checkoutSession())} className='p-2 bg-green-500 text-xl font-bold text-white '> Pagar </button>
                                 </div>
                             </>
                         ) }
