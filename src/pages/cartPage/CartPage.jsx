@@ -27,8 +27,8 @@ const CartPage = () => {
     }, [ dispatch, cart, noFound, isLogged ]);
     
     return (
-        <div className="relative">
-            <div className='h-screen w-full p-8 flex'>
+        <div >
+            <div>
                 { loggedIn ? (
                     <>
                         { message && !items?.length ? (
@@ -37,7 +37,7 @@ const CartPage = () => {
                                 <p className="text-gray-500 ">Visita nuestra <a href="/home" className='text-green-500 font-bold hover:text-blue-500 hover:opacity-100 hover:transition-opacity duration-300 cursor-pointer'>tienda</a></p>
                             </div>
                         ) : (
-                            <>
+                            <div className='relative h-screen w-full p-8 flex'>
                                 <div className='h-full w-2/3'>
                                     <h1 className='font-bold text-2xl mb-4'>Tu carrito de compra</h1>
                                     { items?.map(t => (
@@ -65,7 +65,7 @@ const CartPage = () => {
                                     </div>
                                     <button onClick={()=>dispatch(checkoutSession())} className='p-2 bg-green-500 text-xl font-bold text-white '> Pagar </button>
                                 </div>
-                            </>
+                            </div>
                         ) }
                     </>
                 ) : (
