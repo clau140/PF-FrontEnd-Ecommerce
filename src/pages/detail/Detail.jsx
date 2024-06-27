@@ -13,6 +13,7 @@ import "react-image-gallery/styles/css/image-gallery.css"
 import 'react-toastify/dist/ReactToastify.css';
 import { validate } from "./validation"
 
+
 import imageExample1 from "./imageEj1.jpg"
 import imageExample2 from "./imageEj2.jpg"
 import imageExample3 from "./imageEj3.jpg"
@@ -27,12 +28,16 @@ const Detail = () => {
     const template = useSelector((state) => state.templates.detailTemplate);
     console.log(template);
     
-    const reviews= useSelector((state) => state.reviews.reviews);
-   // const reviews = useSelector((state) => state.templates.detailTemplateCopy.reviews);
-    console.log(reviews);
+    
 
-    const user = useSelector((state) => state.user.userInfo);
-    //const userDetail = useSelector((state) => state.userDetail);
+    const categories = template.categories || [];
+    const technologies = template.technologies || [];
+    
+    const allReviews = useSelector((state) => state.templates.detailTemplateCopy.reviews) || [] ;
+    console.log(allReviews);
+
+    const user = useSelector((state) => state.user.userInfo) || [];
+    
     console.log(user)
 
     //state Form
@@ -40,15 +45,17 @@ const Detail = () => {
       rating: "",
       content: "",
       templateId: id,
+      userId: user ? user.id : null
       
     });
 
     const opinar = () => toast.success('Gracias por tu opinion!');
 
     const [errors, setErrors] = useState({})
+    
+    function promedio(rating){ 
 
-    //promedio rating
-    function promedio(rating){
+ 
       let i = 0
       let summ = 0;
       while (i < rating.length) {
@@ -56,8 +63,9 @@ const Detail = () => {
       }
       return Math.round(summ / rating.length);
     }
-    let rating = reviews?.map((e) => e.rating);
-    let resultRating = promedio(rating);
+
+    const ratings = allReviews.map((e) => e.rating) || [];
+    let resultRating = ratings.length > 0 ? promedio(ratings) : 0;
     
 
 
@@ -80,6 +88,7 @@ const Detail = () => {
           rating: "",
           content: "",
           templateId: id,
+          userId: user.id
           
           
         });
@@ -97,7 +106,7 @@ const Detail = () => {
         ...state,
         [e.target.name]: e.target.value,
         
-        //userId: user.id,
+        userId: user.id,
       });
     }
     setErrors(
@@ -165,7 +174,8 @@ const Detail = () => {
                   <Rating 
                   className="text-sm"
                   readOnly 
-                  value= {resultRating ? resultRating : 0}/>
+                  value= {resultRating ? resultRating : 0}
+                    />
                   </div>
                   
     
@@ -179,10 +189,10 @@ const Detail = () => {
                 <br />
                 <br />
                 <h2 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
-                  Categorias
-                  {
-                      template.categories && template.categories.map(c => <p>{c.name}</p>)
-                    }
+                  
+                Categorias
+                {categories.map((c) => <p key={c.id}>{c.name}</p>)}
+                  
                   
                 </h2>
 
@@ -191,9 +201,7 @@ const Detail = () => {
                   </h3>
                 <h3 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
                   Tecnologias
-                  {
-                     template.technologies && template.technologies.map(c => <p>{c.name}</p>)
-                    }
+                  {technologies.map((c) => <p key={c.id}>{c.name}</p>)}
                   
                   </h3>
                 
@@ -227,7 +235,7 @@ const Detail = () => {
             </div>
 
             {
-              reviews.length ? 
+              allReviews.length > 0 ? 
 
             <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
             <div className="bg-white mr-10 relative overflow-hidden  ml-10">
@@ -236,7 +244,7 @@ const Detail = () => {
 
             {
             
-              reviews.map(r =>{
+              allReviews.map(r =>{
                 return (
                   <div key={r.id}>
                     
@@ -265,12 +273,12 @@ const Detail = () => {
 
             }
 
-            <form onSubmit={(e)=> handleSubmit(e)}>
+            <form  onSubmit={(e)=> handleSubmit(e)}>
 
             <Rating
               name="rating"
               value={Number(state?.rating)}
-              onChange={handleChange}
+              onChange={(e)=>handleChange(e)}
             />
 
             {errors.rating && (
