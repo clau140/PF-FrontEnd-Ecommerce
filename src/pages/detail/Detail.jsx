@@ -7,27 +7,18 @@ import ImageGallery from 'react-image-gallery'
 import { Rating } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { ToastContainer, toast } from 'react-toastify';
-<<<<<<< HEAD
-import { getTemplateById, getReviewsTemplate} from "../../redux/actions/templatesAction";
-=======
-import { getTemplateById, getCategories } from "../../redux/actions/templatesAction";
-
->>>>>>> ff215220512ebd4bb0dffd6097c7424825c54e24
+import { getCategories, getTemplateById} from "../../redux/actions/templatesAction";
 import "react-image-gallery/styles/css/image-gallery.css"
 import 'react-toastify/dist/ReactToastify.css';
 import { validate } from "./validation"
-
-<<<<<<< HEAD
-=======
 import imageExample1 from "./imageEj1.jpg"
 import imageExample2 from "./imageEj2.jpg"
 import imageExample3 from "./imageEj3.jpg"
 import imageExample4 from "./imageEj4.jpg"
-import { createReviewTemplate, getReviewsTemplate } from "../../redux/actions/reviewsAction";
 import { addToCart } from "../../redux/actions/cartActions";
+import {createReviewTemplate, getReviewsTemplate} from "../../redux/actions/reviewsAction"
 
 const Detail = () => {
- 
     const { id } = useParams();
     const dispatch = useDispatch();
     const [images, setImages] = useState([])
@@ -52,14 +43,6 @@ const Detail = () => {
       }
     }, [template])
 
-
-    const template = useSelector((state) => state.templates.detailTemplate);
-    console.log(template);
-    
-    const reviews= useSelector((state) => state.reviews.reviews);
-   // const reviews = useSelector((state) => state.templates.detailTemplateCopy.reviews);
-    console.log(reviews);
-
     const user = useSelector((state) => state.user.userInfo);
     //const userDetail = useSelector((state) => state.userDetail);
     console.log(user)
@@ -80,10 +63,10 @@ const Detail = () => {
     function promedio(rating){
       let i = 0
       let summ = 0;
-      while (i < rating.length) {
+      while (i < rating?.length) {
         summ = summ + rating[i++];
       }
-      return Math.round(summ / rating.length);
+      return Math.round(summ / rating?.length);
     }
     let rating = reviews?.map((e) => e.rating);
     let resultRating = promedio(rating);
@@ -136,32 +119,6 @@ const Detail = () => {
       })
     );
   };
-
-  const getImages = () => {
-    template.map(()=>{
-      
-    })
-  }
-  // const images = [
-
-  //   {
-  //     original: imageExample1
-
-  //   },
-
-  //   {
-  //     original: imageExample2,
-
-  //   },
-  //   {
-  //     original: imageExample3,
-
-  //   },
-  //   {
-  //     original: imageExample4,
-
-  //   },
-  // ];
 
 
     return (
@@ -262,7 +219,7 @@ const Detail = () => {
         </div>
 
         {
-          reviews.length ?
+          reviews?.length ?
 
             <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
               <div className="bg-white mr-10 relative overflow-hidden  ml-10">
@@ -277,7 +234,7 @@ const Detail = () => {
                     
                     <Rating 
                     readOnly 
-                    value={r.rating}/>
+                    value={r?.rating}/>
                     <p>{r.date}</p>
                     <span>{r.content}</span> 
                   </div>

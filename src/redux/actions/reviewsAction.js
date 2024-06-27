@@ -23,7 +23,7 @@ export const getReviewsUser = () => {
 
 }}
 
-export const getReviewsTemplate = (id)=>{
+export function getReviewsTemplate(id){
     return async (dispatch)=>{
         try {
             const response = await axios.get(`${URL || localURL}/templates?templateId=${id}`)

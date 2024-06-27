@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../redux/actions/userAction';
 import { ToastContainer, toast } from 'react-toastify';
 
-import { UserAuth } from '../../components/context/AuthContex';
+import { UserAuth } from '../../components/context/authContex';
 
 
 const SignIn = () => {

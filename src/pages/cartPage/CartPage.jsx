@@ -42,18 +42,18 @@ const CartPage = () => {
                                     <h1 className='font-bold text-2xl mb-4'>Tu carrito de compra</h1>
                                     { items?.map(t => (
                                         <div key={ t.id } className='flex border-b-2 w-full h-auto mb-1'>
-                                            <div className='p-4'>
+                                            <div className='w-1/3 p-4'>
                                                 <img className="h-48 object-cover" src={ image } alt={ t.name } />
                                             </div>
-                                            <div className='mr-8'>
+                                            <div className='w-1/3 mr-8'>
                                                 <h2 className='font-bold text-xl'>{ t.name }</h2>
                                                 <p className='text-sm text-gray-500'>{ t.description }</p>
                                                 <button onClick={ () => dispatch(deleteToCart(t.id)) } className='mt-8'>
                                                     <FaRegTrashAlt size={ '24px' } />
                                                 </button>
                                             </div>
-                                            <div className='ml-8'>
-                                                <h3 className='flex font-bold text-md mb-4'><span className='mr-1'> $ </span>{ t.price }</h3>
+                                            <div className='ml-16 w-1/3'>
+                                                <h3 className='flex font-bold text-xl mb-4'><span className='mr-1'> $ </span>{ t.price }</h3>
                                             </div>
                                         </div>
                                     )) }
