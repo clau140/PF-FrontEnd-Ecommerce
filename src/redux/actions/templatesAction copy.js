@@ -19,10 +19,6 @@ export function getTemplateById(id) {
     };
 }
 
-export const getReviewsTemplate = (id) => {
-    // implementation of getReviewsTemplate action
-  };
-
 export const getFilteredTemplates = (selectedTechnologies, selectedCategories, sortBy, order, page, pageSize) => {
     return async (dispatch) => {
         const params = {
