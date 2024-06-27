@@ -7,22 +7,52 @@ import ImageGallery from 'react-image-gallery'
 import { Rating } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { ToastContainer, toast } from 'react-toastify';
+<<<<<<< HEAD
+import { getTemplateById, getReviewsTemplate} from "../../redux/actions/templatesAction";
+=======
 import { getTemplateById, getCategories } from "../../redux/actions/templatesAction";
 
+>>>>>>> ff215220512ebd4bb0dffd6097c7424825c54e24
 import "react-image-gallery/styles/css/image-gallery.css"
 import 'react-toastify/dist/ReactToastify.css';
 import { validate } from "./validation"
 
+<<<<<<< HEAD
+=======
 import imageExample1 from "./imageEj1.jpg"
 import imageExample2 from "./imageEj2.jpg"
 import imageExample3 from "./imageEj3.jpg"
 import imageExample4 from "./imageEj4.jpg"
 import { createReviewTemplate, getReviewsTemplate } from "../../redux/actions/reviewsAction";
+>>>>>>> ff215220512ebd4bb0dffd6097c7424825c54e24
 
 const Detail = () => {
-
+ 
     const { id } = useParams();
     const dispatch = useDispatch();
+<<<<<<< HEAD
+    const [images, setImages] = useState([])
+    let template = useSelector((state) => state.templates.detailTemplate);
+    const reviews= useSelector((state) => state.templates.reviews);
+  
+    useEffect(() => {
+        dispatch(getTemplateById(id))
+        .then(() => {
+          dispatch(getReviewsTemplate(id))
+      })
+    }, [id, dispatch]);
+    // const mapImage  =  () => {
+    // imagenes.map(image => {
+    //   return setImages(...images,{original:image.original})
+    //   })
+    // }
+    console.log(template.images);
+    useEffect(() => {
+      if (template && template.images) {
+        setImages(template.images); // Asigna directamente las imágenes del template
+      }
+    }, [template])
+=======
 
     const template = useSelector((state) => state.templates.detailTemplate);
     console.log(template);
@@ -129,6 +159,7 @@ const Detail = () => {
         },
       ];
 
+>>>>>>> ff215220512ebd4bb0dffd6097c7424825c54e24
     return (
         <div>
         
@@ -136,7 +167,7 @@ const Detail = () => {
 
           <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
             
-              <div className="bg-white   w-[70%] mb-5 mt-10 mr-10 relative overflow-hidden flex items-center justify-center ml-10">
+            <div className="bg-white   w-[70%] mb-5 mt-10 mr-10 relative overflow-hidden flex items-center justify-center ml-10">
               
               <ImageGallery 
                    items={images}
