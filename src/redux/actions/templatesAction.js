@@ -8,6 +8,7 @@ export function getTemplateById(id) {
     return async (dispatch) => {
         try {
             const { data } = await axios.get(`${URL || localURL}/${id}`);
+            console.log(data);
             return dispatch({
                 type: GET_TEMPLATE_ID,
                 payload: data

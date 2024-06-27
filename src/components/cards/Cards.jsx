@@ -2,7 +2,7 @@ import Card from "../card/Card";
 import { Link } from "react-router-dom";
 
 const Cards = ({allTemplates}) => {
-    const templates = allTemplates.data;
+    const templates = allTemplates;
     console.log(templates);
   return (
     <div className="mx-auto w-70 ">
