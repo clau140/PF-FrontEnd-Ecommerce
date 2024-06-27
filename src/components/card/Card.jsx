@@ -1,11 +1,16 @@
-import { useDispatch, useSelector} from 'react-redux'
 import { addFav, removeFav } from '../../redux/actions/templatesAction';
-import image from '../../assets/images/image-1.jpeg';
+import { useDispatch, useSelector} from 'react-redux';
 import './Card.css';
-
+import React from 'react';
+addFav
 const Card = ({ template, id }) => {
 const myFavorites = useSelector((state) => state.templates.myFavorites);
 const dispatch = useDispatch();
+// const imagenUrl =  template.images.map(image => (
+//   image.content
+// ));
+// console.log(imagenUrl);
+// const UrlString= imagenUrl.join("")
 
 const isFavorite = myFavorites.includes(id);
 
@@ -13,7 +18,7 @@ const isFavorite = myFavorites.includes(id);
     event.preventDefault();
     if (isFavorite) {
       dispatch(removeFav(id))
-    }
+    } 
     else {
       dispatch(addFav(id))
     } 
@@ -44,7 +49,16 @@ const isFavorite = myFavorites.includes(id);
               </svg>
             ))}
           </div>
-      <img className="w-full" src={image} alt={template.name} />
+          
+          <div>
+    {template.images.map((image) => (
+      <div>
+        {(image.isCover === true && image.set === `${image.category}${1}`) && <img className="w-full" key={image.id} src={image.original} alt={template.name} />}
+      </div>
+    ))}
+  </div>
+
+          
       <div className="absolute top-0 right-0 m-2 z-10 opacity-1 transition-opacity duration-300">
         
         

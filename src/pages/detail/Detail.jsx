@@ -7,12 +7,18 @@ import ImageGallery from 'react-image-gallery'
 import { Rating } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { ToastContainer, toast } from 'react-toastify';
+<<<<<<< HEAD
+import { getTemplateById, getReviewsTemplate} from "../../redux/actions/templatesAction";
+=======
 import { getTemplateById, getCategories } from "../../redux/actions/templatesAction";
 
+>>>>>>> ff215220512ebd4bb0dffd6097c7424825c54e24
 import "react-image-gallery/styles/css/image-gallery.css"
 import 'react-toastify/dist/ReactToastify.css';
 import { validate } from "./validation"
 
+<<<<<<< HEAD
+=======
 import imageExample1 from "./imageEj1.jpg"
 import imageExample2 from "./imageEj2.jpg"
 import imageExample3 from "./imageEj3.jpg"
@@ -21,48 +27,79 @@ import { createReviewTemplate, getReviewsTemplate } from "../../redux/actions/re
 import { addToCart } from "../../redux/actions/cartActions";
 
 const Detail = () => {
-
-  const { id } = useParams();
-  const [images, setImages] = useState()
-  const dispatch = useDispatch();
-  const template = useSelector((state) => state.templates.detailTemplate);
-  const reviews = useSelector((state) => state.reviews.reviews);
-  const user = useSelector((state) => state.user.userInfo);
-  //const userDetail = useSelector((state) => state.userDetail);
+ 
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const [images, setImages] = useState([])
+    let template = useSelector((state) => state.templates.detailTemplate);
+    const reviews= useSelector((state) => state.templates.reviews);
   
-  //state Form
-  const [ state, setState ] = useState({
-    rating: "",
-    content: "",
-    templateId: id,
+    useEffect(() => {
+        dispatch(getTemplateById(id))
+        .then(() => {
+          dispatch(getReviewsTemplate(id))
+      })
+    }, [id, dispatch]);
+    // const mapImage  =  () => {
+    // imagenes.map(image => {
+    //   return setImages(...images,{original:image.original})
+    //   })
+    // }
+    console.log(template.images);
+    useEffect(() => {
+      if (template && template.images) {
+        setImages(template.images); // Asigna directamente las imágenes del template
+      }
+    }, [template])
 
-  });
+
+    const template = useSelector((state) => state.templates.detailTemplate);
+    console.log(template);
+    
+    const reviews= useSelector((state) => state.reviews.reviews);
+   // const reviews = useSelector((state) => state.templates.detailTemplateCopy.reviews);
+    console.log(reviews);
+
+    const user = useSelector((state) => state.user.userInfo);
+    //const userDetail = useSelector((state) => state.userDetail);
+    console.log(user)
+
+    //state Form
+    const [state, setState] = useState({
+      rating: "",
+      content: "",
+      templateId: id,
+      
+    });
 
   const opinar = () => toast.success('Gracias por tu opinion!');
 
   const [ errors, setErrors ] = useState({})
 
-  //promedio rating
-  function promedio(rating) {
-    let i = 0
-    let summ = 0;
-    while (i < rating.length) {
-      summ = summ + rating[ i++ ];
-    }
-    return Math.round(summ / rating.length);
-  }
-  let rating = reviews?.map((e) => e.rating);
-  let resultRating = promedio(rating);
-
-
-  useEffect(() => {
-    dispatch(getTemplateById(id))
-      .then(() => {
-        dispatch(getCategories())
-        dispatch(getReviewsTemplate(id))
+    //promedio rating
+    function promedio(rating){
+      let i = 0
+      let summ = 0;
+      while (i < rating.length) {
+        summ = summ + rating[i++];
       }
-      )
-  }, [ id, dispatch]);
+      return Math.round(summ / rating.length);
+    }
+    let rating = reviews?.map((e) => e.rating);
+    let resultRating = promedio(rating);
+    
+
+
+    useEffect(() => {
+        dispatch(getTemplateById(id))
+        
+          dispatch(getCategories())
+        
+       
+          dispatch(getReviewsTemplate(id))
+      }
+        
+      , [id, dispatch]);
 
   //Form
   const handleSubmit = (e) => {
@@ -87,9 +124,9 @@ const Detail = () => {
     } else {
       setState({
         ...state,
-        [ e.target.name ]: e.target.value,
-
-        userId: user.id,
+        [e.target.name]: e.target.value,
+        
+        //userId: user.id,
       });
     }
     setErrors(
@@ -126,22 +163,23 @@ const Detail = () => {
   //   },
   // ];
 
-  return (
-    <div>
 
-      <div className=" p-4  shadow-md  font-inter font-semibold ">
+    return (
+        <div>
+        
+        <div className=" p-4  shadow-md  font-inter font-semibold ">
 
-        <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
-
-          <div className="bg-white   w-[70%] mb-5 mt-10 mr-10 relative overflow-hidden flex items-center justify-center ml-10">
-
-            <ImageGallery
-              items={ images }
-              showPlayButton={ false }
-              showBullets={ true }
-              autoPlay={ false }
-            />
-          </div>
+          <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
+            
+            <div className="bg-white   w-[70%] mb-5 mt-10 mr-10 relative overflow-hidden flex items-center justify-center ml-10">
+              
+              <ImageGallery 
+                   items={images}
+                   showPlayButton= {false}
+                   showBullets={true}
+                   autoPlay={false}  
+                />
+              </div>
 
           <div className="md:w-[50%] mr-10">
             <div className="flex justify-end text-2xl">
@@ -231,17 +269,18 @@ const Detail = () => {
 
                 <h2 className="text-start text-xl  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider  border-green-900">Reviews</h2>
 
-                {
-                  reviews.map(r => {
-                    return (
-                      <div key={ r.id }>
-
-                        <Rating
-                          readOnly
-                          value={ r.rating } />
-                        <p>{ r.date }</p>
-                        <span>{ r.content }</span>
-                      </div>
+            {
+            
+              reviews.map(r =>{
+                return (
+                  <div key={r.id}>
+                    
+                    <Rating 
+                    readOnly 
+                    value={r.rating}/>
+                    <p>{r.date}</p>
+                    <span>{r.content}</span> 
+                  </div>
 
 
                     )
