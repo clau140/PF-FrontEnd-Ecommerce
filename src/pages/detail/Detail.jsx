@@ -23,16 +23,13 @@ import { addToCart } from "../../redux/actions/cartActions";
 const Detail = () => {
 
   const { id } = useParams();
+  const [images, setImages] = useState()
   const dispatch = useDispatch();
-
   const template = useSelector((state) => state.templates.detailTemplate);
-
   const reviews = useSelector((state) => state.reviews.reviews);
-
   const user = useSelector((state) => state.user.userInfo);
   //const userDetail = useSelector((state) => state.userDetail);
-  console.log(user)
-
+  
   //state Form
   const [ state, setState ] = useState({
     rating: "",
@@ -103,26 +100,31 @@ const Detail = () => {
     );
   };
 
-  const images = [
+  const getImages = () => {
+    template.map(()=>{
+      
+    })
+  }
+  // const images = [
 
-    {
-      original: imageExample1
+  //   {
+  //     original: imageExample1
 
-    },
+  //   },
 
-    {
-      original: imageExample2,
+  //   {
+  //     original: imageExample2,
 
-    },
-    {
-      original: imageExample3,
+  //   },
+  //   {
+  //     original: imageExample3,
 
-    },
-    {
-      original: imageExample4,
+  //   },
+  //   {
+  //     original: imageExample4,
 
-    },
-  ];
+  //   },
+  // ];
 
   return (
     <div>

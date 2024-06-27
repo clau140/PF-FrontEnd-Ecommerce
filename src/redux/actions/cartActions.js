@@ -23,7 +23,6 @@ export function viewCart() {
 
             });
         } catch (error) {
-            console.log(error);
             return dispatch({
                 type: NOTFOUND_CART,
                 payload: error.response.data.noCartFound
@@ -81,7 +80,6 @@ export function deleteToCart(template_id) {
                 payload: data.data
             });
         } catch (error) {
-            console.log(error);
             return error.response
         }
     };
