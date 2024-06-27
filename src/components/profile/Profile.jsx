@@ -64,7 +64,7 @@ const Profile = ({ user, loading, error, fetchProfile, updateProfile }) => {
   return (
     <div>
       <ToastContainer />
-      <div className="grid grid-cols-1 md:grid-cols-2 mt-12 mx-auto max-w-6xl ml-[780px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 mt-12 mx-auto max-w-6xl ml-[300px]">
         <div className="bg-zinc-200 w-[700px] ml-[-114px]">
           <div className="bg-zinc-50">
             <div className="bg-zinc-50 text-lg font-semibold p-4 mb-6">
