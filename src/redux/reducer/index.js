@@ -6,7 +6,7 @@ import reviewsReducer from "./reviewsReducer";
 const rootReducer = combineReducers({
   user:userReducer,
   templates: templatesReducer,
-  reviews: reviewsReducer
+  reviews: reviewsReducer,
 });
 
 export default rootReducer;
