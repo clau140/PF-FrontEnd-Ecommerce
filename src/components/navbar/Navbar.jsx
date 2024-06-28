@@ -3,21 +3,17 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTemplateBySearch } from "../../redux/actions/templatesAction";
 import { logout } from "../../redux/actions/userAction";
-
 import Searchbar from "../searchbar/Searchbar";
 import logo from "../../assets/images/VEGA.svg";
-
-import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase.config.jsx";
 import { viewCart } from "../../redux/actions/cartActions";
 
 const Navbar = () => {
-  const [user] = useAuthState(auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const isAuthenticated = useSelector((state) => state.user.loggedIn);
-  const userName = useSelector((state) => state.user.userInfo.name);
+  const user = useSelector((state) => state.user.userInfo);
   const cart = useSelector(state => state.cart.InCart)
 
   const [ searchString, setSearchString ] = useState("");
@@ -81,7 +77,7 @@ const Navbar = () => {
 
           <Searchbar handleChange={ handleChange } handleSearch={ handleSearch } />
 
-          {isAuthenticated ? (
+          { isAuthenticated ? (
             <div className="hidden md:block relative">
               <div className="ml-4 flex items-center md:ml-6">
                 <div className="relative">
@@ -90,7 +86,7 @@ const Navbar = () => {
                     className="bg-slate-800 border-[1px] border-slate-800 font-inter text-gray-800 px-3 py-2 rounded-md text-sm font-medium mr-8 flex items-center"
                   >
                     <span className="mr-2 sm:mr-4 sm:ml-0 text-white">
-                      Hola, {userName}
+                      Hola, { user.name }
                     </span>
                     <svg
                       className="ml-2"
@@ -106,41 +102,19 @@ const Navbar = () => {
                       />
                     </svg>
                   </button>
-                  {showProfileMenu && (
-  <div className="absolute right-2 mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg z-10">
-    { /* <div className="flex items-center p-4">
-      <img
-        src={user.photoURL}
-        alt="Foto de perfil"
-        className="w-10 h-10 rounded-full mr-4"
-      />
-      <div>
-        <p className="text-gray-800 font-medium">{user.displayName}</p>
-        <p className="text-gray-500 text-sm">{user.email}</p>
-      </div>  
-    </div> */}
-    <Link
-      to="/profile"
-      className="block px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100"
-    >
-      Mi Perfil
-    </Link>
-    <Link
-      to="/favorites"
-      className="block px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100"
-    >
-      Mis Favoritos
-    </Link>
-    <button
-      onClick={handleLogout}
-      className="block w-full text-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-    >
-      Cerrar sesión
-    </button>
-  </div>
-)}
                   { showProfileMenu && (
-                    <div className="absolute right-2 mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg z-50">
+                    <div className="absolute right-2 mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg z-10">
+                      <div className="flex items-center p-4">
+                        <img
+                          src={ user.imagen }
+                          alt="Foto de perfil"
+                          className="w-10 h-10 rounded-full mr-4"
+                        />
+                        <div>
+                          <p className="text-gray-800 font-medium">{ user.name } {user.lastname}</p>
+                          <p className="text-gray-500 text-sm">{ user.email }</p>
+                        </div>
+                      </div>
                       <Link
                         to="/profile"
                         className="block px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100"

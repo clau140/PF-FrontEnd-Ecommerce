@@ -14,6 +14,7 @@ const SignIn = () => {
   const [ loading, setLoading ] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+const [user, setUser] = useState(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,16 +35,21 @@ const SignIn = () => {
       })
   };
 
-  const { user, googleSignIn } = UserAuth();
+  const { googleSignIn } = UserAuth();
 
   const iniciarSesion = async () => {
     try {
-      await googleSignIn();
-      dispatch(logWhitFirebase(user))
+        const loginWithGoogle = await googleSignIn();
+        if (loginWithGoogle) {
+            const { user, firebaseToken } = loginWithGoogle;
+            dispatch(logWhitFirebase({ user, firebaseToken }));
+            setUser(user)
+            navigate("/profile");
+        }
     } catch (error) {
-      console.log(error);
+        console.log(error);
     }
-  }
+};
   
  
   useEffect(() => {
@@ -94,7 +100,7 @@ const SignIn = () => {
               INGRESAR
             </button>
 
-            <button onClick={ iniciarSesion } className="border-2 border-green-500 text-black mt-8 p-2 mx-auto block rounded-md
+            <button onClick={()=> iniciarSesion() } className="border-2 border-green-500 text-black mt-8 p-2 mx-auto block rounded-md
         hover:bg-green-500 hover:text-white
         transform hover:scale-110 transition duration-200">
               Google Login</button>

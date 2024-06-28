@@ -7,7 +7,7 @@ import cartReducer from "./cartReducer";
 const rootReducer = combineReducers({
   user:userReducer,
   templates: templatesReducer,
-  reviews: reviewsReducer,,
+  reviews: reviewsReducer,
   cart: cartReducer
 });
 

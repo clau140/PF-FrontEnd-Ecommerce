@@ -206,7 +206,7 @@ const Detail = () => {
                 
                 <button className="bg-black text-white font-inter 
                    hover:bg-gray-900 font-bold py-2 px-4 rounded-full"
-
+onClick={()=> dispatch(addToCart(id))}
                 >Añadir a carrito
                 </button>
 

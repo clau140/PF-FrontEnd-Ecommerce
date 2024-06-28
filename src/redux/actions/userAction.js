@@ -39,10 +39,19 @@ export function login(email, password) {
 }
 
 
-export function logWhitFirebase(user) {
+export function logWhitFirebase(userInfo) {
   return async (dispatch) => {
     try {
-      console.log(user);
+      console.log(userInfo);
+      const { data} = await axios.post(`${URL || localURL}/login`, {
+        firebaseToken: userInfo.user.accessToken
+      });
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.userInfo));
+      dispatch({
+        type: LOGIN,
+        payload: data.userInfo,
+      });
     } catch (error) {
       console.log(error);
     }
