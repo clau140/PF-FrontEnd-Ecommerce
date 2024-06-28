@@ -31,7 +31,9 @@ const reviewsReducer = (state = initialReviewsState, action) => {
 
                 
         default:
-            return state;
+            return {
+                ...state,
+              };
     }
 }
 

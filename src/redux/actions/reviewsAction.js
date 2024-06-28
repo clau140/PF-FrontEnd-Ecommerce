@@ -6,16 +6,18 @@ const URL = ""
 const TOKEN = localStorage.getItem('token')
 
 export const getReviewsUser = () => {
+   
     return async (dispatch)=>{
         try {
-            const response = await axios.get(`${URL || localURL}/`, {
+            const response = await axios.get(`${URL || localURL}/`, { 
                 headers: {
                     'Authorization': `Bearer ${TOKEN}`
                 }
             })
+            console.log(response)
         dispatch({
             type: GET_REVIEWS_USER,
-            payload: response.data
+            payload: response.data.reviews
         })
         } catch (error) {
                 return error.response
@@ -49,9 +51,9 @@ export const createReviewTemplate = (obj) => {
     try {
         const { data } = await axios.post(`${URL || localURL}`, obj, {
         
-          /*  headers: {
+            headers: {
                 'Authorization': `Bearer ${TOKEN}`
-            } */
+            } 
         });
         console.log(data);
         return data;  

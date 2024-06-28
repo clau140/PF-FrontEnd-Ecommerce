@@ -36,16 +36,16 @@ const Detail = () => {
     const allReviews = useSelector((state) => state.templates.detailTemplateCopy.reviews) || [] ;
     console.log(allReviews);
 
-    const user = useSelector((state) => state.user.userInfo) || [];
+    //const user = useSelector((state) => state.user.userInfo) || [];
     
-    console.log(user)
+    //console.log(user)
 
     //state Form
     const [state, setState] = useState({
       rating: "",
       content: "",
-      templateId: id,
-      userId: user ? user.id : null
+      idTemplate: id,
+     // userId: user ? user.id : null
       
     });
 
@@ -87,8 +87,8 @@ const Detail = () => {
         setState({
           rating: "",
           content: "",
-          templateId: id,
-          userId: user.id
+          idTemplate: id,
+          //userId: user.id
           
           
         });
@@ -106,7 +106,7 @@ const Detail = () => {
         ...state,
         [e.target.name]: e.target.value,
         
-        userId: user.id,
+       // userId: user.id,
       });
     }
     setErrors(
