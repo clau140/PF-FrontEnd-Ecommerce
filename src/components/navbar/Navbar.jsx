@@ -108,7 +108,7 @@ const Navbar = () => {
                   </button>
                   {showProfileMenu && (
   <div className="absolute right-2 mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg z-10">
-    <div className="flex items-center p-4">
+    {/* <div className="flex items-center p-4">
       <img
         src={user.photoURL}
         alt="Foto de perfil"
@@ -118,7 +118,7 @@ const Navbar = () => {
         <p className="text-gray-800 font-medium">{user.displayName}</p>
         <p className="text-gray-500 text-sm">{user.email}</p>
       </div>
-    </div>
+    </div> */}
     <Link
       to="/profile"
       className="block px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100"
