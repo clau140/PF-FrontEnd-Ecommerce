@@ -11,16 +11,13 @@ import { getCategories, getTemplateById} from "../../redux/actions/templatesActi
 import "react-image-gallery/styles/css/image-gallery.css"
 import 'react-toastify/dist/ReactToastify.css';
 import { validate } from "./validation"
-import imageExample1 from "./imageEj1.jpg"
-import imageExample2 from "./imageEj2.jpg"
-import imageExample3 from "./imageEj3.jpg"
-import imageExample4 from "./imageEj4.jpg"
 import { addToCart } from "../../redux/actions/cartActions";
 import {createReviewTemplate, getReviewsTemplate} from "../../redux/actions/reviewsAction"
 
 const Detail = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
+
     const [images, setImages] = useState([])
     let template = useSelector((state) => state.templates.detailTemplate);
     const reviews= useSelector((state) => state.templates.reviews);
@@ -43,24 +40,35 @@ const Detail = () => {
       }
     }, [template])
 
-    const user = useSelector((state) => state.user.userInfo);
-    //const userDetail = useSelector((state) => state.userDetail);
-    console.log(user)
+    
+    
+
+    const categories = template.categories || [];
+    const technologies = template.technologies || [];
+    
+    const allReviews = useSelector((state) => state.templates.detailTemplateCopy.reviews) || [] ;
+    console.log(allReviews);
+
+    //const user = useSelector((state) => state.user.userInfo) || [];
+    
+    //console.log(user)
 
     //state Form
     const [state, setState] = useState({
       rating: "",
       content: "",
-      templateId: id,
+      idTemplate: id,
+     // userId: user ? user.id : null
       
     });
 
   const opinar = () => toast.success('Gracias por tu opinion!');
 
   const [ errors, setErrors ] = useState({})
+    
+    function promedio(rating){ 
 
-    //promedio rating
-    function promedio(rating){
+ 
       let i = 0
       let summ = 0;
       while (i < rating?.length) {
@@ -68,8 +76,9 @@ const Detail = () => {
       }
       return Math.round(summ / rating?.length);
     }
-    let rating = reviews?.map((e) => e.rating);
-    let resultRating = promedio(rating);
+
+    const ratings = allReviews.map((e) => e.rating) || [];
+    let resultRating = ratings.length > 0 ? promedio(ratings) : 0;
     
 
 
@@ -84,18 +93,19 @@ const Detail = () => {
         
       , [id, dispatch]);
 
-  //Form
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createReviewTemplate(state));
-    setState({
-      rating: "",
-      content: "",
-      templateId: id,
-
-
-    });
-  };
+      //Form
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(createReviewTemplate(state));
+        setState({
+          rating: "",
+          content: "",
+          idTemplate: id,
+          //userId: user.id
+          
+          
+        });
+      };
 
   // handle select valoracion
   const handleChange = (e) => {
@@ -109,7 +119,7 @@ const Detail = () => {
         ...state,
         [e.target.name]: e.target.value,
         
-        //userId: user.id,
+       // userId: user.id,
       });
     }
     setErrors(
@@ -119,7 +129,6 @@ const Detail = () => {
       })
     );
   };
-
 
     return (
         <div>
@@ -156,47 +165,46 @@ const Detail = () => {
               <div className="flex flex-row gap-4">
                 <Rating
                   className="text-sm"
-                  readOnly
-                  value={ resultRating ? resultRating : 0 } />
-              </div>
+                  readOnly 
+                  value= {resultRating ? resultRating : 0}
+                    />
+                  </div>
+                  
+    
+                </div>
+    
+               
+                <br />
+                <span className="font-bold text-2xl text-bgred text-start  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors  tracking-wider   border-green-900">
+                  {template.price}
+                </span>
+                <br />
+                <br />
+                <h2 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
+                  
+                Categorias
+                {categories.map((c) => <p key={c.id}>{c.name}</p>)}
+                  
+                  
+                </h2>
 
-
-            </div>
-
-
-            <br />
-            <span className="font-bold text-2xl text-bgred text-start  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors  tracking-wider   border-green-900">
-              { template.price }
-            </span>
-            <br />
-            <br />
-            <h2 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
-              Categorias
-              {
-                template.categories && template.categories.map(c => <p>{ c.name }</p>)
-              }
-
-            </h2>
-
-            <h3 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
-              { template.description }
-            </h3>
-            <h3 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
-              Tecnologias
-              {
-                template.technologies && template.technologies.map(c => <p>{ c.name }</p>)
-              }
-
-            </h3>
-
-            <br />
-
-            <div className="flex  mb-4">
-
-              <div className="flex items-center mt-3 mb-10 w-1/2">
-
-
-                <button onClick={ () => dispatch(addToCart(template.id)) } className="bg-black text-white font-inter 
+                <h3 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
+                  {template.description}
+                  </h3>
+                <h3 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
+                  Tecnologias
+                  {technologies.map((c) => <p key={c.id}>{c.name}</p>)}
+                  
+                  </h3>
+                
+                <br />
+               
+                <div className="flex  mb-4">
+              
+                <div className="flex items-center mt-3 mb-10 w-1/2">
+                
+                
+                <button className="bg-black text-white font-inter 
                    hover:bg-gray-900 font-bold py-2 px-4 rounded-full"
 
                 >Añadir a carrito
@@ -218,8 +226,8 @@ const Detail = () => {
           </div>
         </div>
 
-        {
-          reviews?.length ?
+            {
+              allReviews.length > 0 ? 
 
             <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
               <div className="bg-white mr-10 relative overflow-hidden  ml-10">
@@ -228,7 +236,7 @@ const Detail = () => {
 
             {
             
-              reviews.map(r =>{
+              allReviews.map(r =>{
                 return (
                   <div key={r.id}>
                     
@@ -257,13 +265,13 @@ const Detail = () => {
 
         }
 
-        <form onSubmit={ (e) => handleSubmit(e) }>
+            <form onSubmit={(e)=> handleSubmit(e)}>
 
-          <Rating
-            name="rating"
-            value={ Number(state?.rating) }
-            onChange={ handleChange }
-          />
+            <Rating
+              name="rating"
+              value={Number(state?.rating)}
+              onChange={(e)=>handleChange(e)}
+            />
 
           { errors.rating && (
             <p className='text-red-600'>

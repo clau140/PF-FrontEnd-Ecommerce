@@ -7,14 +7,23 @@ import { getReviewsUser } from "../../redux/actions/reviewsAction";
 
 const UserReviews = () => {
 
-    const reviews = useSelector((state)=> state.reviews.reviewsUser)
+   const reviews = useSelector((state)=> state.reviews.reviewsUser) || []
+   // const reviews = useSelector((state) => state.templates.detailTemplateCopy.reviews) || [] ;
+   // const idUser = useSelector((state) => state.user.userInfo.id) || [];
+    console.log(reviews)
+   
+
+    const user = useSelector((state) => state.user.userInfo) || [];
+    
+    console.log(user)
     
     const dispatch = useDispatch()
     
     useEffect (() => {
-        dispatch(getReviewsUser())
-       
-      }, [dispatch]);
+      
+            dispatch(getReviewsUser());
+        
+    }, [dispatch]);
 
 
     return (

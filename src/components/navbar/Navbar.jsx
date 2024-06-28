@@ -81,7 +81,7 @@ const Navbar = () => {
 
           <Searchbar handleChange={ handleChange } handleSearch={ handleSearch } />
 
-          { isAuthenticated ? (
+          {isAuthenticated ? (
             <div className="hidden md:block relative">
               <div className="ml-4 flex items-center md:ml-6">
                 <div className="relative">
@@ -90,7 +90,7 @@ const Navbar = () => {
                     className="bg-slate-800 border-[1px] border-slate-800 font-inter text-gray-800 px-3 py-2 rounded-md text-sm font-medium mr-8 flex items-center"
                   >
                     <span className="mr-2 sm:mr-4 sm:ml-0 text-white">
-                      Hola, { userName }
+                      Hola, {userName}
                     </span>
                     <svg
                       className="ml-2"
@@ -108,7 +108,7 @@ const Navbar = () => {
                   </button>
                   {showProfileMenu && (
   <div className="absolute right-2 mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg z-10">
-    {/* <div className="flex items-center p-4">
+    { /* <div className="flex items-center p-4">
       <img
         src={user.photoURL}
         alt="Foto de perfil"
@@ -117,7 +117,7 @@ const Navbar = () => {
       <div>
         <p className="text-gray-800 font-medium">{user.displayName}</p>
         <p className="text-gray-500 text-sm">{user.email}</p>
-      </div>
+      </div>  
     </div> */}
     <Link
       to="/profile"
