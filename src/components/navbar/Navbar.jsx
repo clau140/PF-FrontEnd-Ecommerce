@@ -6,7 +6,7 @@ import { getTemplateBySearch } from "../../redux/actions/templatesAction";
 import Searchbar from "../searchbar/Searchbar";
 import logo from "../../assets/images/logo-14.png";
 // quizas aqui se podria importar y luego renderizar el componente Cart
-import Cart from "../cart/Cart";
+//import Cart from "../cart/Cart";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -75,7 +75,7 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-    < Cart/>
+
   
       </div>
     </nav>

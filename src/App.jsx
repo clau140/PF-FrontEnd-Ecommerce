@@ -9,6 +9,13 @@ import ProfilePage from './pages/profilepage/ProfilePage';
 import Navbar from '../src/components/navbar/Navbar';
 import Favorites from './pages/favorites/Favorites';
 import ForgotPassword from './pages/Forgot Password/ForgotPassword';
+// admin User crud
+import DisableUserById from './components/admin/userCrud/disableUserById';
+import DisableUserByEmail from './components/admin/userCrud/disableUserByEmail';
+import ViewUsers from './components/admin/userCrud/seeAllUsers';
+import CreateAdminUser from './components/admin/userCrud/createAdminUser';
+import ActivateUserByEmail from './components/admin/userCrud/ActivateUserByEmail';
+import EmailAllUsers from './components/admin/userCrud/EmailAllUsers';
 
 function App() {
   const { pathname} = useLocation();
@@ -25,6 +32,14 @@ function App() {
      <Route path='/ForgotPassword' element={<ForgotPassword />}/>
      <Route path='/Profile' element={<ProfilePage/>}/>
      <Route path='/favorites' element={<Favorites/>}/>
+
+     <Route path='/disableuserbyid' element={< DisableUserById/>} />
+    < Route path='/disableuserbyemail' element={< DisableUserByEmail />} />
+    < Route path='/allusers' element={< ViewUsers />} />
+    < Route path='/createadmin' element={< CreateAdminUser/>} />
+    < Route path='/activateuserbyemail' element={< ActivateUserByEmail />} />
+    < Route path='/emailallusers' element={< EmailAllUsers/>} />
+
     </Routes>
     </div>
   )
