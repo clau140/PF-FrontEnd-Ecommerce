@@ -53,7 +53,7 @@ const isFavorite = myFavorites.includes(id);
           <div>
     {template.images.map((image) => (
       <div>
-        {(image.isCover === true && image.set === `${image.category}${1}`) && <img className="w-full" key={image.id} src={image.original} alt={template.name} />}
+        {(image.isCover === true && image.set === `${image.category}${1}`) && <img className="w-full h-32 objet-cover" key={image.id} src={image.original} alt={template.name} />}
       </div>
     ))}
   </div>
@@ -87,11 +87,11 @@ const isFavorite = myFavorites.includes(id);
           <p className="text-gray-700 text-lg font-bold ml-auto">${template.price}</p>
         </div>
       </div>
-      <div className="px-6 py-4">
+      {/* <div className="px-6 py-4">
         <button className="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded">
           Add To Cart 
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

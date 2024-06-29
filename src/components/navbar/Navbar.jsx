@@ -103,7 +103,7 @@ const Navbar = () => {
                     </svg>
                   </button>
                   { showProfileMenu && (
-                    <div className="absolute right-2 mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg z-10">
+                    <div className="absolute right-6 mt-2 w-64 bg-white rounded-md border border-gray-200 shadow-lg z-50">
                       <div className="flex items-center p-4">
                         <img
                           src={ user.imagen }
