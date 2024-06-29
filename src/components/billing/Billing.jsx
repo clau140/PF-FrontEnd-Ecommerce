@@ -1,4 +1,9 @@
-const Billing = () => {
+import { useEffect } from "react";
+
+const Billing = ({orders}) => {
+  useEffect(() => {
+    console.log(orders);
+  }, [ orders ]);
   return (
     <div className="">
       <div className="bg-white shadow-md mt-12 max-w-6xl mx-auto">

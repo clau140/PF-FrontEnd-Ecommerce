@@ -7,7 +7,7 @@ import Searchbar from "../searchbar/Searchbar";
 import logo from "../../assets/images/VEGA.svg";
 import { auth } from "../../firebase.config.jsx";
 import { viewCart } from "../../redux/actions/cartActions";
-
+import defaultImage from "../../assets/images/userProfile.jfif"
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -106,7 +106,7 @@ const Navbar = () => {
                     <div className="absolute right-6 mt-2 w-64 bg-white rounded-md border border-gray-200 shadow-lg z-50">
                       <div className="flex items-center p-4">
                         <img
-                          src={ user.imagen }
+                          src={ user.imagen ? user.imagen : defaultImage }
                           alt="Foto de perfil"
                           className="w-10 h-10 rounded-full mr-4"
                         />
