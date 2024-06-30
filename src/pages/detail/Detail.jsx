@@ -114,15 +114,15 @@ const Detail = () => {
         ...state,
         [ e.target.name ]: parseInt(e.target.value),
       });
-    } else {
+      } else {
       setState({
         ...state,
         [e.target.name]: e.target.value,
         
        // userId: user.id,
       });
-    }
-    setErrors(
+      }
+      setErrors(
       validate({
         ...state,
         [ e.target.name ]: e.target.value,
@@ -130,10 +130,43 @@ const Detail = () => {
     );
   };
 
-    return (
-        <div>
-        
-        <div className=" p-4  shadow-md  font-inter font-semibold ">
+      // funcion para agregar al carrito con un simple click.
+      const handleAddToCart = async () => {
+        try {
+          const response = await fetch(`${localUrl}/cart/additem`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({ template_id: template.id })
+          });
+      
+          if (response.status === 400) {
+            toast.error('Template ya se encuentra en el carrito');
+            console.log('template ya esta en el carrito');
+          } else if (response.status === 200) {
+            setAddToCartSuccess('Template agregado al carrito exitosamente.');
+            setTimeout(() => {
+              setAddToCartSuccess('');
+            }, 2000); // Hide after 2 seconds
+            console.log('template agregado al carrito exitosamente');
+          } else {
+            toast.error('Error agregando template a carrito');
+          }
+        } catch (error) {
+          console.log(`error agregando template a carrito: ${error}`);
+          toast.error('Error agregando template a carrito');
+        }
+      };
+
+
+
+      // Detail.jsx:175 Warning: Each child in a list should have a unique "key" prop. <-- a sido arreglado.
+      return (
+      <div>
+
+      <div className=" p-4 shadow-md font-inter font-semibold ">
 
           <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
             
@@ -256,12 +289,12 @@ onClick={()=> dispatch(addToCart(id))}
 
             </div> :
 
-            <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
+      <div className= "bg-gray relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 shadow-md border-2">
 
-              <div className="bg-zinc-50 text-lg font-inter font-semibold p-3">
-                <span> No existen opiniones de este producto</span>
-              </div>
-            </div>
+      <div className="bg-zinc-50 text-lg font-inter font-semibold p-3">
+      <span> No existen opiniones de este producto</span>
+      </div>
+      </div>
 
         }
 
@@ -319,6 +352,6 @@ onClick={()=> dispatch(addToCart(id))}
 
   )
 
-}
+      }
 
-export default Detail;
+      export default Detail;
