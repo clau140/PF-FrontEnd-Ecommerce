@@ -1,50 +1,113 @@
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { changePassword } from "../../redux/actions/userAction";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Security = () => {
+  const dispatch = useDispatch();
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'currentpassword') setCurrentPassword(value);
+    if (name === 'newpassword') setNewPassword(value);
+    if (name === 'confirmpassword') setConfirmPassword(value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (!currentPassword || !newPassword || !confirmPassword) {
+        toast.warning('Por favor complete todos los campos.');
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        toast.error('La nueva contraseña y la confirmación no coinciden.');
+        return;
+      }
+
+      await dispatch(changePassword(currentPassword, newPassword));
+
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+
+      toast.success('Contraseña actualizada exitosamente.');
+
+    } catch (error) {
+      console.error('Error cambiando la contraseña:', error);
+      if (error.message === 'Contraseña actual Incorrecta') {
+        toast.error('La contraseña actual es incorrecta.');
+      } else {
+        toast.error('Fallo al cambiar la contraseña.');
+      }
+    }
+  };
+
   return (
     <div className="">
+      <ToastContainer />
       <div className="bg-zinc-200 w-[700px] mx-auto mt-12">
         <div className="bg-zinc-50">
           <div className="bg-zinc-50 text-lg font-semibold p-4 mb-6">
-            Change Password
+            Cambiar Contraseña
           </div>
         </div>
         <div>
-          <form className="p-4">
+          <form className="p-4" onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block mb-1" htmlFor="currentpassword">
-                Current Password
+                Contraseña Actual
               </label>
               <input
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                type="text"
-                placeholder="Enter current password"
+                type="password"
+                id="currentpassword"
+                name="currentpassword"
+                value={currentPassword}
+                onChange={handleChange}
+                placeholder="Ingrese la contraseña actual"
               />
             </div>
             <div className="mb-4">
               <label className="block mb-1" htmlFor="newpassword">
-                New Password
+                Nueva Contraseña
               </label>
               <input
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                type="text"
-                placeholder="Enter new password"
+                type="password"
+                id="newpassword"
+                name="newpassword"
+                value={newPassword}
+                onChange={handleChange}
+                placeholder="Ingrese la nueva contraseña"
               />
             </div>
             <div className="mb-4">
               <label className="block mb-1" htmlFor="confirmpassword">
-                Confirm Password
+                Confirmar Nueva Contraseña
               </label>
               <input
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                type="text"
-                placeholder="Confirm new password"
+                type="password"
+                id="confirmpassword"
+                name="confirmpassword"
+                value={confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirme la nueva contraseña"
               />
             </div>
 
             <button
               className="bg-slate-700 text-white px-4 py-2 rounded-md hover:bg-slate-800"
-              type="button"
+              type="submit"
             >
-              Save
+              Guardar
             </button>
           </form>
         </div>

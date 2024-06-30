@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_TEMPLATE_ID, GET_TEMPLATE_BY_SEARCH, ADD_FAV, REMOVE_FAV, GET_REVIEWS_TEMPLATE, GET_REVIEWS_TEMPLATE_DETAIL, GET_TECHNOLOGIES, GET_CATEGORIES, GET_FILTERED_TEMPLATES } from './action-types';
+import { GET_TEMPLATE_ID, GET_TEMPLATE_BY_SEARCH, ADD_FAV, REMOVE_FAV, GET_TECHNOLOGIES, GET_CATEGORIES, GET_FILTERED_TEMPLATES } from './action-types';
 
 const localURL = "http://localhost:3001/templates"
 const URL = ""
@@ -8,6 +8,7 @@ export function getTemplateById(id) {
     return async (dispatch) => {
         try {
             const { data } = await axios.get(`${URL || localURL}/${id}`);
+            console.log(data);
             return dispatch({
                 type: GET_TEMPLATE_ID,
                 payload: data
@@ -58,12 +59,10 @@ export const getTemplateBySearch = (payload) => {
         try {
             console.log("Payload recibido:", payload);
 
-            // Realiza la búsqueda por tecnología
             let response = await axios.get(
                 `${URL || localURL}/search/technology?technology=${payload}`
             );
 
-            // Verifica si se encontraron templates por tecnología
             if (response.data.length > 0 && response.data[ 0 ].templates.length > 0) {
                 return dispatch({
                     type: GET_TEMPLATE_BY_SEARCH,
@@ -71,12 +70,10 @@ export const getTemplateBySearch = (payload) => {
                 });
             }
 
-            // Si no se encontraron templates por tecnología, busca por categoría
             response = await axios.get(
                 `${URL || localURL}/search/category?category=${payload}`
             );
 
-            // Verifica si se encontraron templates por categoría
             if (response.data.length > 0 && response.data[ 0 ].templates.length > 0) {
                 return dispatch({
                     type: GET_TEMPLATE_BY_SEARCH,
@@ -84,9 +81,7 @@ export const getTemplateBySearch = (payload) => {
                 });
             }
 
-            // Si no se encontraron templates por ninguna búsqueda
-            console.log("No se encontraron templates por tecnología ni por categoría.");
-            // Aquí podrías manejar la situación donde no se encontraron templates por ninguna búsqueda
+            console.log("No se encontraron templates por tecnología ni por categoría.")
 
         } catch (error) {
             return error.response
@@ -151,42 +146,4 @@ export const getCategories = () => {
     }
 };
 
-//verificar ruta
-export const getReviewsTemplate = (id) => {
-    return async (dispatch)=>{
-        try {
-            const response = await axios.get(`${URL || localURL}/review/product?productId=${id}`)
-        dispatch({
-            type: GET_REVIEWS_TEMPLATE,
-            payload: response.data
-        })
-        } catch (error) {
-                return error.response
-    }
 
-}}
-
-export const getReviewsTemplateDetail = (id)=>{
-    return async (dispatch)=>{
-        try {
-            const response = await axios.get(`${URL || localURL}/review/detail?detailId=${id}`)
-            dispatch({
-                type: GET_REVIEWS_TEMPLATE_DETAIL,
-                payload: response.data
-            })
-        } catch (error) {
-            return error.response
-        }
-    }
-}
-
-export function createReviewTemplate(obj) {
-    return async function () {
-        console.log(obj)
-
-        return axios.post(`/review`,  obj )
-            .then(data => console.log('Review added!'))
-            .catch(error => alert(error.response.data))
-
-    }
-}

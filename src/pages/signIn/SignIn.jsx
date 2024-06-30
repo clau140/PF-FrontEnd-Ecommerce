@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'tailwindcss/tailwind.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/actions/userAction';
 import { ToastContainer, toast } from 'react-toastify';
+
+import { UserAuth } from '../../components/context/authContex';
+
 
 const SignIn = () => {
   const [ email, setEmail ] = useState('');
@@ -22,15 +25,30 @@ const SignIn = () => {
           setPassword("")
           toast.success(`Bienvenido de vuelta, ${res.data.userInfo.name}`)
           setTimeout(() => {
-            navigate("/home")
+            navigate("/profile")
           }, 2000);
           setLoading(false)
           return
         }
         else return toast.error(res.data)
       })
-
   };
+
+  const { user, googleSignIn } = UserAuth();
+
+  const iniciarSesion = async() => {
+    try {
+      await googleSignIn();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    if(user !== null) {
+      navigate("/profile");
+    }
+  }, [user]);
 
   return (
     <div title="Register - Ecommer App" className="flex justify-center items-center h-screen bg-gray-200">
@@ -73,6 +91,11 @@ const SignIn = () => {
         transform hover:scale-110 transition duration-200">
               INGRESAR
             </button>
+
+            <button onClick={iniciarSesion} className="border-2 border-green-500 text-black mt-8 p-2 mx-auto block rounded-md
+        hover:bg-green-500 hover:text-white
+        transform hover:scale-110 transition duration-200">
+      Google Login</button>
           </form>
           ) }
       </div>

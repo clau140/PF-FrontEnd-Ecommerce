@@ -17,12 +17,15 @@ import CreateAdminUser from './components/admin/userCrud/createAdminUser';
 import ActivateUserByEmail from './components/admin/userCrud/ActivateUserByEmail';
 import EmailAllUsers from './components/admin/userCrud/EmailAllUsers';
 
+import { AuthContextProvider } from './components/context/authContex.jsx';
+
 function App() {
   const { pathname} = useLocation();
   
   return (
     <div>
        { pathname !== '/' && <Navbar/>}
+       <AuthContextProvider>
     <Routes>
      <Route path='/' element={<Landing/>}/>
      <Route path='/Home' element={<Home/>}/>
@@ -41,6 +44,7 @@ function App() {
     < Route path='/emailallusers' element={< EmailAllUsers/>} />
 
     </Routes>
+       </AuthContextProvider>
     </div>
   )
 }

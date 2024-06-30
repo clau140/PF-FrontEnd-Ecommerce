@@ -1,29 +1,30 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import UserReviewCard from "./UserReviewCard";
+import { getReviewsUser } from "../../redux/actions/reviewsAction";
 
 
 const UserReviews = () => {
 
-    const user = useSelector((state)=> state.user.userDetailId)
-    const products = useSelector((state)=> state.templates.allTemplates)
-    
-    let reviews = user?.Reviews;
+   const reviews = useSelector((state)=> state.reviews.reviewsUser) || []
+   // const reviews = useSelector((state) => state.templates.detailTemplateCopy.reviews) || [] ;
+   // const idUser = useSelector((state) => state.user.userInfo.id) || [];
+    console.log(reviews)
+   
 
-    let productsReview = reviews?.map((e) => {
-        for (let i = 0; i < products?.length; i++) {
-            if (e.templateId === products[i]?.id)
-              return {
-                content: e.content,
-                rating: e.rating,
-                date: e.date,
-                idTemplate: products[i]?.id,
-                //img: products[i]?.image,
-                nameTemplate: products[i]?.name,
-              };
-          }
-    })
+    const user = useSelector((state) => state.user.userInfo) || [];
+    
+    console.log(user)
+    
+    const dispatch = useDispatch()
+    
+    useEffect (() => {
+      
+            dispatch(getReviewsUser());
+        
+    }, [dispatch]);
+
 
     return (
         <div>
@@ -34,17 +35,17 @@ const UserReviews = () => {
                     <h2>Mis opiniones</h2>
                 </div>
                 {
-                    productsReview?.map((e, index)=> (
+                    reviews?.map((e, index)=> (
                         <UserReviewCard
                         key={index}
                         id={e?.id}
                         //img={e?.image}
-                        nameTemplate={e?.name}
+                        
                         content={e?.content}
                         rating={e?.rating}
                         date= {e?.date}
                          />
-                    ))
+                    )) 
                 }
 
             </div>
