@@ -8,10 +8,7 @@ import { getReviewsUser } from "../../redux/actions/reviewsAction";
 const UserReviews = () => {
 
    const reviews = useSelector((state)=> state.reviews.reviewsUser) || []
-   // const reviews = useSelector((state) => state.templates.detailTemplateCopy.reviews) || [] ;
-   // const idUser = useSelector((state) => state.user.userInfo.id) || [];
     console.log(reviews)
-   
 
     const user = useSelector((state) => state.user.userInfo) || [];
     
@@ -28,9 +25,8 @@ const UserReviews = () => {
 
     return (
         <div>
-         {/*container*/}
+      
             <div className="bg-white shadow-md mt-12 max-w-6xl mx-auto">
-                {/*containerTitle*/}
                 <div className="bg-zinc-50 text-lg font-inter font-semibold p-4">
                     <h2>Mis opiniones</h2>
                 </div>
@@ -38,9 +34,9 @@ const UserReviews = () => {
                     reviews?.map((e, index)=> (
                         <UserReviewCard
                         key={index}
-                        id={e?.id}
+                        id={e?.idTemplate}
+
                         //img={e?.image}
-                        
                         content={e?.content}
                         rating={e?.rating}
                         date= {e?.date}
