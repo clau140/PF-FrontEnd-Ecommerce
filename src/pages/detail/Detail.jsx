@@ -14,6 +14,7 @@ import "react-image-gallery/styles/css/image-gallery.css"
 import 'react-toastify/dist/ReactToastify.css';
 import { validate } from "./validation"
 
+
 import { createReviewTemplate, getReviewsTemplate } from "../../redux/actions/reviewsAction";
 
 
@@ -66,7 +67,7 @@ const Detail = () => {
       
     });
 
-    const opinar = () => toast.success('Gracias por tu opinion!');
+const opinar = () => toast.success('Gracias por tu opinion!');
 
     const [errors, setErrors] = useState({})
     
@@ -76,7 +77,7 @@ const Detail = () => {
       let i = 0
       let summ = 0;
       while (i < rating.length) {
-        summ = summ + rating[i++];
+      summ = summ + rating[i++];
       }
       return Math.round(summ / rating.length);
     }
@@ -112,32 +113,65 @@ const Detail = () => {
       };
 
       // handle select valoracion
-    const handleChange = (e) => {
-    if (e.target.name === "rating") {
+      const handleChange = (e) => {
+      if (e.target.name === "rating") {
       setState({
-        ...state,
-        [e.target.name]: parseInt(e.target.value),
+      ...state,
+      [e.target.name]: parseInt(e.target.value),
       });
-    } else {
+      } else {
       setState({
         ...state,
         [e.target.name]: e.target.value,
         
        // userId: user.id,
       });
-    }
-    setErrors(
+      }
+      setErrors(
       validate({
-        ...state,
-        [e.target.name]: e.target.value,
+      ...state,
+      [e.target.name]: e.target.value,
       })
     );
   };
 
-    return (
-        <div>
-        
-        <div className=" p-4  shadow-md  font-inter font-semibold ">
+      // funcion para agregar al carrito con un simple click.
+      const handleAddToCart = async () => {
+        try {
+          const response = await fetch(`${localUrl}/cart/additem`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({ template_id: template.id })
+          });
+      
+          if (response.status === 400) {
+            toast.error('Template ya se encuentra en el carrito');
+            console.log('template ya esta en el carrito');
+          } else if (response.status === 200) {
+            setAddToCartSuccess('Template agregado al carrito exitosamente.');
+            setTimeout(() => {
+              setAddToCartSuccess('');
+            }, 2000); // Hide after 2 seconds
+            console.log('template agregado al carrito exitosamente');
+          } else {
+            toast.error('Error agregando template a carrito');
+          }
+        } catch (error) {
+          console.log(`error agregando template a carrito: ${error}`);
+          toast.error('Error agregando template a carrito');
+        }
+      };
+
+
+
+      // Detail.jsx:175 Warning: Each child in a list should have a unique "key" prop. <-- a sido arreglado.
+      return (
+      <div>
+
+      <div className=" p-4 shadow-md font-inter font-semibold ">
 
           <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
             
@@ -151,8 +185,8 @@ const Detail = () => {
                 />
               </div>
 
-              <div className="md:w-[50%] mr-10">
-              <div className="flex justify-end text-2xl">
+      <div className="md:w-[50%] mr-10">
+      <div className="flex justify-end text-2xl">
 
               <Link to={"/home"}>
               <button className=" py-4 px-3 rounded-lg  text-2xl ">X</button>                
@@ -214,29 +248,29 @@ const Detail = () => {
                 >Añadir a carrito
               </button>
 
-              </div>
-              <div className="flex items-center mt-3 mb-10 w-1/2">
-                
-                
-                <button className="bg-black text-white font-inter 
-                   hover:bg-gray-900 font-bold py-2 px-4 rounded-full"
+      </div>
+      <div className="flex items-center mt-3 mb-10 w-1/2">
 
-                >Comprar ahora
-              </button>
 
-              </div>
-            </div>
-              
-              </div>
-            </div>
+      <button className="bg-black text-white font-inter
+      hover:bg-gray-900 font-bold py-2 px-4 rounded-full"
+
+      >Comprar ahora
+      </button>
+
+      </div>
+      </div>
+
+      </div>
+      </div>
 
             {
               allReviews.length > 0 ? 
 
-            <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
-            <div className="bg-white mr-10 relative overflow-hidden  ml-10">
-            
-            <h2 className="text-start text-xl  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider  border-green-900">Reviews</h2>
+      <div className="bg-gray relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 shadow-md border-2">
+      <div className="bg-white mr-10 relative overflow-hidden ml-10">
+
+      <h2 className="text-start text-xl mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider border-green-900">Reviews</h2>
 
             {
             
@@ -251,23 +285,23 @@ const Detail = () => {
                     <span>{r.content}</span> 
                   </div>
 
-                                    
-                )
-              })
-            }
-            
-            </div>
-            
-          </div> :
 
-          <div className= "bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
-          
-          <div className="bg-zinc-50 text-lg font-inter font-semibold p-3">
-            <span> No existen opiniones de este producto</span>
-          </div>
-          </div>
+      )
+      })
+      }
 
-            }
+      </div>
+
+      </div> :
+
+      <div className= "bg-gray relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 shadow-md border-2">
+
+      <div className="bg-zinc-50 text-lg font-inter font-semibold p-3">
+      <span> No existen opiniones de este producto</span>
+      </div>
+      </div>
+
+      }
 
             <form  onSubmit={(e)=> handleSubmit(e)}>
 
@@ -277,10 +311,10 @@ const Detail = () => {
               onChange={(e)=>handleChange(e)}
             />
 
-            {errors.rating && (
-              <p className='text-red-600'>
-                {errors.rating}</p>
-            )}
+      {errors.rating && (
+      <p className='text-red-600'>
+      {errors.rating}</p>
+      )}
 
             <TextField
             fullWidth
@@ -293,24 +327,24 @@ const Detail = () => {
             multiline
             variant="filled"
 
-            />
+      />
 
-            {errors.content && (
-              <p className='text-red-600'>
-                {errors.content}</p>
-            )}
+      {errors.content && (
+      <p className='text-red-600'>
+      {errors.content}</p>
+      )}
 
-            <button
-              disabled={
-                Object.keys(errors).length > 0 ||
-                state.content.length === 0
-              }
-              className=''
-              type="submit"
-              onClick={opinar}
-              >
-              Opinar
-              </button>
+      <button
+      disabled={
+      Object.keys(errors).length > 0 ||
+      state.content.length === 0
+      }
+      className=''
+      type="submit"
+      onClick={opinar}
+      >
+      Opinar
+      </button>
 
               <ToastContainer/>
 
@@ -323,6 +357,6 @@ const Detail = () => {
         
     )
 
-}
+      }
 
-export default Detail;
+      export default Detail;
