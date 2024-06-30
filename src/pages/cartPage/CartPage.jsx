@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteToCart, viewCart } from '../../redux/actions/cartActions';
 import { checkoutSession } from '../../redux/actions/stripeAction';
-import image from '../../assets/images/image-1.jpeg';
 import { FaRegTrashAlt } from "react-icons/fa";
 
 const CartPage = () => {
@@ -43,7 +42,7 @@ const CartPage = () => {
                                     <h1 className='font-bold text-2xl mb-4'>Tu carrito de compra</h1>
                                     { items?.map(t => {
                                         // Encontrar la imagen que tiene isCover como true
-                                        const coverImage = t.images.find(image => image.isCover);
+                                        const coverImage = t.images?.find(image => image.isCover);
 
                                         return (
                                             <div key={ t.id } className='flex border-b-2 w-full h-auto mb-1'>
