@@ -1,6 +1,6 @@
 import axios from "axios";
 const localURL = "http://localhost:3001/payment"
-const URL = ""
+const URL = "https://pf-backend-ecommerce-dfya.onrender.com/payment"
 const token = localStorage.getItem('token');
 
 export function checkoutSession() {

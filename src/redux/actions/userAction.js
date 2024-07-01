@@ -16,7 +16,7 @@ import {
 
 
 const localURL = "http://localhost:3001/user";
-const URL = "";
+const URL = "https://pf-backend-ecommerce-dfya.onrender.com/user";
 
 export function login(email, password) {
   return async (dispatch) => {

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { GET_REVIEWS_USER, GET_REVIEWS_TEMPLATE } from './action-types';
 
 const localURL = "http://localhost:3001/reviews"
-const URL = ""
+const URL = "https://pf-backend-ecommerce-dfya.onrender.com/reviews"
 const TOKEN = localStorage.getItem('token')
 
 export const getReviewsUser = () => {
