@@ -53,7 +53,7 @@ const isFavorite = myFavorites.includes(id);
           <div>
     {template.images.map((image) => (
       <div>
-        {(image.isCover === true && image.set === `${image.category}${1}`) && <img className="w-full h-32 objet-cover" key={image.id} src={image.original} alt={template.name} />}
+        {(image.isCover === true && image.set === `${image.category}${1}`) && <img className="w-full" key={image.id} src={image.original} alt={template.name} />}
       </div>
     ))}
   </div>

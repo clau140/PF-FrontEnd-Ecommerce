@@ -1,33 +1,26 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTemplateBySearch } from "../../redux/actions/templatesAction";
 import { logout } from "../../redux/actions/userAction";
+
 import Searchbar from "../searchbar/Searchbar";
 import logo from "../../assets/images/VEGA.svg";
-import tipografia from "../../assets/images/VEGA type.svg";
 import bag from "../../assets/images/VEGA_bag.svg";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase.config.jsx";
-import { viewCart } from "../../redux/actions/cartActions";
-import defaultImage from "../../assets/images/userProfile.jfif"
+
 const Navbar = () => {
+  const [user] = useAuthState(auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const isAuthenticated = useSelector((state) => state.user.loggedIn);
-  const user = useSelector((state) => state.user.userInfo);
-  const cart = useSelector(state => state.cart.InCart)
+  const userName = useSelector((state) => state.user.userInfo.name);
 
-  const [ searchString, setSearchString ] = useState("");
-  const [ showProfileMenu, setShowProfileMenu ] = useState(false);
-
-
-  useEffect(() => {
-    setShowProfileMenu(false)
-    dispatch(viewCart())
-  }, [ navigate, dispatch ]);
+  const [searchString, setSearchString] = useState("");
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -57,6 +50,7 @@ const Navbar = () => {
   const toggleProfileMenu = () => {
     setShowProfileMenu(!showProfileMenu);
   };
+
 
   return (
     <nav className="bg-white p-4 border-b-2 border-inherit shadow">
@@ -162,30 +156,30 @@ const Navbar = () => {
             <div className="hidden md:block">
               <div className="ml-4 flex items-center md:ml-6">
                 <Link to="/SignIn">
-                  <button className="bg-white border-[1px] border-[#06B6D4] font-inter text-[#06B6D4] px-3 py-2 rounded-md text-sm font-medium mr-8">
+                  <button className="bg-white border-[1px] border-[#06B6D4] font-inter text-[#06B6D4] hover:scale-110 hover:bg-green-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium mr-8">
                     Ingresar
                   </button>
                 </Link>
-                <Link to="/SignUp">
-                  <button className="bg-[#06B6D4] text-white font-inter px-3 py-2 mr-8 rounded-md text-sm font-medium">
+                <Link to="/SignUp"> 
+                  <button className="bg-[#06B6D4] text-white hover:scale-110 hover:bg-white border-[1px] hover:border-green-500 font-inter hover:text-green-500 font-inter px-3 py-2 mr-8 rounded-md text-sm font-medium">
                     Únete
                   </button>
                 </Link>
 
                 <svg
-                  className="mr-8"
-                  viewBox="0 0 22 20"
-                  width="26"
-                  height="26"
-                  fill="#06B6D4"
-                >
-                  <path d="M1.795 10.556a6.195 6.195 0 018.782-8.742l.423.424.424-.424a6.193 6.193 0 018.76 0 6.197 6.197 0 01.02 8.742l-8.404 8.9a1.1 1.1 0 01-1.6 0zM11 17.098l7.607-8.055.023-.022a3.999 3.999 0 000-5.651 3.997 3.997 0 00-5.652 0l-1.2 1.201a1.1 1.1 0 01-1.556 0L9.021 3.37A3.993 3.993 0 002.2 6.195a3.994 3.994 0 001.19 2.848z"></path>
-                </svg>
+  className="mr-8 transform hover:rotate-[15deg] hover:scale-125 hover:fill-green-500 transition-all duration-300 cursor-pointer"
+  viewBox="0 0 22 20"
+  width="26"
+  height="26"
+  fill="#06B6D4"
+>
+  <path d="M1.795 10.556a6.195 6.195 0 018.782-8.742l.423.424.424-.424a6.193 6.193 0 018.76 0 6.197 6.197 0 01.02 8.742l-8.404 8.9a1.1 1.1 0 01-1.6 0zM11 17.098l7.607-8.055.023-.022a3.999 3.999 0 000-5.651 3.997 3.997 0 00-5.652 0l-1.2 1.201a1.1 1.1 0 01-1.556 0L9.021 3.37A3.993 3.993 0 002.2 6.195a3.994 3.994 0 001.19 2.848z"></path>
+</svg>
                 <img
-                src={bag}
-                alt="logo ReactiveMind"
-                className="w-[40px] h-[40px] mr-12 "
-              />
+  src={bag}
+  alt="logo ReactiveMind"
+  className="w-[40px] h-[40px] mr-12 transform hover:scale-125 transition-transform duration-300 cursor-pointer"
+/>
               </div>
             </div>
           )}
