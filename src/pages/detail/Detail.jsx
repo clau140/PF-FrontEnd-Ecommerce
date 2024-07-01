@@ -85,12 +85,12 @@ const Detail = () => {
 
             <div className="flex  mb-4">
               <div className="flex items-center mt-3 mb-10 w-1/2">
-                <button className="bg-black text-white font-inter  hover:bg-gray-900 font-bold py-2 px-4 rounded-full">
+                <button className="bg-[#06B6D4] text-white font-inter  hover:bg-green-500 font-bold py-2 px-4 rounded-full">
                   Add to cart
                 </button>
               </div>
               <div className="flex items-center mt-3 mb-10 w-1/2">
-                <button className="bg-black text-white font-inter  hover:bg-gray-900 font-bold py-2 px-4 rounded-full">
+                <button className="bg-[#06B6D4] text-white font-inter  hover:bg-green-500 font-bold py-2 px-4 rounded-full">
                   Buy now
                 </button>
               </div>
