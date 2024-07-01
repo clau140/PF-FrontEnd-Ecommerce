@@ -14,6 +14,7 @@ const initialTemplatesState = {
 
     allTemplates: [],
     detailTemplate: [],
+    detailTemplateCopy: [],
     templates: [],
     myFavorites: [],
     
@@ -43,6 +44,7 @@ const templatesReducer = (state = initialTemplatesState, action) => {
         return {
           ...state,
           detailTemplate: action.payload,
+          detailTemplateCopy: action.payload
           
         };
         case GET_TEMPLATE_BY_SEARCH:

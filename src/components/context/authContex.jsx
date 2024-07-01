@@ -1,63 +1,46 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-  GoogleAuthProvider,
-  signInWithPopup,
-  sendPasswordResetEmail,
-} from "firebase/auth";
-import { auth } from "../../firebase.js";
+import { useState, createContext, useEffect, useContext } from "react";
 
-export const authContext = createContext();
+import { GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged } from 'firebase/auth';
 
-export const useAuth = () => {
-  const context = useContext(authContext);
-  if (!context) throw new Error("There is not AuthProvider");
-  return context;
-};
+import { auth } from '../../firebase.config.jsx'
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-  const signup = (email, password) =>
-    createUserWithEmailAndPassword(auth, email, password);
+const AuthContext = createContext();
 
-  const login = (email, password) =>
-    signInWithEmailAndPassword(auth, email, password);
+export const AuthContextProvider = ({ children }) => {
+    const [ user, setUser ] = useState({});
+    const googleSignIn = async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const firebaseToken = credential.accessToken;
+            const user = result.user;
+            return { user, firebaseToken };
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
-  const loginWithGoogle = () => {
-    const googleProvider = new GoogleAuthProvider();
-    return signInWithPopup(auth, googleProvider);
-  };
+    const logOut = () => {
+        signOut(auth);
+    }
 
-  const resetPassword = (email) => sendPasswordResetEmail(auth, email);
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+        })
+        return () => {
+            unsubscribe();
+        }
+    }, []);
+    return (
+        <AuthContext.Provider value={ { googleSignIn, logOut, user } }>
+            { children }
+        </AuthContext.Provider>
+    )
+}
 
-  const logout = () => signOut(auth);
-
-  useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
-    return () => unSubscribe();
-  }, []);
-
-  return (
-    <authContext.Provider
-      value={{
-        signup,
-        login,
-        user,
-        logout,
-        loading,
-        loginWithGoogle,
-        resetPassword,
-      }}
-    >
-      {children}
-    </authContext.Provider>
-  );
+export const UserAuth = () => {
+    return useContext(AuthContext);
 }

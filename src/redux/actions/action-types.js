@@ -9,6 +9,8 @@ export const GET_TECHNOLOGIES = "GET_TECHNOLOGIES";
 export const GET_CATEGORIES= "GET_CATEGORIES";
 export const ADD_FAV = "ADD_FAV";
 export const REMOVE_FAV = "REMOVE_FAV";
+
+//Reviews actions
 export const GET_REVIEWS_USER= 'GET_REVIEWS_USER'
 export const GET_REVIEWS_TEMPLATE= 'GET_REVIEWS_TEMPLATE'
 export const POST_REVIEW= 'POST_REVIEW'
@@ -40,3 +42,11 @@ export const DELETE_TEMPLATE_FAILURE = 'DELETE_TEMPLATE_FAILURE';
 
 
 
+
+
+// Cart actions 
+
+export const VIEW_CART = "VIEW_CART";
+export const NOTFOUND_CART = "NOTFOUND_CART";
+export const ADD_TO_CART = "ADD_TO_CART";
+export const DELETE_TO_CART = "DELETE_TO_CART";
