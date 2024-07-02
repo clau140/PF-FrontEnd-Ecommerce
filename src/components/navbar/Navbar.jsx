@@ -25,10 +25,12 @@ const Navbar = () => {
     event.preventDefault();
     setSearchString(event.target.value);
   };
+
   useEffect(() => {
     setShowProfileMenu(false)
     dispatch(viewCart())
-  }, [ dispatch ]);
+  }, [ dispatch, navigate]);
+
   const handleSearch = (event) => {
     event.preventDefault();
     if (searchString) {

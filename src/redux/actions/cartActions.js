@@ -3,7 +3,7 @@ import { ADD_TO_CART, DELETE_TO_CART, NOTFOUND_CART, VIEW_CART } from "./action-
 import { toast } from "react-toastify";
 
 const localURL = "http://localhost:3001/cart"
-const URL = "https://pf-backend-ecommerce-dfya.onrender.com/cart"
+const URL = ""
 let token = localStorage.getItem('token');
 
 
@@ -84,4 +84,3 @@ export function deleteToCart(template_id) {
         }
     };
 }
-
