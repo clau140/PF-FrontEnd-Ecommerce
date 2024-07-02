@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { logWhitFirebase, login } from '../../redux/actions/userAction';
+import { login } from '../../redux/actions/userAction';
 import { ToastContainer, toast } from 'react-toastify';
 
-import { UserAuth } from '../../components/context/authContex';
+import { UserAuth } from '../../components/context/AuthContex';
 
 
 const SignIn = () => {
@@ -45,7 +45,7 @@ const SignIn = () => {
 
 
 
-  const iniciarSesion = async () => {
+  const iniciarSesion = async() => {
     try {
       const loginWithGoogle = await googleSignIn();
       if (loginWithGoogle) {
@@ -55,6 +55,7 @@ const SignIn = () => {
         navigate("/profile");
       }
     } catch (error) {
+      console.log(error);
       console.log(error);
     }
   };

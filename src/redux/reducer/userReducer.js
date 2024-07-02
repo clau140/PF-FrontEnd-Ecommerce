@@ -8,14 +8,14 @@ import {
     UPDATE_PROFILE_FAILURE,
     CHANGE_PASSWORD_SUCCESS,
     CHANGE_PASSWORD_FAILURE,
- } from "../actions/action-types";
+  } from "../actions/action-types";
   
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = localStorage.getItem("user");
   
   const initialUserState = {
     loggedIn: !!token,
-    userInfo: user ? user : {},
+    userInfo: user ? JSON.parse(user) : {},
     isAdmin: false,
     user: {},
     userDetailId: {}

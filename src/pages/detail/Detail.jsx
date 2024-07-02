@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import ImageGallery from 'react-image-gallery'
 import { Rating } from "@mui/material";
-import { getTemplateById, getCategories } from "../../redux/actions/templatesAction";
+import { ToastContainer, toast } from 'react-toastify';
+import { getTemplateById, getReviewsTemplate } from "../../redux/actions/templatesAction";
 import "react-image-gallery/styles/css/image-gallery.css"
 import 'react-toastify/dist/ReactToastify.css';
 import ReviewForm from '../../components/reviews/ReviewForm';
@@ -16,48 +17,25 @@ import { ToastContainer } from "react-toastify";
 
 
 const Detail = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  let template = useSelector((state) => state.templates.detailTemplate);
+  const reviews = useSelector((state) => state.templates.reviews);
 
-    const { id } = useParams();
-    const dispatch = useDispatch();
-    const [ isModalOpen, setIsModalOpen ] = useState(false);
+  const [images, setImages] = useState([]);
 
-    const [ images, setImages ] = useState([]);
-    let template = useSelector((state) => state.templates.detailTemplate);
-    const reviews = useSelector((state) => state.templates.reviews);
-
-    useEffect(() => {
-        dispatch(getTemplateById(id))
-            .then(() => {
-                dispatch(getReviewsTemplate(id));
-            });
-    }, [ id, dispatch ]);
-
-    useEffect(() => {
-        if (template && template.images) {
-            setImages(template.images);
-        }
-    }, [ template ]);
-
-    const categories = template.categories || [];
-    const technologies = template.technologies || [];
-
-    const allReviews = useSelector((state) => state.templates.detailTemplateCopy.reviews) || [];
-    const ratings = allReviews.map((e) => e.rating) || [];
-    let resultRating = ratings.length > 0 ? promedio(ratings) : 0;
-
-    useEffect(() => {
-        dispatch(getTemplateById(id));
-        dispatch(getCategories());
+  useEffect(() => {
+    dispatch(getTemplateById(id))
+      .then(() => {
         dispatch(getReviewsTemplate(id));
-    }, [ id, dispatch ]);
+      });
+  }, [id, dispatch]);
 
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
+  useEffect(() => {
+    if (template && template.images) {
+      setImages(template.images);
+    }
+  }, [template]);
 
     return (
         <div>
@@ -121,53 +99,29 @@ const Detail = () => {
                     </div>
                 </div>
 
-                { allReviews.length > 0 ? (
-                    <div className="bg-gray relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 shadow-md border-2">
-                        <div className="bg-white mr-10 relative overflow-hidden ml-10">
-                            <h2 className="text-start text-xl mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider border-green-900">
-                                Reviews
-                            </h2>
-                            { allReviews.map((r) => (
-                                <div key={ r.id } className="mb-4">
-                                    <Rating className="mb-2" readOnly value={ r.rating } />
-                                    <p className="text-gray-600">{ r.date }</p>
-                                    <span className="text-gray-800">{ r.content }</span>
-                                </div>
-                            )) }
-                        </div>
-                    </div>
-                ) : (
-                    <div className="bg-gray-100 relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 shadow-md border-2">
-                        <div className="bg-zinc-50 text-lg font-inter font-semibold p-3">
-                            <span>No existen opiniones de este producto</span>
-                        </div>
-                    </div>
-                ) }
-                <div className=" relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 ">
-                    <button
-                        onClick={ openModal }
-                        className="bg-blue-500 text-white font-inter hover:bg-blue-700 font-bold py-2 px-4 rounded-full"
-                    >
-                        Opinar
-                    </button>
-                </div>
+        {reviews && reviews.length > 0 && (
+          <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
+            <div className="bg-white mr-10 relative overflow-hidden  ml-10">
+              <h2 className="ml-3 text-start text-xl  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider  border-green-900">
+                Reviews
+              </h2>
 
-                { isModalOpen && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                        <div className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                            <button
-                                onClick={ closeModal }
-                                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 focus:outline-none"
-                            >
-                                X
-                            </button>
-                            <ReviewForm templateId={ id } />
-                        </div>
-                    </div>
-                ) }
+              {reviews.map((r) => {
+                return (
+                  <div key={r.id}>
+                    <p>User: {r.autor}</p>
+                    <Rating readOnly value={r.points} />
+                    <p>{r.title}</p>
+                    <span>{r.description}</span>
+                  </div>
+                );
+              })}
             </div>
-        </div>
-    );
-}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default Detail;
