@@ -13,10 +13,10 @@ export const getReviewsUser = () => {
                     'Authorization': `Bearer ${TOKEN}`
                 }
             })
-            console.log('API Response:', response.data);
+            
         dispatch({
             type: GET_REVIEWS_USER,
-            payload: response.data
+            payload: response.data.reviews
         })
         } catch (error) {
                 return error.response
@@ -54,17 +54,17 @@ export function createReviewTemplate(obj) {
 }
 
 
-export const deleteReview = (idReview) => {
+export const deleteReview = (reviewId) => {
     return async (dispatch) => {
         try {
-            await axios.delete(`${URL || localURL}/${idReview}`, {
+            await axios.delete(`${URL || localURL}/${reviewId}`, {
                 headers: {
                     'Authorization': `Bearer ${TOKEN}`
                 }
             });
             dispatch({
                 type: DELETE_REVIEW,
-                payload: idReview
+                payload: reviewId
             });
         } catch (error) {
             console.error('Error:', error);
