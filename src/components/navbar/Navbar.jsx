@@ -14,6 +14,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
   const isAuthenticated = useSelector((state) => state.user.loggedIn);
   const user = useSelector((state) => state.user.userInfo);
 
@@ -29,6 +30,25 @@ const Navbar = () => {
     dispatch(viewCart());
     setShowProfileMenu(false)
   }, [ dispatch, navigate ]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const menu = document.getElementById("profileMenu");
+      if (menu && !menu.contains(event.target)) {
+        setShowProfileMenu(false);
+      }
+    };
+
+    if (showProfileMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ showProfileMenu ]);
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -98,7 +118,7 @@ const Navbar = () => {
                     </svg>
                   </button>
                   { showProfileMenu && (
-                    <div className="absolute right-6 mt-2 w-64 bg-white rounded-md border border-gray-200 shadow-lg z-50">
+                    <div id="profileMenu" className="absolute right-6 mt-2 w-64 bg-white rounded-md border border-gray-200 shadow-lg z-50">
                       <div className="flex items-center p-4">
                         <img
                           src={ user.imagen ? user.imagen : defaultImage }
@@ -125,7 +145,7 @@ const Navbar = () => {
                         Mis Favoritos
                       </Link>
                       <button
-                        onClick={handleLogout }
+                        onClick={ handleLogout }
                         className="block w-full text-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
                         Cerrar sesión
