@@ -39,7 +39,7 @@ const isFavorite = myFavorites.includes(id);
                 stroke="#06B6D4"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="w-4 h-4 stroke-current"
+                className="w-6 h-6 stroke-current"
               >
                 <path
                   strokeLinecap="round"
@@ -53,14 +53,13 @@ const isFavorite = myFavorites.includes(id);
           <div>
     {template.images.map((image) => (
       <div>
-        {(image.isCover === true && image.set === `${image.category}${1}`) && <img className="w-full" key={image.id} src={image.original} alt={template.name} />}
+        {(image.isCover === true && image.set === `${image.category}${1}`) && <img className="w-full h-32 object-cover" key={image.id} src={image.original} alt={template.name} />}
       </div>
     ))}
   </div>
 
           
       <div className="absolute top-0 right-0 m-2 z-10 opacity-1 transition-opacity duration-300">
-        
         
           <svg onClick={handleClick}
             className="h-4 w-4 text-[#06B6D4]"
@@ -81,16 +80,13 @@ const isFavorite = myFavorites.includes(id);
           )}
           </svg>
       </div>
-      <div className="px-6 py-4">
+      <div className="px-6 py-6">
         <div className="font-inter text-l">{template.name}</div>
         <div className="flex justify-between items-center">
           <p className="text-black text-lg font-bold ml-auto">${template.price}</p>
         </div>
       </div>
-      <div className="px-6 py-4">
-        <button className="w-full bg-[#06B6D4] hover:bg-green-500 text-white font-bold py-2 px-4 rounded">
-          Add To Cart 
-        </button>
+      <div className="px-6 py-6">
       </div>
     </div>
   );
