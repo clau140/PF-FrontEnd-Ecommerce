@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 
 
 const localURL = "http://localhost:3001/user";
-const URL = "https://pf-backend-ecommerce-dfya.onrender.com/user";
+const URL = "";
 
 export function login(email, password) {
   return async (dispatch) => {
