@@ -36,8 +36,26 @@ const Navbar = () => {
     if (searchString) {
       dispatch(getTemplateBySearch(searchString));
       setShowProfileMenu(true);
+      setShowProfileMenu(true);
     }
   };
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      dispatch(logout());
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      navigate("/home");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const toggleProfileMenu = () => {
+    setShowProfileMenu(!showProfileMenu);
+  };
+
 
   const handleLogout = async () => {
     try {
@@ -61,6 +79,7 @@ const Navbar = () => {
       <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex relative">
+          <div className="flex relative">
             <Link to="/Home">
               <img
                 src={ logo }
@@ -75,6 +94,7 @@ const Navbar = () => {
             </Link>
           </div>
 
+          <Searchbar handleChange={ handleChange } handleSearch={ handleSearch } />
           <Searchbar handleChange={ handleChange } handleSearch={ handleSearch } />
 
           { isAuthenticated ? (
