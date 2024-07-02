@@ -1,11 +1,16 @@
-import { useDispatch, useSelector} from 'react-redux'
 import { addFav, removeFav } from '../../redux/actions/templatesAction';
-import image from '../../assets/images/image-1.jpeg';
+import { useDispatch, useSelector} from 'react-redux';
 import './Card.css';
-
+import React from 'react';
+addFav
 const Card = ({ template, id }) => {
 const myFavorites = useSelector((state) => state.templates.myFavorites);
 const dispatch = useDispatch();
+// const imagenUrl =  template.images.map(image => (
+//   image.content
+// ));
+// console.log(imagenUrl);
+// const UrlString= imagenUrl.join("")
 
 const isFavorite = myFavorites.includes(id);
 
@@ -13,7 +18,7 @@ const isFavorite = myFavorites.includes(id);
     event.preventDefault();
     if (isFavorite) {
       dispatch(removeFav(id))
-    }
+    } 
     else {
       dispatch(addFav(id))
     } 
@@ -31,10 +36,10 @@ const isFavorite = myFavorites.includes(id);
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="none"
-                stroke="#f7c948"
+                stroke="#06B6D4"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="w-4 h-4 stroke-current"
+                className="w-6 h-6 stroke-current"
               >
                 <path
                   strokeLinecap="round"
@@ -44,12 +49,20 @@ const isFavorite = myFavorites.includes(id);
               </svg>
             ))}
           </div>
-      <img className="w-full" src={image} alt={template.name} />
+          
+          <div>
+    {template.images.map((image) => (
+      <div>
+        {(image.isCover === true && image.set === `${image.category}${1}`) && <img className="w-full h-32 object-cover" key={image.id} src={image.original} alt={template.name} />}
+      </div>
+    ))}
+  </div>
+
+          
       <div className="absolute top-0 right-0 m-2 z-10 opacity-1 transition-opacity duration-300">
         
-        
           <svg onClick={handleClick}
-            className="h-4 w-4 text-slate-800 mt-1"
+            className="h-4 w-4 text-[#06B6D4]"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="2"
@@ -58,25 +71,22 @@ const isFavorite = myFavorites.includes(id);
           >
           { isFavorite ? (
             <path 
-            fill='black'
+            fill='#06B6D4'
             d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
           ) : (
             <path
-            fill='white'
+            fill='#06B6D4'
             d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
           )}
           </svg>
       </div>
-      <div className="px-6 py-4">
+      <div className="px-6 py-6">
         <div className="font-inter text-l">{template.name}</div>
         <div className="flex justify-between items-center">
-          <p className="text-gray-700 text-lg font-bold ml-auto">${template.price}</p>
+          <p className="text-black text-lg font-bold ml-auto">${template.price}</p>
         </div>
       </div>
-      <div className="px-6 py-4">
-        <button className="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded">
-          Add To Cart 
-        </button>
+      <div className="px-6 py-6">
       </div>
     </div>
   );
