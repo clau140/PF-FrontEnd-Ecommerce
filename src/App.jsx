@@ -19,7 +19,6 @@ import EmailAllUsers from './components/admin/userCrud/EmailAllUsers';
 
 import { AuthContextProvider } from './components/context/authContex.jsx';
 import CartPage from './pages/cartPage/CartPage.jsx';
-import { ToastContainer } from 'react-toastify';
 import PaySuccess from './components/paysuccess/PaySuccess.jsx';
 import PayCancel from './components/payCancel/PayCancel.jsx';
 
@@ -30,7 +29,7 @@ function App() {
     <div>
       { pathname !== '/' && <Navbar /> }
       <AuthContextProvider>
-        <ToastContainer />
+        
         <Routes>
           <Route path='/' element={ <Landing /> } />
           <Route path='/Home' element={ <Home /> } />

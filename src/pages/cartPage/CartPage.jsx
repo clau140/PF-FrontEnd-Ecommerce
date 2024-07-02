@@ -13,18 +13,21 @@ const CartPage = () => {
     const dispatch = useDispatch()
     const cart = useSelector(state => state.cart.InCart)
     const noFound = useSelector(state => state.cart.error)
-    const isLogged = localStorage.getItem("token") ? true : false
 
     useEffect(() => {
+        const isLogged = localStorage.getItem("token") ? true : false
         if (isLogged) {
             setItems(cart.inCart)
-            setMessage(noFound)
             setLoggedIn(isLogged)
+            if (noFound) {
+                setMessage(noFound)
+            }
+            
         }
         dispatch(viewCart)
         console.log(items);
         return
-    }, [ dispatch, cart, noFound, isLogged ]);
+    }, [ dispatch, cart, noFound ]);
 
     return (
         <div >

@@ -13,6 +13,7 @@ import {
   CHANGE_PASSWORD_SUCCESS,
   CHANGE_PASSWORD_FAILURE,
 } from "./action-types";
+import { toast } from "react-toastify";
 
 
 const localURL = "http://localhost:3001/user";
@@ -25,14 +26,17 @@ export function login(email, password) {
         email,
         password,
       });
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.userInfo));
-      dispatch({
+      if (status === 200) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.userInfo));
+      }
+      return dispatch({
         type: LOGIN,
         payload: data.userInfo,
+        status: status
       });
-      return { data, status };
     } catch (error) {
+      
       return error.response;
     }
   };
@@ -43,12 +47,12 @@ export function logWhitFirebase(userInfo) {
   return async (dispatch) => {
     try {
       console.log(userInfo);
-      const { data} = await axios.post(`${URL || localURL}/login`, {
+      const { data } = await axios.post(`${URL || localURL}/login`, {
         firebaseToken: userInfo.user.accessToken
       });
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.userInfo));
-      dispatch({
+      return dispatch({
         type: LOGIN,
         payload: data.userInfo,
       });
