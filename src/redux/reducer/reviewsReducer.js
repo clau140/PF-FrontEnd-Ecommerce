@@ -1,7 +1,7 @@
 import { GET_REVIEWS_USER, GET_REVIEWS_TEMPLATE, POST_REVIEW } from "../actions/action-types";
 
 const initialReviewsState = {
-    reviewsTemplate: [],
+    reviews: [],
     reviewsUser: []
 }
 
@@ -17,7 +17,7 @@ const reviewsReducer = (state = initialReviewsState, action) => {
         case GET_REVIEWS_TEMPLATE: {
             return{
                 ... state,
-                reviewsTemplate: action.payload
+                reviews: action.payload
             }
 
         }
@@ -31,9 +31,7 @@ const reviewsReducer = (state = initialReviewsState, action) => {
 
                 
         default:
-            return {
-                ...state,
-              };
+            return state;
     }
 }
 

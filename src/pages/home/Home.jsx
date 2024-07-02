@@ -18,15 +18,16 @@ const Home = () => {
   const [ order, setOrder ] = useState('');
   const [ selectedTechnologies, setSelectedTechnologies ] = useState([]);
   const [ selectedCategories, setSelectedCategories ] = useState([]);
-  
   useEffect(() => {
     dispatch(getFilteredTemplates(selectedTechnologies, selectedCategories, sortBy, order, currentPage, itemsPerPage));
 }, [dispatch, selectedTechnologies, selectedCategories, sortBy, order, currentPage]);
-
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
+  // useEffect(() => {
+  //   dispatch(getTemplates());
+  // }, [ dispatch ]);
 
   return (
     <div>

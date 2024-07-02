@@ -12,6 +12,7 @@ import ReviewForm from '../../components/reviews/ReviewForm';
 import { getReviewsTemplate } from "../../redux/actions/reviewsAction";
 import { promedio } from "./promedio";
 import { addToCart } from "../../redux/actions/cartActions";
+import { ToastContainer } from "react-toastify";
 
 
 const Detail = () => {
@@ -60,6 +61,7 @@ const Detail = () => {
 
     return (
         <div>
+          <ToastContainer />
             <div className="p-4 shadow-md font-inter font-semibold">
                 <div className="bg-gray relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 shadow-md border-2">
                     <div className="bg-white w-[70%] mb-5 mt-10 mr-10 relative overflow-hidden flex items-center justify-center ml-10">

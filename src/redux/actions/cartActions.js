@@ -84,4 +84,3 @@ export function deleteToCart(template_id) {
         }
     };
 }
-

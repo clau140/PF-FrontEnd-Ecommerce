@@ -20,7 +20,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                     <button
                         key={page}
                         onClick={() => onPageChange(page)}
-                        className={`flex items-center justify-center w-10 h-10 rounded-full ${page === currentPage ? 'bg-green-500 text-white' : 'bg-white text-black hover:bg-green-500 hover:text-white'}`}
+                        className={`flex items-center justify-center w-10 h-10 rounded-full ${page === currentPage ? 'bg-[#06B6D4] text-white' : 'bg-white text-black hover:bg-green-500 hover:text-white'}`}
                     >
                         {page}
                     </button>
