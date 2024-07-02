@@ -13,6 +13,7 @@ import {
   CHANGE_PASSWORD_SUCCESS,
   CHANGE_PASSWORD_FAILURE,
 } from "./action-types";
+import { toast } from "react-toastify";
 
 
 const localURL = "http://localhost:3001/user";
@@ -25,14 +26,17 @@ export function login(email, password) {
         email,
         password,
       });
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.userInfo));
-      dispatch({
+      if (status === 200) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.userInfo));
+      }
+      return dispatch({
         type: LOGIN,
         payload: data.userInfo,
+        status: status
       });
-      return { data, status };
     } catch (error) {
+      
       return error.response;
     }
   };
@@ -43,12 +47,12 @@ export function logWhitFirebase(userInfo) {
   return async (dispatch) => {
     try {
       console.log(userInfo);
-      const { data} = await axios.post(`${URL || localURL}/login`, {
+      const { data } = await axios.post(`${URL || localURL}/login`, {
         firebaseToken: userInfo.user.accessToken
       });
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.userInfo));
-      dispatch({
+      return dispatch({
         type: LOGIN,
         payload: data.userInfo,
       });
@@ -73,82 +77,83 @@ export function signup(userForm) {
 
 
 export const fetchProfile = () => {
-  return async (dispatch) => {
-    dispatch({ type: FETCH_PROFILE_REQUEST });
-
-    try {
-      const token = localStorage.getItem('token');
-      const { data } = await axios.get(`${localURL}/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      dispatch({ type: FETCH_PROFILE_SUCCESS, payload: data });
-    } catch (error) {
-      dispatch({ type: FETCH_PROFILE_FAILURE, payload: error.message });
-    }
+    return async (dispatch) => {
+      dispatch({ type: FETCH_PROFILE_REQUEST });
+  
+      try {
+        const token = localStorage.getItem('token'); 
+        const { data } = await axios.get(`${localURL}/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+  
+        dispatch({ type: FETCH_PROFILE_SUCCESS, payload: data });
+      } catch (error) {
+        dispatch({ type: FETCH_PROFILE_FAILURE, payload: error.message });
+      }
+    };
   };
-};
+  
+  
+  export const updateProfile = (updatedProfileData) => {
+    return async (dispatch) => {
+      dispatch({ type: UPDATE_PROFILE_REQUEST });
+  
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.put(`${localURL}/profile`, updatedProfileData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+  
+        dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: response.data });
+      } catch (error) {
+        dispatch({ type: UPDATE_PROFILE_FAILURE, payload: error.message });
+      }
+    };
+  };
 
+  export function logout() {
+    return (dispatch) => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    
+      dispatch({ type: LOGOUT });
+    };
+  }
 
-export const updateProfile = (updatedProfileData) => {
-  return async (dispatch) => {
-    dispatch({ type: UPDATE_PROFILE_REQUEST });
-
+  export const changePassword = (currentPassword, newPassword) => async (dispatch) => {
+    dispatch({ type: CHANGE_PASSWORD_REQUEST });
+  
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.put(`${localURL}/profile`, updatedProfileData, {
+      const res = await axios.post(`${localURL}/change-password`, { currentPassword, newPassword }, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });
-
-      dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: response.data });
+  
+      dispatch({
+        type: CHANGE_PASSWORD_SUCCESS,
+        payload: res.data.message
+      });
     } catch (error) {
-      dispatch({ type: UPDATE_PROFILE_FAILURE, payload: error.message });
-    }
-  };
-};
-
-export function logout() {
-  return (dispatch) => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-
-    dispatch({ type: LOGOUT });
-  };
-}
-
-export const changePassword = (currentPassword, newPassword) => async (dispatch) => {
-  dispatch({ type: CHANGE_PASSWORD_REQUEST });
-
-  try {
-    const token = localStorage.getItem('token');
-    const res = await axios.post(`${localURL}/change-password`, { currentPassword, newPassword }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
+      if (error.response && error.response.status === 400 && error.response.data.message === 'Contraseña actual Incorrecta') {
+        dispatch({
+          type: CHANGE_PASSWORD_FAILURE,
+          payload: 'Contraseña actual Incorrecta'
+        });
+      } else {
+        dispatch({
+          type: CHANGE_PASSWORD_FAILURE,
+          payload: error.response.data.message || 'Error interno del servidor'
+        });
       }
-    });
-
-    dispatch({
-      type: CHANGE_PASSWORD_SUCCESS,
-      payload: res.data.message
-    });
-  } catch (error) {
-    if (error.response && error.response.status === 400 && error.response.data.message === 'Contraseña actual Incorrecta') {
-      dispatch({
-        type: CHANGE_PASSWORD_FAILURE,
-        payload: 'Contraseña actual Incorrecta'
-      });
-    } else {
-      dispatch({
-        type: CHANGE_PASSWORD_FAILURE,
-        payload: error.response.data.message || 'Error interno del servidor'
-      });
+      throw error; 
     }
-    throw error;
-  }
-};
+  };
+  

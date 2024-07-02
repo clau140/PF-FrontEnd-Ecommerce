@@ -6,17 +6,17 @@ import { getReviewsUser, deleteReview } from "../../redux/actions/reviewsAction"
 
 const UserReviews = () => {
 
-   const reviews = useSelector((state)=> state.reviews.reviewsUser) || []
+   
     const dispatch = useDispatch()
 
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [selectedReviewId, setSelectedReviewId] = useState(null);
-    
+    const reviews = useSelector((state)=> state.reviews.reviewsUser.reviews) || []
+
     useEffect (() => {
-      
-            dispatch(getReviewsUser());
-        
-    }, [dispatch]);
+        dispatch(getReviewsUser())
+       
+      }, [dispatch]);
 
     const openDeleteModal = (idReview) => {
         setSelectedReviewId(idReview);
@@ -41,14 +41,16 @@ const UserReviews = () => {
 
     return (
         <div>
-      
+         {/*container*/}
             <div className="bg-white shadow-md mt-12 max-w-6xl mx-auto">
+                {/*containerTitle*/}
                 <div className="bg-zinc-50 text-lg font-inter font-semibold p-4">
                     <h2>Mis opiniones</h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 p-4">
                 {
-                    reviews?.map((e, index)=> (
+                    Array.isArray(reviews) && reviews.map((e, index) => (
+                    //reviews?.map((e, index)=> (
                         <UserReviewCard
                         key={index}
                         id={e.id}

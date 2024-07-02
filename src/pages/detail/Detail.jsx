@@ -12,6 +12,7 @@ import ReviewForm from '../../components/reviews/ReviewForm';
 import { getReviewsTemplate } from "../../redux/actions/reviewsAction";
 import { promedio } from "./promedio";
 import { addToCart } from "../../redux/actions/cartActions";
+import { ToastContainer } from "react-toastify";
 import { useTranslation } from 'react-i18next';
 
 const Detail = () => {
@@ -63,6 +64,7 @@ const Detail = () => {
 
     return (
         <div>
+          <ToastContainer />
             {/*<h1>{t('welcome')}</h1>
       <button onClick={() => changeLanguage('en')}>English</button>
       <button onClick={() => changeLanguage('es')}>Español</button> */}
