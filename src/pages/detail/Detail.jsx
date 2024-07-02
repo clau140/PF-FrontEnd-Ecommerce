@@ -6,14 +6,14 @@ import { Link } from "react-router-dom";
 import ImageGallery from 'react-image-gallery'
 import { Rating } from "@mui/material";
 import { ToastContainer, toast } from 'react-toastify';
-import { getTemplateById, getReviewsTemplate } from "../../redux/actions/templatesAction";
+import { getTemplateById} from "../../redux/actions/templatesAction";
 import "react-image-gallery/styles/css/image-gallery.css"
 import 'react-toastify/dist/ReactToastify.css';
 import ReviewForm from '../../components/reviews/ReviewForm';
 import { getReviewsTemplate } from "../../redux/actions/reviewsAction";
 import { promedio } from "./promedio";
 import { addToCart } from "../../redux/actions/cartActions";
-import { ToastContainer } from "react-toastify";
+
 
 
 const Detail = () => {
