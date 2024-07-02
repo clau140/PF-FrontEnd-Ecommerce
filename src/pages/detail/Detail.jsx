@@ -36,7 +36,26 @@ const Detail = () => {
       setImages(template.images);
     }
   }, [template]);
+  const categories = template.categories || [];
+  const technologies = template.technologies || [];
 
+  const allReviews = useSelector((state) => state.templates.detailTemplateCopy.reviews) || [];
+  const ratings = allReviews.map((e) => e.rating) || [];
+  let resultRating = ratings.length > 0 ? promedio(ratings) : 0;
+
+  useEffect(() => {
+      dispatch(getTemplateById(id));
+      dispatch(getCategories());
+      dispatch(getReviewsTemplate(id));
+  }, [ id, dispatch ]);
+
+  const openModal = () => {
+      setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+      setIsModalOpen(false);
+  };
     return (
         <div>
             <ToastContainer />
