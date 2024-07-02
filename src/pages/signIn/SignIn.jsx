@@ -28,7 +28,6 @@ const SignIn = () => {
     setLoading(true)
 
     const response = await dispatch(login(email, password))
-    console.log(response);
     if (response.status !== 200) {
       toast.error(response.data)
       setLoading(false)
@@ -43,7 +42,7 @@ const SignIn = () => {
     return
   }
 
-  const iniciarSesion = async() => {
+  const iniciarSesion = async () => {
     try {
       setLoading(true)
       const loginWithGoogle = await googleSignIn();
@@ -69,46 +68,48 @@ const SignIn = () => {
         { loading ? (<div className="flex justify-center items-center">
           <div className="loader border-t-4 border-green-500 rounded-full w-12 h-12 animate-spin"></div>
         </div>) :
-          (<form onSubmit={ handleSubmit }>
-            <h4 className="text-black text-center text-lg font-bold mb-8 tracking-wide">INICIO DE SESIÓN</h4>
+          (<>
+            <form onSubmit={ handleSubmit }>
+              <h4 className="text-black text-center text-lg font-bold mb-8 tracking-wide">INICIO DE SESIÓN</h4>
 
-            <div className="mb-3">
-              <input
-                type="email"
-                value={ email }
-                onChange={ (e) => setEmail(e.target.value) }
-                className="mt-2 p-3 form-control placeholder-opacity-50 text-sm"
-                placeholder="Enter Your Email"
-                required
-              />
-            </div>
+              <div className="mb-3">
+                <input
+                  type="email"
+                  value={ email }
+                  onChange={ (e) => setEmail(e.target.value) }
+                  className="mt-2 p-3 form-control placeholder-opacity-50 text-sm"
+                  placeholder="Enter Your Email"
+                  required
+                />
+              </div>
 
-            <div className="mb-3">
-              <input
-                type="password"
-                value={ password }
-                onChange={ (e) => setPassword(e.target.value) }
-                className="mt-2 p-3 form-control placeholder-opacity-50 text-sm bg-gray-300"
-                placeholder="Enter Your Password"
-                required
-              />
-            </div>
+              <div className="mb-3">
+                <input
+                  type="password"
+                  value={ password }
+                  onChange={ (e) => setPassword(e.target.value) }
+                  className="mt-2 p-3 form-control placeholder-opacity-50 text-sm bg-gray-300"
+                  placeholder="Enter Your Password"
+                  required
+                />
+              </div>
 
-            <div className="mt-8 text-center text-gray-500 hover:text-black text-sm">
-              <a href='/ForgotPassword'>Contraseña Olvidada?</a>
-            </div>
+              <div className="mt-8 text-center text-gray-500 hover:text-black text-sm">
+                <a href='/ForgotPassword'>Contraseña Olvidada?</a>
+              </div>
 
-            <button type="submit" className="border-2 border-green-500 text-black mt-8 p-2 mx-auto block rounded-md
+              <button type="submit" className="border-2 border-green-500 text-black mt-8 p-2 mx-auto block rounded-md
         hover:bg-green-500 hover:text-white
         transform hover:scale-110 transition duration-200">
-              INGRESAR
-            </button>
-          </form>
+                INGRESAR
+              </button>
+            </form>
+            <button onClick={ () => iniciarSesion() } className="border-2 border-green-500 text-black mt-8 p-2 mx-auto block rounded-md
+        hover:bg-green-500 hover:text-white
+        transform hover:scale-110 transition duration-200">
+              Google Login</button>
+          </>
           ) }
-        <button onClick={ () => iniciarSesion() } className="border-2 border-green-500 text-black mt-8 p-2 mx-auto block rounded-md
-        hover:bg-green-500 hover:text-white
-        transform hover:scale-110 transition duration-200">
-          Google Login</button>
       </div>
     </div>
 
