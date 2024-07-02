@@ -47,6 +47,7 @@ const SignIn = () => {
 
   const iniciarSesion = async () => {
     try {
+      setLoading(true)
       const loginWithGoogle = await googleSignIn();
       if (loginWithGoogle) {
         const { user, firebaseToken } = loginWithGoogle;
@@ -54,7 +55,9 @@ const SignIn = () => {
         setUser(user)
         navigate("/profile");
       }
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       console.log(error);
     }
   };
