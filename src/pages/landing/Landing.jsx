@@ -23,15 +23,18 @@ const Landing = () => {
           src={logoVega}
           alt="logo"
           className="w-[350px] h-[350px]"
-          initial={{ rotate: 0 }}
-          animate={{ rotate: 90 }}
-          transition={{ duration: 1.5, ease: "linear" }}
+          initial={{ opacity: 0, scale: 0.8, rotate: 0 }}
+          animate={{ opacity: 1, scale: 1, rotate: 90 }}
+          transition={{ duration: 2, ease: "linear" }}
           // onAnimationComplete={() => navigate('/Home')}
         />
-        <img
+        <motion.img
           src={typeVega}
           alt="type"
           className="w-[400px] h-[400px] mt-[-8rem]"
+          initial={{ opacity: 0, scale: 0.2 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 2, ease: "linear" }}
         />
       </div>
     </div>
