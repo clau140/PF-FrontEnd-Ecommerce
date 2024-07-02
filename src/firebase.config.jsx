@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import {getAuth} from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBx1OH9CsVPYVO1ePKfFcxahSk-i0JbeHE",
-  authDomain: "login-6356c.firebaseapp.com",
-  projectId: "login-6356c",
-  storageBucket: "login-6356c.appspot.com",
-  messagingSenderId: "472082603083",
-  appId: "1:472082603083:web:5519154ca7cb89f0d381ce"
+  apiKey: "AIzaSyCTxFk__MWlObw1Uf9_WNkxOKwMZJ_fTn4",
+  authDomain: "vega-d62fa.firebaseapp.com",
+  projectId: "vega-d62fa",
+  storageBucket: "vega-d62fa.appspot.com",
+  messagingSenderId: "54181708295",
+  appId: "1:54181708295:web:c51869794c73964d39e0a2"
 };
 
 // Initialize Firebase

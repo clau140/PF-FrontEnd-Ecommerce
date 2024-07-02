@@ -15,6 +15,11 @@ import CartPage from './pages/cartPage/CartPage.jsx';
 // import PaySuccess from './components/paysuccess/PaySuccess.jsx';
 // import PayCancel from './components/payCancel/PayCancel.jsx';
 
+import { AuthContextProvider } from './components/context/authContex.jsx';
+import CartPage from './pages/cartPage/CartPage.jsx';
+// import PaySuccess from './components/paysuccess/PaySuccess.jsx';
+// import PayCancel from './components/payCancel/PayCancel.jsx';
+
 function App() {
   const { pathname} = useLocation();
   
@@ -35,12 +40,12 @@ function App() {
           <Route path='/cartPage' element={ <CartPage /> } />
           {/* <Route path="/paySuccess" element={ <PaySuccess /> } />
           <Route path="/payCancel" element={ <PayCancel /> } /> */}
-          <Route path='/disableuserbyid' element={ < DisableUserById /> } />
+          {/* <Route path='/disableuserbyid' element={ < DisableUserById /> } />
           < Route path='/disableuserbyemail' element={ < DisableUserByEmail /> } />
           < Route path='/allusers' element={ < ViewUsers /> } />
           < Route path='/createadmin' element={ < CreateAdminUser /> } />
           < Route path='/activateuserbyemail' element={ < ActivateUserByEmail /> } />
-          < Route path='/emailallusers' element={ < EmailAllUsers /> } />
+          < Route path='/emailallusers' element={ < EmailAllUsers /> } /> */}
 
         </Routes>
       </AuthContextProvider>

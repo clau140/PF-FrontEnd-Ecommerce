@@ -2,7 +2,7 @@ import axios from 'axios';
 import { GET_TEMPLATE_ID, GET_TEMPLATE_BY_SEARCH, ADD_FAV, REMOVE_FAV, GET_TECHNOLOGIES, GET_CATEGORIES, GET_FILTERED_TEMPLATES } from './action-types';
 
 const localURL = "http://localhost:3001/templates"
-const URL = ""
+const URL = "https://pf-backend-ecommerce-dfya.onrender.com/templates"
 
 export function getTemplateById(id) {
     return async (dispatch) => {

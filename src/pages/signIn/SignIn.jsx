@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login } from '../../redux/actions/userAction';
+import { logWhitFirebase, login } from '../../redux/actions/userAction';
 import { ToastContainer, toast } from 'react-toastify';
 
 import { UserAuth } from '../../components/context/authContex';
@@ -43,10 +43,9 @@ const SignIn = () => {
     return
   }
 
-
-
   const iniciarSesion = async() => {
     try {
+      setLoading(true)
       const loginWithGoogle = await googleSignIn();
       if (loginWithGoogle) {
         const { user, firebaseToken } = loginWithGoogle;
@@ -54,8 +53,9 @@ const SignIn = () => {
         setUser(user)
         navigate("/profile");
       }
+      setLoading(false)
     } catch (error) {
-      console.log(error);
+      setLoading(false)
       console.log(error);
     }
   };
