@@ -7,31 +7,26 @@ import { FaRegTrashAlt } from "react-icons/fa";
 
 const CartPage = () => {
     const [message, setMessage] = useState("");
-    const [loggedIn, setLoggedIn] = useState(false);
+   
 
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart.InCart);
-    const noFound = useSelector(state => state.cart.error);
-    const isLogged = localStorage.getItem("token") ? true : false;
+    const messageIn = useSelector(state => state.cart.error);
+    const isLogged = useSelector(state => state.user.loggedIn)
 
     useEffect(() => {
         dispatch(viewCart());
-    }, [dispatch]);
-
-    useEffect(() => {
-        if (isLogged) {
-            setLoggedIn(true);
-            setMessage(noFound);
-        }
-    }, [isLogged, noFound]);
+        setMessage(messageIn);
+        return
+    }, [isLogged, messageIn, dispatch]);
 
 
     return (
         <div>
             <div>
-                {loggedIn ? (
+                {isLogged ? (
                     <>
-                        {message && !cart?.inCart?.length ? (
+                        {!cart?.inCart?.length ? (
                             <div className='flex flex-col items-center justify-center h-screen w-screen p-4 bg-gray-100 text-center'>
                                 <h2 className='font-bold text-xl'>{message}</h2>
                                 <p className="text-gray-500">
