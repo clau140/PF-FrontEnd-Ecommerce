@@ -8,18 +8,17 @@ import logo from "../../assets/images/VEGA.svg";
 import bag from "../../assets/images/VEGA_bag.svg";
 import { auth } from "../../firebase.config.jsx";
 import { viewCart } from "../../redux/actions/cartActions.js";
-import defaultImage from "../../assets/images/userDefault.jfif"
+import defaultImage from "../../assets/images/userDefault.jfif";
 
 const Navbar = () => {
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const isAuthenticated = useSelector((state) => state.user.loggedIn);
   const user = useSelector((state) => state.user.userInfo);
 
-  const [ searchString, setSearchString ] = useState("");
-  const [ showProfileMenu, setShowProfileMenu ] = useState(false);
+  const [searchString, setSearchString] = useState("");
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -27,16 +26,14 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    setShowProfileMenu(false)
-    dispatch(viewCart())
-  }, [ dispatch, navigate]);
+    dispatch(viewCart());
+  }, [dispatch, navigate]);
 
   const handleSearch = (event) => {
     event.preventDefault();
     if (searchString) {
       dispatch(getTemplateBySearch(searchString));
       setShowProfileMenu(true);
-      setShowProfileMenu(true);
     }
   };
 
@@ -55,58 +52,37 @@ const Navbar = () => {
   const toggleProfileMenu = () => {
     setShowProfileMenu(!showProfileMenu);
   };
-
-
-  const handleLogout = async () => {
-    try {
-      await auth.signOut();
-      dispatch(logout());
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      navigate("/home");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const toggleProfileMenu = () => {
-    setShowProfileMenu(!showProfileMenu);
-  };
-
 
   return (
     <nav className="bg-white p-4 border-b-2 border-inherit shadow">
       <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex relative">
-          <div className="flex relative">
             <Link to="/Home">
               <img
-                src={ logo }
+                src={logo}
                 alt="logo ReactiveMind"
                 className="w-[58px] h-[58px] mr-12 transform hover:rotate-90 transition-transform duration-300 ease-in-out"
               />
             </Link>
             <Link
               to="/About"
-              className="text-[28px] mt-3 font-inter font-light text-[#06B6D4] pb-2 transition-colors duration-300 tracking-wider hover:text-[#06B6D4] relative before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-[#06B6D4] before:transition-all before:duration-300 hover:before:w-full">
+              className="text-[28px] mt-3 font-inter font-light text-[#06B6D4] pb-2 transition-colors duration-300 tracking-wider hover:text-[#06B6D4] relative before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-[#06B6D4] before:transition-all before:duration-300 hover:before:w-full"
+            >
               VEGA
             </Link>
           </div>
-
-          <Searchbar handleChange={ handleChange } handleSearch={ handleSearch } />
-          <Searchbar handleChange={ handleChange } handleSearch={ handleSearch } />
-
-          { isAuthenticated ? (
+          <Searchbar handleChange={handleChange} handleSearch={handleSearch} />
+          {isAuthenticated ? (
             <div className="hidden md:block relative">
               <div className="ml-4 flex items-center md:ml-6">
                 <div className="relative">
                   <button
-                    onClick={ toggleProfileMenu }
+                    onClick={toggleProfileMenu}
                     className="bg-slate-800 border-[1px] border-slate-800 font-inter text-gray-800 px-3 py-2 rounded-md text-sm font-medium mr-8 flex items-center"
                   >
                     <span className="mr-2 sm:mr-4 sm:ml-0 text-white">
-                      Hola, { user.name }
+                      Hola, {user.name}
                     </span>
                     <svg
                       className="ml-2"
@@ -122,17 +98,19 @@ const Navbar = () => {
                       />
                     </svg>
                   </button>
-                  { showProfileMenu && (
+                  {showProfileMenu && (
                     <div className="absolute right-6 mt-2 w-64 bg-white rounded-md border border-gray-200 shadow-lg z-50">
                       <div className="flex items-center p-4">
                         <img
-                          src={ user.imagen ? user.imagen : defaultImage }
+                          src={user.imagen ? user.imagen : defaultImage}
                           alt="Foto de perfil"
                           className="w-10 h-10 rounded-full mr-4"
                         />
                         <div>
-                          <p className="text-gray-800 font-medium">{ user.name } { user.lastname }</p>
-                          <p className="text-gray-500 text-sm">{ user.email }</p>
+                          <p className="text-gray-800 font-medium">
+                            {user.name} {user.lastname}
+                          </p>
+                          <p className="text-gray-500 text-sm">{user.email}</p>
                         </div>
                       </div>
                       <Link
@@ -148,13 +126,13 @@ const Navbar = () => {
                         Mis Favoritos
                       </Link>
                       <button
-                        onClick={ handleLogout }
+                        onClick={handleLogout}
                         className="block w-full text-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
                         Cerrar sesión
                       </button>
                     </div>
-                  ) }
+                  )}
                 </div>
               </div>
             </div>
@@ -171,10 +149,9 @@ const Navbar = () => {
                     Únete
                   </button>
                 </Link>
-
               </div>
             </div>
-          ) }
+          )}
           <svg
             className="mr-8 transform hover:rotate-[15deg] hover:scale-125 hover:fill-green-500 transition-all duration-300 cursor-pointer"
             viewBox="0 0 22 20"
@@ -184,9 +161,9 @@ const Navbar = () => {
           >
             <path d="M1.795 10.556a6.195 6.195 0 018.782-8.742l.423.424.424-.424a6.193 6.193 0 018.76 0 6.197 6.197 0 01.02 8.742l-8.404 8.9a1.1 1.1 0 01-1.6 0zM11 17.098l7.607-8.055.023-.022a3.999 3.999 0 000-5.651 3.997 3.997 0 00-5.652 0l-1.2 1.201a1.1 1.1 0 01-1.556 0L9.021 3.37A3.993 3.993 0 002.2 6.195a3.994 3.994 0 001.19 2.848z"></path>
           </svg>
-          <Link to="/cartPage" >
+          <Link to="/cartPage">
             <img
-              src={ bag }
+              src={bag}
               alt="logo ReactiveMind"
               className="w-[40px] h-[40px] mr-12 transform hover:scale-125 transition-transform duration-300 cursor-pointer"
             />

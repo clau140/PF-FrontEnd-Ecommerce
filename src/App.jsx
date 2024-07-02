@@ -15,10 +15,6 @@ import CartPage from './pages/cartPage/CartPage.jsx';
 // import PaySuccess from './components/paysuccess/PaySuccess.jsx';
 // import PayCancel from './components/payCancel/PayCancel.jsx';
 
-import { AuthContextProvider } from './components/context/authContex.jsx';
-import CartPage from './pages/cartPage/CartPage.jsx';
-// import PaySuccess from './components/paysuccess/PaySuccess.jsx';
-// import PayCancel from './components/payCancel/PayCancel.jsx';
 
 function App() {
   const { pathname} = useLocation();
