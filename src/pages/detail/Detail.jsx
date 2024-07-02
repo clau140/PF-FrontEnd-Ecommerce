@@ -11,24 +11,32 @@ import 'react-toastify/dist/ReactToastify.css';
 import ReviewForm from '../../components/reviews/ReviewForm';
 import {getReviewsTemplate } from "../../redux/actions/reviewsAction";
 import { promedio } from "./promedio";
-
+import { useTranslation } from 'react-i18next';
 
 const Detail = () => {
 
-const { id } = useParams();
+    const { t, i18n } = useTranslation();
+
+    const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    };
+
+
+    const { id } = useParams();
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [images, setImages] = useState([]);
     let template = useSelector((state) => state.templates.detailTemplate);
-    const reviews = useSelector((state) => state.templates.reviews);
+    //const reviews = useSelector((state) => state.templates.reviews);
+//text-xl font-semibold mb-2 md:mb-0 md:mr-4
 
     useEffect(() => {
-        dispatch(getTemplateById(id))
-            .then(() => {
-                dispatch(getReviewsTemplate(id));
-            });
+        dispatch(getTemplateById(id));
+        dispatch(getCategories());
+        dispatch(getReviewsTemplate(id));
     }, [id, dispatch]);
+    
 
     useEffect(() => {
         if (template && template.images) {
@@ -43,11 +51,10 @@ const { id } = useParams();
     const ratings = allReviews.map((e) => e.rating) || [];
     let resultRating = ratings.length > 0 ? promedio(ratings) : 0;
 
-    useEffect(() => {
-        dispatch(getTemplateById(id));
-        dispatch(getCategories());
-        dispatch(getReviewsTemplate(id));
-    }, [id, dispatch]);
+    const reviews = useSelector((state)=> state.reviews.reviewsUser) || []
+    console.log(reviews)
+
+    
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -59,6 +66,10 @@ const { id } = useParams();
 
     return (
         <div>
+            <h1>{t('welcome')}</h1>
+      <button onClick={() => changeLanguage('en')}>English</button>
+      <button onClick={() => changeLanguage('es')}>Español</button>
+
             <div className="p-4 shadow-md font-inter font-semibold">
                 <div className="bg-gray relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 shadow-md border-2">
                     <div className="bg-white w-[70%] mb-5 mt-10 mr-10 relative overflow-hidden flex items-center justify-center ml-10">
@@ -118,6 +129,19 @@ const { id } = useParams();
                     </div>
                 </div>
 
+                
+
+                <div className="relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row items-center md:justify-start mb-10">
+                
+                <h2 className="text-start text-xl mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider border-green-900">Déjanos tu opinión</h2>
+                    <button
+                      onClick={openModal}
+                      className="bg-blue-500 text-white font-inter hover:bg-blue-700 font-bold py-2 px-4 rounded-full"
+                      >
+                        Opinar
+                    </button>
+                  </div>
+
                 {allReviews.length > 0 ? (
                     <div className="bg-gray relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 shadow-md border-2">
                         <div className="bg-white mr-10 relative overflow-hidden ml-10">
@@ -140,28 +164,21 @@ const { id } = useParams();
                         </div>
                     </div>
                 )}
-                 <div className=" relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 ">
-                    <button
-                      onClick={openModal}
-                        className="bg-blue-500 text-white font-inter hover:bg-blue-700 font-bold py-2 px-4 rounded-full"
-                      >
-                        Opinar
-                    </button>
-                  </div>
+                
 
-                {isModalOpen && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                        <div className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                            <button
-                                onClick={closeModal}
-                                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 focus:outline-none"
-                            >
-                                X
-                            </button>
-                            <ReviewForm templateId={id} />
-                        </div>
-                    </div>
-                )}
+    {isModalOpen && (
+    <div className="fixed inset-0 flex items-start justify-center bg-black bg-opacity-50 z-50">
+        <div className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md mt-8">
+            <button
+                onClick={closeModal}
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 focus:outline-none"
+            >
+                X
+            </button>
+            <ReviewForm templateId={id} />
+        </div>
+    </div>
+)}
             </div>
         </div>
     );
