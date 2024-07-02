@@ -11,14 +11,14 @@ const reviewsReducer = (state = initialReviewsState, action) => {
         case GET_REVIEWS_USER: {
             return {
                 ...state,
-                reviewsUser: action.payload
+                reviewsUser: Array.isArray(action.payload) ? action.payload : []
             };
         }
 
         case GET_REVIEWS_TEMPLATE: {
             return {
                 ...state,
-                reviews: action.payload
+                reviewsTemplate: Array.isArray(action.payload) ? action.payload : []
             };
         }
 
@@ -29,10 +29,11 @@ const reviewsReducer = (state = initialReviewsState, action) => {
         }
 
         case DELETE_REVIEW: {
+            const { payload: reviewId } = action;
             return {
                 ...state,
-                reviewsTemplate: state.reviewsTemplate ? state.reviewsTemplate.filter(review => review.id !== action.payload) : [],
-                reviewsUser: state.reviewsUser ? state.reviewsUser.filter(review => review.id !== action.payload) : []
+                reviewsTemplate: Array.isArray(state.reviewsTemplate) ? state.reviewsTemplate.filter(review => review.id !== reviewId) : [],
+                reviewsUser: Array.isArray(state.reviewsUser) ? state.reviewsUser.filter(review => review.id !== reviewId) : []
             };
         }
 
@@ -40,8 +41,8 @@ const reviewsReducer = (state = initialReviewsState, action) => {
             const updatedReview = action.payload;
             return {
                 ...state,
-                reviewsTemplate: state.reviewsTemplate ? state.reviewsTemplate.map(review => review.id === updatedReview.id ? updatedReview : review) : [],
-                reviewsUser: state.reviewsUser ? state.reviewsUser.map(review => review.id === updatedReview.id ? updatedReview : review) : []
+                reviewsTemplate: Array.isArray(state.reviewsTemplate) ? state.reviewsTemplate.map(review => review.id === updatedReview.id ? updatedReview : review) : [],
+                reviewsUser: Array.isArray(state.reviewsUser) ? state.reviewsUser.map(review => review.id === updatedReview.id ? updatedReview : review) : []
             };
         }
 
