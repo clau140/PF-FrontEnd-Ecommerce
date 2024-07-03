@@ -55,7 +55,7 @@ const Detail = () => {
     const categories = template.categories || [];
     const technologies = template.technologies || [];
 
-    const allReviews = useSelector((state) => state.templates.detailTemplateCopy.reviews) || [];
+    
     const ratings = allReviews.map((e) => e.rating) || [];
     let resultRating = ratings.length > 0 ? promedio(ratings) : 0;
 
