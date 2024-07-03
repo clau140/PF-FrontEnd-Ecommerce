@@ -5,7 +5,7 @@ import Cards from "../../components/cards/Cards";
 import Filters from "../../components/filters/Filters";
 import SortOptions from "../../components/filters/SortOptions";
 import Pagination from "../../components/pagination/Pagination";
-import Footer from "../../components/footer/Footer";
+import Footer from "../../components/footer/Footer.jsx";
 
 
 const Home = () => {

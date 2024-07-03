@@ -36,6 +36,7 @@ function App() {
           <Route path='/Profile' element={ <ProfilePage /> } />
           <Route path='/favorites' element={ <Favorites /> } />
           <Route path='/cartPage' element={ <CartPage /> } />
+          <Route path='/About' element={ <About /> } />
           {/* <Route path="/paySuccess" element={ <PaySuccess /> } />
           <Route path="/payCancel" element={ <PayCancel /> } /> */}
           {/* <Route path='/disableuserbyid' element={ < DisableUserById /> } />
