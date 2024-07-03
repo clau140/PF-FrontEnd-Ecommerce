@@ -25,7 +25,6 @@ import Prueba from './components/Prueba.jsx';
 
 
 
-
 function App() {
   const { pathname} = useLocation();
   
@@ -53,8 +52,6 @@ function App() {
           < Route path='/createadmin' element={ < CreateAdminUser /> } />
           < Route path='/activateuserbyemail' element={ < ActivateUserByEmail /> } />
           < Route path='/emailallusers' element={ < EmailAllUsers /> } /> 
-
-          
           <Route path='/prueba' element={ <Prueba /> } />
         </Routes>
       </AuthContextProvider>
