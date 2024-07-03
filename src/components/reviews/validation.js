@@ -1,5 +1,5 @@
 
-    export const validate= (input)=> {
+export const validate= (input)=> {
     const errors = {}
 
     if (!input.rating) {

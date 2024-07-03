@@ -1,362 +1,181 @@
-import React from "react";
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
-import ImageGallery from 'react-image-gallery'
+import ImageGallery from 'react-image-gallery';
 import { Rating } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import { ToastContainer, toast } from 'react-toastify';
-import { getTemplateById, getCategories} from "../../redux/actions/templatesAction";
-
-
-import "react-image-gallery/styles/css/image-gallery.css"
+import { getTemplateById, getCategories } from "../../redux/actions/templatesAction";
+import "react-image-gallery/styles/css/image-gallery.css";
 import 'react-toastify/dist/ReactToastify.css';
-import { validate } from "./validation"
-
-
-import { createReviewTemplate, getReviewsTemplate } from "../../redux/actions/reviewsAction";
-
+import ReviewForm from '../../components/reviews/ReviewForm';
+import { getReviewsTemplate } from "../../redux/actions/reviewsAction";
+import { promedio } from "./promedio";
+import { addToCart } from "../../redux/actions/cartActions";
+import { ToastContainer } from "react-toastify";
+import { useTranslation } from 'react-i18next';
 
 const Detail = () => {
- 
+    const { t, i18n } = useTranslation();
+    const changeLanguage = (lng) => i18n.changeLanguage(lng);
+
     const { id } = useParams();
     const dispatch = useDispatch();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [images, setImages] = useState([]);
+    const [hasUserReviewed, setHasUserReviewed] = useState(false); 
+    const template = useSelector((state) => state.templates.detailTemplate);
+    const allReviews = useSelector((state) => state.templates.detailTemplateCopy.reviews) || [];
+    const loggedIn = useSelector((state) => state.user.loggedIn); 
+    const userId = useSelector(state => state.user.userInfo.id); 
 
-    const [images, setImages] = useState([])
-    let template = useSelector((state) => state.templates.detailTemplate);
-    const reviews= useSelector((state) => state.templates.reviews);
-  
     useEffect(() => {
-        dispatch(getTemplateById(id))
-        .then(() => {
-          dispatch(getReviewsTemplate(id))
-      })
-    }, [id, dispatch]);
-    // const mapImage  =  () => {
-    // imagenes.map(image => {
-    //   return setImages(...images,{original:image.original})
-    //   })
-    // }
-    console.log(template.images);
+        if (template && template.images) {
+            setImages(template.images);
+        }
+    }, [template]);
+
     useEffect(() => {
-      if (template && template.images) {
-        setImages(template.images); // Asigna directamente las imágenes del template
-      }
-    }, [template])
+        dispatch(getTemplateById(id)).then((response) => {
+            console.log('Response de getTemplateById:', response); 
+            if (response && response.payload && response.payload.reviews) {
+                const userReview = response.payload.reviews.find(review => review.idUser === userId);
+                console.log('User Review encontrado:', userReview);
+                setHasUserReviewed(!!userReview);
+            }
+        });
+        dispatch(getCategories());
+        dispatch(getReviewsTemplate(id))
+    }, [id, dispatch, userId]);
 
     
-    
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
 
     const categories = template.categories || [];
     const technologies = template.technologies || [];
-    
-    const allReviews = useSelector((state) => state.templates.detailTemplateCopy.reviews) || [] ;
-    console.log(allReviews);
-
-    //const user = useSelector((state) => state.user.userInfo) || [];
-    
-    //console.log(user)
-
-    //state Form
-    const [state, setState] = useState({
-      rating: "",
-      content: "",
-      idTemplate: id,
-     // userId: user ? user.id : null
-      
-    });
-
-const opinar = () => toast.success('Gracias por tu opinion!');
-
-    const [errors, setErrors] = useState({})
-    
-    function promedio(rating){ 
-
- 
-      let i = 0
-      let summ = 0;
-      while (i < rating.length) {
-      summ = summ + rating[i++];
-      }
-      return Math.round(summ / rating.length);
-    }
-
     const ratings = allReviews.map((e) => e.rating) || [];
-    let resultRating = ratings.length > 0 ? promedio(ratings) : 0;
-    
+    const resultRating = ratings.length > 0 ? promedio(ratings) : 0;
 
-
-    useEffect(() => {
-        dispatch(getTemplateById(id))
-        
-          dispatch(getCategories())
-        
-       
-          dispatch(getReviewsTemplate(id))
-      }
-        
-      , [id, dispatch]);
-
-      //Form
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        dispatch(createReviewTemplate(state));
-        setState({
-          rating: "",
-          content: "",
-          idTemplate: id,
-          //userId: user.id
-          
-          
-        });
-      };
-
-      // handle select valoracion
-      const handleChange = (e) => {
-      if (e.target.name === "rating") {
-      setState({
-      ...state,
-      [e.target.name]: parseInt(e.target.value),
-      });
-      } else {
-      setState({
-        ...state,
-        [e.target.name]: e.target.value,
-        
-       // userId: user.id,
-      });
-      }
-      setErrors(
-      validate({
-      ...state,
-      [e.target.name]: e.target.value,
-      })
-    );
-  };
-
-      // funcion para agregar al carrito con un simple click.
-      const handleAddToCart = async () => {
-        try {
-          const response = await fetch(`${localUrl}/cart/additem`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-            body: JSON.stringify({ template_id: template.id })
-          });
-      
-          if (response.status === 400) {
-            toast.error('Template ya se encuentra en el carrito');
-            console.log('template ya esta en el carrito');
-          } else if (response.status === 200) {
-            setAddToCartSuccess('Template agregado al carrito exitosamente.');
-            setTimeout(() => {
-              setAddToCartSuccess('');
-            }, 2000); // Hide after 2 seconds
-            console.log('template agregado al carrito exitosamente');
-          } else {
-            toast.error('Error agregando template a carrito');
-          }
-        } catch (error) {
-          console.log(`error agregando template a carrito: ${error}`);
-          toast.error('Error agregando template a carrito');
-        }
-      };
-
-
-
-      // Detail.jsx:175 Warning: Each child in a list should have a unique "key" prop. <-- a sido arreglado.
-      return (
-      <div>
-
-      <div className=" p-4 shadow-md font-inter font-semibold ">
-
-          <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
-            
-            <div className="bg-white   w-[70%] mb-5 mt-10 mr-10 relative overflow-hidden flex items-center justify-center ml-10">
-              
-              <ImageGallery 
-                   items={images}
-                   showPlayButton= {false}
-                   showBullets={true}
-                   autoPlay={false}  
-                />
-              </div>
-
-      <div className="md:w-[50%] mr-10">
-      <div className="flex justify-end text-2xl">
-
-              <Link to={"/home"}>
-              <button className=" py-4 px-3 rounded-lg  text-2xl ">X</button>                
-              </Link>
-          
-              </div>
-                <br />
-                <h1 className="text-start text-xl  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider  border-green-900">
-                  {template.name}
-                </h1>
-                <br />
-                <div className="flex items-center ">
-                  
-                  <div className="flex flex-row gap-4">
-                  <Rating 
-                  className="text-sm"
-                  readOnly 
-                  value= {resultRating ? resultRating : 0}
-                    />
-                  </div>
-                  
-    
+    return (
+        <div>
+            <ToastContainer />
+            <div className="p-4 shadow-md font-inter font-semibold">
+                <div className="bg-gray relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 shadow-md border-2">
+                    <div className="bg-white w-[70%] mb-5 mt-10 mr-10 relative overflow-hidden flex items-center justify-center ml-10">
+                        <ImageGallery items={images} showPlayButton={false} showBullets={true} autoPlay={false} />
+                    </div>
+                    <div className="md:w-[50%] mr-10">
+                        <div className="flex justify-end text-2xl">
+                            <Link to="/home">
+                                <button className="py-4 px-3 rounded-lg text-2xl">X</button>
+                            </Link>
+                        </div>
+                        <br />
+                        <h1 className="text-start text-xl mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider border-green-900">
+                            {template.name}
+                        </h1>
+                        <br />
+                        <div className="flex items-center">
+                            <div className="flex flex-row gap-4">
+                                <Rating className="text-sm" readOnly value={resultRating ? resultRating : 0} />
+                            </div>
+                        </div>
+                        <br />
+                        <span className="font-bold text-2xl text-bgred text-start mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider border-green-900">
+                            {template.price}
+                        </span>
+                        <br />
+                        <br />
+                        <h2 className="text-start text-sm text-bggris mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 tracking-wider border-green-900">
+                            Categorias
+                            {categories.map((c) => (
+                                <p key={c.id}>{c.name}</p>
+                            ))}
+                        </h2>
+                        <h3 className="text-start text-sm text-bggris mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 tracking-wider border-green-900">
+                            {template.description}
+                        </h3>
+                        <h3 className="text-start text-sm text-bggris mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 tracking-wider border-green-900">
+                            Tecnologias
+                            {technologies.map((c) => (
+                                <p key={c.id}>{c.name}</p>
+                            ))}
+                        </h3>
+                        <br />
+                        <div className="flex mb-4">
+                            <div className="flex items-center mt-3 mb-10 w-1/2">
+                                <button onClick={() => dispatch(addToCart(template.id))} className="bg-black text-white font-inter hover:bg-gray-900 font-bold py-2 px-4 rounded-full">
+                                    Añadir a carrito
+                                </button>
+                            </div>
+                            <div className="flex items-center mt-3 mb-10 w-1/2">
+                                <button className="bg-black text-white font-inter hover:bg-gray-900 font-bold py-2 px-4 rounded-full">
+                                    Comprar ahora
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-    
-               
-                <br />
-                <span className="font-bold text-2xl text-bgred text-start  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors  tracking-wider   border-green-900">
-                  {template.price}
-                </span>
-                <br />
-                <br />
-                <h2 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
-                  
-                Categorias
-                {categories.map((c) => <p key={c.id}>{c.name}</p>)}
-                  
-                  
-                </h2>
 
-                <h3 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
-                  {template.description}
-                  </h3>
-                <h3 className="text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4  tracking-wider  border-green-900">
-                  Tecnologias
-                  {technologies.map((c) => <p key={c.id}>{c.name}</p>)}
-                  
-                  </h3>
-                
-                <br />
-               
-                <div className="flex  mb-4">
-              
-                <div className="flex items-center mt-3 mb-10 w-1/2">
-                
-                
-                <button className="bg-black text-white font-inter 
-                   hover:bg-gray-900 font-bold py-2 px-4 rounded-full"
-
-                >Añadir a carrito
-              </button>
-
-      </div>
-      <div className="flex items-center mt-3 mb-10 w-1/2">
-
-
-      <button className="bg-black text-white font-inter
-      hover:bg-gray-900 font-bold py-2 px-4 rounded-full"
-
-      >Comprar ahora
-      </button>
-
-      </div>
-      </div>
-
-      </div>
-      </div>
-
-            {
-              allReviews.length > 0 ? 
-
-      <div className="bg-gray relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 shadow-md border-2">
-      <div className="bg-white mr-10 relative overflow-hidden ml-10">
-
-      <h2 className="text-start text-xl mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider border-green-900">Reviews</h2>
-
-            {
-            
-              allReviews.map(r =>{
-                return (
-                  <div key={r.id}>
-                    
-                    <Rating 
-                    readOnly 
-                    value={r.rating}/>
-                    <p>{r.date}</p>
-                    <span>{r.content}</span> 
-                  </div>
-
-
-      )
-      })
-      }
-
-      </div>
-
-      </div> :
-
-      <div className= "bg-gray relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 shadow-md border-2">
-
-      <div className="bg-zinc-50 text-lg font-inter font-semibold p-3">
-      <span> No existen opiniones de este producto</span>
-      </div>
-      </div>
-
-      }
-
-            <form  onSubmit={(e)=> handleSubmit(e)}>
-
-            <Rating
-              name="rating"
-              value={Number(state?.rating)}
-              onChange={(e)=>handleChange(e)}
-            />
-
-      {errors.rating && (
-      <p className='text-red-600'>
-      {errors.rating}</p>
-      )}
-
-            <TextField
-            fullWidth
-            name="content"
-            value={state?.content}
-            onChange={(e)=> handleChange(e)}
-            id="filled-textarea"
-            label="Tu opinion"
-            placeholder="Minimo 15 caracteres"
-            multiline
-            variant="filled"
-
-      />
-
-      {errors.content && (
-      <p className='text-red-600'>
-      {errors.content}</p>
-      )}
-
-      <button
-      disabled={
-      Object.keys(errors).length > 0 ||
-      state.content.length === 0
-      }
-      className=''
-      type="submit"
-      onClick={opinar}
-      >
-      Opinar
-      </button>
-
-              <ToastContainer/>
-
-            </form>
-            
-          </div>
-          
+                <div className="relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row items-center md:justify-start mb-10">
+    {loggedIn ? (
+        hasUserReviewed ? (
+            <p className="text-gray-800">Ya has realizado una opinión sobre esta plantilla.</p>
+        ) : (
+            <button
+                onClick={openModal}
+                className="bg-blue-500 text-white font-inter hover:bg-blue-700 font-bold py-2 px-4 rounded-full"
+            >
+                Opinar
+            </button>
+        )
+    ) : (
+        <div className="inline-flex items-center space-x-1">
+            <Link to="/SignIn" className="text-blue-500 hover:underline">Inicia sesión</Link>
+            <p className="text-gray-800">para dejar una opinión</p>
         </div>
-            
-        
-    )
+    )}
+</div>
 
-      }
+                {allReviews.length > 0 ? (
+                    <div className="bg-gray relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 shadow-md border-2">
+                        <div className="bg-white mr-10 relative overflow-hidden ml-10">
+                            <h2 className="text-start text-xl mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider border-green-900">
+                                Reviews
+                            </h2>
+                            {allReviews.map((r) => (
+                                <div key={r.id} className="mb-4">
+                                    <Rating className="mb-2" readOnly value={r.rating} />
+                                    <p className="text-gray-600">{r.date}</p>
+                                    <span className="text-gray-800">{r.content}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ) : (
+                    <div className="bg-gray-100 relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 shadow-md border-2">
+                        <div className="bg-zinc-50 text-lg font-inter font-semibold p-3">
+                            <span>No existen opiniones de este producto</span>
+                        </div>
+                    </div>
+                )}
 
-      export default Detail;
+                {isModalOpen && (
+                    <div className="fixed inset-0 flex items-start justify-center bg-black bg-opacity-50 z-50">
+                        <div className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md mt-8">
+                            <button
+                                onClick={closeModal}
+                                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 focus:outline-none"
+                            >
+                                X
+                            </button>
+                            <ReviewForm templateId={id} />
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default Detail;
