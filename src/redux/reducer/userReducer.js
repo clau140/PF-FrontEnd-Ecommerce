@@ -36,8 +36,6 @@ import {
           userInfo: action.payload
             }
       case LOGOUT:
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
         return {
           ...state,
           loggedIn: false,

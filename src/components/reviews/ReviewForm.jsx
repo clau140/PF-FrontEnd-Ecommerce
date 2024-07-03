@@ -13,6 +13,7 @@ const ReviewForm = ({ templateId }) => {
     const [state, setState] = useState({ rating: '', content: '', idTemplate: templateId });
     const [errors, setErrors] = useState({});
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -24,7 +25,7 @@ const ReviewForm = ({ templateId }) => {
         e.preventDefault();
         dispatch(createReviewTemplate(state))
             .then(() => {
-                toast.success('Opinión enviada con éxito');
+                toast.success('Opinión enviada con éxito'); 
                 setTimeout(() => {
                     window.location.reload(); 
                 }, 2000);
@@ -84,6 +85,7 @@ const ReviewForm = ({ templateId }) => {
                 </div>
                 <div className="flex justify-between">
                     <button
+                    
                         type="submit"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                     >

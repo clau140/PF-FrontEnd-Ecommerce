@@ -19,6 +19,10 @@ export function getTemplateById(id) {
     };
 }
 
+/*export const getReviewsTemplate = (id) => {
+    // implementation of getReviewsTemplate action
+  }; */
+
 export const getFilteredTemplates = (selectedTechnologies, selectedCategories, sortBy, order, page, pageSize) => {
     return async (dispatch) => {
         const params = {
@@ -62,11 +66,12 @@ export const getTemplateBySearch = (payload) => {
             let response = await axios.get(
                 `${URL || localURL}/search/technology?technology=${payload}`
             );
+            console.log(response);
 
-            if (response.data.length > 0 && response.data[ 0 ].templates.length > 0) {
+            if (response.data.length > 0) {
                 return dispatch({
                     type: GET_TEMPLATE_BY_SEARCH,
-                    payload: response.data[ 0 ].templates,
+                    payload: response.data
                 });
             }
 
@@ -88,8 +93,6 @@ export const getTemplateBySearch = (payload) => {
         }
     };
 };
-
-
 export const addFav = (payload) => {
     return async (dispatch) => {
         try {

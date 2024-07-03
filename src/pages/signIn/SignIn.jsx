@@ -14,49 +14,52 @@ const SignIn = () => {
   const [ loading, setLoading ] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-const [user, setUser] = useState(null)
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true)
-    await dispatch(login(email, password))
-      .then(res => {
-        if (res.status === 200) {
-          setEmail("");
-          setPassword("")
-          toast.success(`Bienvenido de vuelta, ${res.data.userInfo.name}`)
-          setTimeout(() => {
-            navigate("/profile")
-          }, 2000);
-          setLoading(false)
-          return
-        }
-        else return toast.error(res.data)
-      })
-  };
-
+  const [ user, setUser ] = useState(null)
   const { googleSignIn } = UserAuth();
 
-  const iniciarSesion = async () => {
-    try {
-        const loginWithGoogle = await googleSignIn();
-        if (loginWithGoogle) {
-            const { user, firebaseToken } = loginWithGoogle;
-            dispatch(logWhitFirebase({ user, firebaseToken }));
-            setUser(user)
-            navigate("/profile");
-        }
-    } catch (error) {
-        console.log(error);
-    }
-};
-  
- 
   useEffect(() => {
     if (user !== null) {
       navigate("/profile");
     }
   }, [ user ]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true)
+
+    const response = await dispatch(login(email, password))
+    if (response.status !== 200) {
+      toast.error(response.data)
+      setLoading(false)
+      return
+    }
+    setEmail("");
+    setPassword("")
+    toast.success(`Bienvenido de vuelta, ${response.payload.name}`)
+    setTimeout(() => {
+      navigate("/profile")
+    }, 1000);
+    return
+  }
+
+  const iniciarSesion = async () => {
+    try {
+      setLoading(true)
+      const loginWithGoogle = await googleSignIn();
+      if (loginWithGoogle) {
+        const { user, firebaseToken } = loginWithGoogle;
+        dispatch(logWhitFirebase({ user, firebaseToken }));
+        setUser(user)
+        navigate("/profile");
+      }
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.log(error);
+    }
+  };
+
+
 
   return (
     <div title="Register - Ecommer App" className="flex justify-center items-center h-screen bg-gray-200">
@@ -65,46 +68,47 @@ const [user, setUser] = useState(null)
         { loading ? (<div className="flex justify-center items-center">
           <div className="loader border-t-4 border-green-500 rounded-full w-12 h-12 animate-spin"></div>
         </div>) :
-          (<form onSubmit={ handleSubmit }>
-            <h4 className="text-black text-center text-lg font-bold mb-8 tracking-wide">INICIO DE SESIÓN</h4>
+          (<>
+            <form onSubmit={ handleSubmit }>
+              <h4 className="text-black text-center text-lg font-bold mb-8 tracking-wide">INICIO DE SESIÓN</h4>
 
-            <div className="mb-3">
-              <input
-                type="email"
-                value={ email }
-                onChange={ (e) => setEmail(e.target.value) }
-                className="mt-2 p-3 form-control placeholder-opacity-50 text-sm"
-                placeholder="Enter Your Email"
-                required
-              />
-            </div>
+              <div className="mb-3">
+                <input
+                  type="email"
+                  value={ email }
+                  onChange={ (e) => setEmail(e.target.value) }
+                  className="mt-2 p-3 form-control placeholder-opacity-50 text-sm"
+                  placeholder="Enter Your Email"
+                  required
+                />
+              </div>
 
-            <div className="mb-3">
-              <input
-                type="password"
-                value={ password }
-                onChange={ (e) => setPassword(e.target.value) }
-                className="mt-2 p-3 form-control placeholder-opacity-50 text-sm bg-gray-300"
-                placeholder="Enter Your Password"
-                required
-              />
-            </div>
+              <div className="mb-3">
+                <input
+                  type="password"
+                  value={ password }
+                  onChange={ (e) => setPassword(e.target.value) }
+                  className="mt-2 p-3 form-control placeholder-opacity-50 text-sm bg-gray-300"
+                  placeholder="Enter Your Password"
+                  required
+                />
+              </div>
 
-            <div className="mt-8 text-center text-gray-500 hover:text-black text-sm">
-              <a href='/ForgotPassword'>Contraseña Olvidada?</a>
-            </div>
+              <div className="mt-8 text-center text-gray-500 hover:text-black text-sm">
+                <a href='/ForgotPassword'>Contraseña Olvidada?</a>
+              </div>
 
-            <button type="submit" className="border-2 border-green-500 text-black mt-8 p-2 mx-auto block rounded-md
+              <button type="submit" className="border-2 border-green-500 text-black mt-8 p-2 mx-auto block rounded-md
         hover:bg-green-500 hover:text-white
         transform hover:scale-110 transition duration-200">
-              INGRESAR
-            </button>
-
-            <button onClick={()=> iniciarSesion() } className="border-2 border-green-500 text-black mt-8 p-2 mx-auto block rounded-md
+                INGRESAR
+              </button>
+            </form>
+            <button onClick={ () => iniciarSesion() } className="border-2 border-green-500 text-black mt-8 p-2 mx-auto block rounded-md
         hover:bg-green-500 hover:text-white
         transform hover:scale-110 transition duration-200">
               Google Login</button>
-          </form>
+          </>
           ) }
       </div>
     </div>

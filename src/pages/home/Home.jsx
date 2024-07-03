@@ -5,6 +5,7 @@ import Cards from "../../components/cards/Cards";
 import Filters from "../../components/filters/Filters";
 import SortOptions from "../../components/filters/SortOptions";
 import Pagination from "../../components/pagination/Pagination";
+import Footer from "../../components/footer/Footer.jsx";
 
 
 const Home = () => {
@@ -18,15 +19,16 @@ const Home = () => {
   const [ order, setOrder ] = useState('');
   const [ selectedTechnologies, setSelectedTechnologies ] = useState([]);
   const [ selectedCategories, setSelectedCategories ] = useState([]);
-  
   useEffect(() => {
     dispatch(getFilteredTemplates(selectedTechnologies, selectedCategories, sortBy, order, currentPage, itemsPerPage));
 }, [dispatch, selectedTechnologies, selectedCategories, sortBy, order, currentPage]);
-
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
+  // useEffect(() => {
+  //   dispatch(getTemplates());
+  // }, [ dispatch ]);
 
   return (
     <div>
@@ -42,6 +44,7 @@ const Home = () => {
           <SortOptions setSortBy={ setSortBy } setOrder={ setOrder } />
           <Cards allTemplates={ allTemplates } />
           <Pagination currentPage={ currentPage } totalPages={totalPages} onPageChange={handlePageChange} />
+          <Footer />
         </div>
       </div>
 

@@ -5,30 +5,50 @@ import { getTemplateBySearch } from "../../redux/actions/templatesAction";
 import { logout } from "../../redux/actions/userAction";
 import Searchbar from "../searchbar/Searchbar";
 import logo from "../../assets/images/VEGA.svg";
+import bag from "../../assets/images/VEGA_bag.svg";
 import { auth } from "../../firebase.config.jsx";
-import { viewCart } from "../../redux/actions/cartActions";
-import defaultImage from "../../assets/images/userProfile.jfif"
+import { viewCart } from "../../redux/actions/cartActions.js";
+import defaultImage from "../../assets/images/userDefault.jfif";
+
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
   const isAuthenticated = useSelector((state) => state.user.loggedIn);
   const user = useSelector((state) => state.user.userInfo);
-  const cart = useSelector(state => state.cart.InCart)
 
   const [ searchString, setSearchString ] = useState("");
   const [ showProfileMenu, setShowProfileMenu ] = useState(false);
-
-
-  useEffect(() => {
-    setShowProfileMenu(false)
-    dispatch(viewCart())
-  }, [ navigate, dispatch ]);
 
   const handleChange = (event) => {
     event.preventDefault();
     setSearchString(event.target.value);
   };
+
+  useEffect(() => {
+    dispatch(viewCart());
+    setShowProfileMenu(false)
+  }, [ dispatch, navigate ]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const menu = document.getElementById("profileMenu");
+      if (menu && !menu.contains(event.target)) {
+        setShowProfileMenu(false);
+      }
+    };
+
+    if (showProfileMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ showProfileMenu ]);
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -42,8 +62,6 @@ const Navbar = () => {
     try {
       await auth.signOut();
       dispatch(logout());
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
       navigate("/home");
     } catch (error) {
       console.log(error);
@@ -58,25 +76,30 @@ const Navbar = () => {
     <nav className="bg-white p-4 border-b-2 border-inherit shadow">
       <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-start">
-            <Link to="/Home">
-              <img
-                src={ logo }
-                alt="logo ReactiveMind"
-                className="w-[58px] h-[58px] mr-12 "
-                style={ { fill: "green" } }
-              />
-            </Link>
-            <Link
-              to="/About"
-              className="text-[16px] mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors duration-300 tracking-wider hover:text-lime-800 hover:border-b-4 border-lime-700"
-            >
-              NOSOTROS
-            </Link>
+         <div className="flex items-center"> 
+        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center space-y+15 mt-5">
+          <Link to="/Home">
+            <img
+              src={logo}
+              alt="logo ReactiveMind"
+              className="w-[52px] h-[52px] transform hover:rotate-90 transition-transform duration-300 ease-in-out"
+            />
+          </Link>
+            <div className="text-[24px] font-light text-[#06B6D4] tracking-wider mb-3">
+            VEGA
+            </div>
+        </div>
+        </div>
+        <Link
+            to="/About"
+            className="text-[16px] font-bold text-[#06B6D4] tracking-wider ml-9 mt-4 
+              font-inter pb-2 transition-colors duration-300 hover:font-black  hover:text-green-500 relative before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-green-500 before:transition-all before:duration-300 hover:before:w-full"
+          >
+            SOBRE NOSOTROS
+          </Link>
           </div>
-
           <Searchbar handleChange={ handleChange } handleSearch={ handleSearch } />
-
           { isAuthenticated ? (
             <div className="hidden md:block relative">
               <div className="ml-4 flex items-center md:ml-6">
@@ -103,7 +126,7 @@ const Navbar = () => {
                     </svg>
                   </button>
                   { showProfileMenu && (
-                    <div className="absolute right-6 mt-2 w-64 bg-white rounded-md border border-gray-200 shadow-lg z-50">
+                    <div id="profileMenu" className="absolute right-6 mt-2 w-64 bg-white rounded-md border border-gray-200 shadow-lg z-50">
                       <div className="flex items-center p-4">
                         <img
                           src={ user.imagen ? user.imagen : defaultImage }
@@ -111,7 +134,9 @@ const Navbar = () => {
                           className="w-10 h-10 rounded-full mr-4"
                         />
                         <div>
-                          <p className="text-gray-800 font-medium">{ user.name } {user.lastname}</p>
+                          <p className="text-gray-800 font-medium">
+                            { user.name } { user.lastname }
+                          </p>
                           <p className="text-gray-500 text-sm">{ user.email }</p>
                         </div>
                       </div>
@@ -142,47 +167,36 @@ const Navbar = () => {
             <div className="hidden md:block">
               <div className="ml-4 flex items-center md:ml-6">
                 <Link to="/SignIn">
-                  <button className="bg-white border-[1px] border-slate-800 font-inter text-gray-800 px-3 py-2 rounded-md text-sm font-medium mr-8">
-                    Ingresar
+                  <button className="bg-white border-[2px] border-green-500 font-inter text-green-500 hover:scale-110 hover:border-green-500 hover:bg-green-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium mr-8">
+                    INGRESAR
                   </button>
                 </Link>
-                <Link to="/SignUp">
-                  <button className="bg-slate-800 text-white font-inter px-3 py-2 mr-8 rounded-md text-sm font-medium">
-                    Únete
+                <Link to="/SignUp"> 
+                  <button className="bg-white border-[2px] border-[#06B6D4] font-inter text-[#06B6D4] hover:scale-110 hover:border-[#06B6D4] hover:bg-[#06B6D4] hover:text-white px-3 py-2 rounded-md text-sm font-medium mr-8">
+                    UNETE
                   </button>
                 </Link>
+
+                <svg
+  className="mr-8 transform origin-center hover:fill-green-500 hover:animate-rotate-scale cursor-pointer"
+  viewBox="0 0 22 20"
+  width="26"
+  height="26"
+  fill="#06B6D4"
+>
+  <path d="M1.795 10.556a6.195 6.195 0 018.782-8.742l.423.424.424-.424a6.193 6.193 0 018.76 0 6.197 6.197 0 01.02 8.742l-8.404 8.9a1.1 1.1 0 01-1.6 0zM11 17.098l7.607-8.055.023-.022a3.999 3.999 0 000-5.651 3.997 3.997 0 00-5.652 0l-1.2 1.201a1.1 1.1 0 01-1.556 0L9.021 3.37A3.993 3.993 0 002.2 6.195a3.994 3.994 0 001.19 2.848z"></path>
+</svg>
+                <img
+  src={bag}
+  alt="logo ReactiveMind"
+  className="w-[40px] h-[40px] mr-12 transform hover:scale-125 transition-transform duration-300 cursor-pointer"
+/>
               </div>
             </div>
-          ) }
-          <svg
-            className="mr-8"
-            viewBox="0 0 22 20"
-            width="26"
-            height="26"
-            fill="#4b5563"
-          >
-            <path d="M1.795 10.556a6.195 6.195 0 018.782-8.742l.423.424.424-.424a6.193 6.193 0 018.76 0 6.197 6.197 0 01.02 8.742l-8.404 8.9a1.1 1.1 0 01-1.6 0zM11 17.098l7.607-8.055.023-.022a3.999 3.999 0 000-5.651 3.997 3.997 0 00-5.652 0l-1.2 1.201a1.1 1.1 0 01-1.556 0L9.021 3.37A3.993 3.993 0 002.2 6.195a3.994 3.994 0 001.19 2.848z"></path>
-
-          </svg>
-          <div className="relative">
-            <Link
-              to="/cartPage"
-              className="text-green-500 bg-white rounded-full p-2"
-            >
-              <svg viewBox="0 0 22 22" width="28" height="28" fill="#4b5563">
-                <path d="M19.45 15.24a.86.86 0 00.848-.719l1.69-10.14a.86.86 0 00-.848-1H4.91L4.229.65A.86.86 0 003.395 0H.858a.86.86 0 100 1.719h1.865l.673 2.696L5.07 14.45v2.6a2.553 2.553 0 00-1.69 2.4A2.552 2.552 0 005.93 22c1.744 0 2.981-1.726 2.41-3.38h7.01c-.572 1.655.667 3.38 2.41 3.38a2.552 2.552 0 002.55-2.55 2.552 2.552 0 00-2.55-2.55H6.79v-1.66zm.676-10.141l-1.404 8.422H6.658L5.254 5.099zM6.76 19.45a.832.832 0 01-1.661 0 .832.832 0 011.661 0m11 .831a.832.832 0 010-1.661.832.832 0 010 1.661"></path>
-              </svg>
-              <span className="absolute top-0 right-0 bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
-                { cart.inCart ? cart.inCart.length : 0 }
-              </span>
-            </Link>
-          </div>
+          )}
         </div>
-
-  
       </div>
     </nav>
-    
   );
 };
 
