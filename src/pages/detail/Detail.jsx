@@ -19,18 +19,16 @@ const Detail = () => {
 
     const { id } = useParams();
     const dispatch = useDispatch();
-    const [ isModalOpen, setIsModalOpen ] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [images, setImages] = useState([]);
+    const [hasUserReviewed, setHasUserReviewed] = useState(false); 
 
-    const [ images, setImages ] = useState([]);
-    let template = useSelector((state) => state.templates.detailTemplate);
-    const reviews = useSelector((state) => state.templates.reviews);
 
-    useEffect(() => {
-        dispatch(getTemplateById(id))
-            .then(() => {
-                dispatch(getReviewsTemplate(id));
-            });
-    }, [ id, dispatch ]);
+    
+    const template = useSelector((state) => state.templates.detailTemplate);
+    const allReviews = useSelector((state) => state.templates.detailTemplateCopy.reviews) || [];
+    const loggedIn = useSelector((state) => state.user.loggedIn); 
+    const userId = useSelector(state => state.user.userInfo.id); 
 
     useEffect(() => {
         if (template && template.images) {
