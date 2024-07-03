@@ -6,7 +6,7 @@ export const GET_TEMPLATE_BY_SEARCH = "GET_TEMPLATE_BY_SEARCH";
 export const GET_TEMPLATES = "GET_TEMPLATES";
 export const GET_FILTERED_TEMPLATES = "GET_FILTERED_TEMPLATES";
 export const GET_TECHNOLOGIES = "GET_TECHNOLOGIES";
-export const GET_CATEGORIES= "GET_CATEGORIES";
+export const GET_CATEGORIES = "GET_CATEGORIES";
 export const ADD_FAV = "ADD_FAV";
 export const REMOVE_FAV = "REMOVE_FAV";
 
@@ -14,6 +14,8 @@ export const REMOVE_FAV = "REMOVE_FAV";
 export const GET_REVIEWS_USER= 'GET_REVIEWS_USER'
 export const GET_REVIEWS_TEMPLATE= 'GET_REVIEWS_TEMPLATE'
 export const POST_REVIEW= 'POST_REVIEW'
+export const DELETE_REVIEW = 'DELETE_REVIEW';
+export const UPDATE_REVIEW = 'UPDATE_REVIEW';
 
 // User actions
 
@@ -43,10 +45,9 @@ export const CREATE_TEMPLATE_REQUEST = 'CREATE_TEMPLATE_REQUEST';
 export const CREATE_TEMPLATE_SUCCESS = 'CREATE_TEMPLATE_SUCCESS';
 export const CREATE_TEMPLATE_FAILURE = 'CREATE_TEMPLATE_FAILURE';
 
+//  Cart actions
 
-// Cart actions 
-
-export const VIEW_CART = "VIEW_CART";
-export const NOTFOUND_CART = "NOTFOUND_CART";
-export const ADD_TO_CART = "ADD_TO_CART";
-export const DELETE_TO_CART = "DELETE_TO_CART";
+export const ADD_TO_CART = "ADD_TO_CART"
+export const DELETE_TO_CART = "DELETE_TO_CART"
+export const NOTFOUND_CART = "NOTFOUND_CART "
+export const VIEW_CART = "VIEW_CART"
