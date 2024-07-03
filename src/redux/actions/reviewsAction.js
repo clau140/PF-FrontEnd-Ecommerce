@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_REVIEWS_USER, GET_REVIEWS_TEMPLATE } from './action-types';
+import { GET_REVIEWS_USER, GET_REVIEWS_TEMPLATE, DELETE_REVIEW, UPDATE_REVIEW } from './action-types';
 
 const localURL = "http://localhost:3001/reviews"
 const URL = ""
@@ -13,9 +13,10 @@ export const getReviewsUser = () => {
                     'Authorization': `Bearer ${TOKEN}`
                 }
             })
+            
         dispatch({
             type: GET_REVIEWS_USER,
-            payload: response.data
+            payload: response.data.reviews
         })
         } catch (error) {
                 return error.response
@@ -51,3 +52,44 @@ export function createReviewTemplate(obj) {
 
     }
 }
+
+
+export const deleteReview = (reviewId) => {
+    return async (dispatch) => {
+        try {
+            await axios.delete(`${URL || localURL}/${reviewId}`, {
+                headers: {
+                    'Authorization': `Bearer ${TOKEN}`
+                }
+            });
+            dispatch({
+                type: DELETE_REVIEW,
+                payload: reviewId
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            return error;
+        }
+    };
+};
+
+export const updateReview = (id, data) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.put(`${URL || localURL}/${id}`, data, {
+                headers: {
+                    'Authorization': `Bearer ${TOKEN}`
+                }
+            });
+            dispatch({
+                type: UPDATE_REVIEW,
+                payload: response.data
+            });
+            console.log(response.data)
+        } catch (error) {
+            console.error('Error:', error);
+            return error;
+        }
+    };
+};
+

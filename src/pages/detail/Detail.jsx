@@ -1,35 +1,37 @@
-import React from "react";
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
-import ImageGallery from 'react-image-gallery'
+import ImageGallery from 'react-image-gallery';
 import { Rating } from "@mui/material";
-import { ToastContainer, toast } from 'react-toastify';
-import { getTemplateById, getReviewsTemplate } from "../../redux/actions/templatesAction";
-import "react-image-gallery/styles/css/image-gallery.css"
+import { getTemplateById, getCategories } from "../../redux/actions/templatesAction";
+import "react-image-gallery/styles/css/image-gallery.css";
 import 'react-toastify/dist/ReactToastify.css';
+import ReviewForm from '../../components/reviews/ReviewForm';
+import { getReviewsTemplate } from "../../redux/actions/reviewsAction";
+import { promedio } from "./promedio";
+import { addToCart } from "../../redux/actions/cartActions";
+import { ToastContainer } from "react-toastify";
+import { useTranslation } from 'react-i18next';
 
 const Detail = () => {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  let template = useSelector((state) => state.templates.detailTemplate);
-  const reviews = useSelector((state) => state.templates.reviews);
+    const { t, i18n } = useTranslation();
+    const changeLanguage = (lng) => i18n.changeLanguage(lng);
 
-  const [images, setImages] = useState([]);
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [images, setImages] = useState([]);
+    const [hasUserReviewed, setHasUserReviewed] = useState(false); 
+    const template = useSelector((state) => state.templates.detailTemplate);
+    const allReviews = useSelector((state) => state.templates.detailTemplateCopy.reviews) || [];
+    const loggedIn = useSelector((state) => state.user.loggedIn); 
+    const userId = useSelector(state => state.user.userInfo.id); 
 
-  useEffect(() => {
-    dispatch(getTemplateById(id))
-      .then(() => {
-        dispatch(getReviewsTemplate(id));
-      });
-  }, [id, dispatch]);
-
-  useEffect(() => {
-    if (template && template.images) {
-      setImages(template.images);
-    }
-  }, [template]);
+    useEffect(() => {
+        if (template && template.images) {
+            setImages(template.images);
+        }
+    }, [template]);
 
   return (
 <div className=" ">
@@ -68,25 +70,18 @@ const Detail = () => {
           </span>
           <br />
           <br />
-          <h2 className="ml-3 text-start text-sm text-bggris mr-8 mt-4 font-normal text-gray-800 pb-4 tracking-wider">
+          <h2 className="ml-3 text-start text-sm text-bggris mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 tracking-wider  border-green-900">
             Category{" "}
             {template?.categories && template.categories.map((c) => <p key={c.id}>{c.name}</p>)}
           </h2>
 
-          <h3 className="ml-3 text-start text-sm text-bggris  mr-8 mt-4 font-normal text-gray-800 pb-4 border-green-900">
+          <h3 className="ml-3 text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 tracking-wider  border-green-900">
             {template?.description}
           </h3>
-                  <div className="flex flex-row flex-wrap">
-          {template?.technologies &&
-            template.technologies.map((c, index) => (
-              <h3
-              key={c.id}
-              className={`m-2 text-start text-sm text-bggris p-2 font-normal text-gray-800 border border-green-500 rounded`}
-            >
-              {c.name}
-            </h3>
-            ))}
-        </div>
+          <h3 className="ml-3 text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 tracking-wider  border-green-900">
+            Technologies{" "}
+            {template?.technologies && template.technologies.map((c) => <p key={c.id}>{c.name}</p>)}
+          </h3>
         </div>
 
         <div className="ml-3 flex mb-4">
@@ -104,29 +99,65 @@ const Detail = () => {
       </div>
     </div>
 
-        {reviews && reviews.length > 0 && (
-          <div className="bg-gray relative  mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row  mb-10 shadow-md border-2">
-            <div className="bg-white mr-10 relative overflow-hidden  ml-10">
-              <h2 className="ml-3 text-start text-xl  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider  border-green-900">
-                Reviews
-              </h2>
+                <div className="relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row items-center md:justify-start mb-10">
+    {loggedIn ? (
+        hasUserReviewed ? (
+            <p className="text-gray-800">Ya has realizado una opinión sobre esta plantilla.</p>
+        ) : (
+            <button
+                onClick={openModal}
+                className="bg-blue-500 text-white font-inter hover:bg-blue-700 font-bold py-2 px-4 rounded-full"
+            >
+                Opinar
+            </button>
+        )
+    ) : (
+        <div className="inline-flex items-center space-x-1">
+            <Link to="/SignIn" className="text-blue-500 hover:underline">Inicia sesión</Link>
+            <p className="text-gray-800">para dejar una opinión</p>
+        </div>
+    )}
+</div>
 
-              {reviews.map((r) => {
-                return (
-                  <div key={r.id}>
-                    <p>User: {r.autor}</p>
-                    <Rating readOnly value={r.points} />
-                    <p>{r.title}</p>
-                    <span>{r.description}</span>
-                  </div>
-                );
-              })}
+                {allReviews.length > 0 ? (
+                    <div className="bg-gray relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 shadow-md border-2">
+                        <div className="bg-white mr-10 relative overflow-hidden ml-10">
+                            <h2 className="text-start text-xl mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 transition-colors tracking-wider border-green-900">
+                                Reviews
+                            </h2>
+                            {allReviews.map((r) => (
+                                <div key={r.id} className="mb-4">
+                                    <Rating className="mb-2" readOnly value={r.rating} />
+                                    <p className="text-gray-600">{r.date}</p>
+                                    <span className="text-gray-800">{r.content}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ) : (
+                    <div className="bg-gray-100 relative mx-auto min-w-[20rem] w-full rounded-2xl flex flex-col md:flex-row mb-10 shadow-md border-2">
+                        <div className="bg-zinc-50 text-lg font-inter font-semibold p-3">
+                            <span>No existen opiniones de este producto</span>
+                        </div>
+                    </div>
+                )}
+
+                {isModalOpen && (
+                    <div className="fixed inset-0 flex items-start justify-center bg-black bg-opacity-50 z-50">
+                        <div className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md mt-8">
+                            <button
+                                onClick={closeModal}
+                                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 focus:outline-none"
+                            >
+                                X
+                            </button>
+                            <ReviewForm templateId={id} />
+                        </div>
+                    </div>
+                )}
             </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default Detail;

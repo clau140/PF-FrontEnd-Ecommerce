@@ -1,31 +1,54 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTemplateBySearch } from "../../redux/actions/templatesAction";
 import { logout } from "../../redux/actions/userAction";
-
 import Searchbar from "../searchbar/Searchbar";
 import logo from "../../assets/images/VEGA.svg";
 import bag from "../../assets/images/VEGA_bag.svg";
-
-import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase.config.jsx";
+import { viewCart } from "../../redux/actions/cartActions.js";
+import defaultImage from "../../assets/images/userDefault.jfif";
 
 const Navbar = () => {
-  const [user] = useAuthState(auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const isAuthenticated = useSelector((state) => state.user.loggedIn);
-  const userName = useSelector((state) => state.user.userInfo.name);
 
-  const [searchString, setSearchString] = useState("");
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const isAuthenticated = useSelector((state) => state.user.loggedIn);
+  const user = useSelector((state) => state.user.userInfo);
+
+  const [ searchString, setSearchString ] = useState("");
+  const [ showProfileMenu, setShowProfileMenu ] = useState(false);
 
   const handleChange = (event) => {
     event.preventDefault();
     setSearchString(event.target.value);
   };
+
+  useEffect(() => {
+    dispatch(viewCart());
+    setShowProfileMenu(false)
+  }, [ dispatch, navigate ]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const menu = document.getElementById("profileMenu");
+      if (menu && !menu.contains(event.target)) {
+        setShowProfileMenu(false);
+      }
+    };
+
+    if (showProfileMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ showProfileMenu ]);
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -39,8 +62,6 @@ const Navbar = () => {
     try {
       await auth.signOut();
       dispatch(logout());
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
       navigate("/home");
     } catch (error) {
       console.log(error);
@@ -50,7 +71,6 @@ const Navbar = () => {
   const toggleProfileMenu = () => {
     setShowProfileMenu(!showProfileMenu);
   };
-
 
   return (
     <nav className="bg-white p-4 border-b-2 border-inherit shadow">
@@ -79,9 +99,7 @@ const Navbar = () => {
             SOBRE NOSOTROS
           </Link>
           </div>
-
           <Searchbar handleChange={ handleChange } handleSearch={ handleSearch } />
-
           { isAuthenticated ? (
             <div className="hidden md:block relative">
               <div className="ml-4 flex items-center md:ml-6">
@@ -108,7 +126,7 @@ const Navbar = () => {
                     </svg>
                   </button>
                   { showProfileMenu && (
-                    <div className="absolute right-6 mt-2 w-64 bg-white rounded-md border border-gray-200 shadow-lg z-50">
+                    <div id="profileMenu" className="absolute right-6 mt-2 w-64 bg-white rounded-md border border-gray-200 shadow-lg z-50">
                       <div className="flex items-center p-4">
                         <img
                           src={ user.imagen ? user.imagen : defaultImage }
@@ -116,7 +134,9 @@ const Navbar = () => {
                           className="w-10 h-10 rounded-full mr-4"
                         />
                         <div>
-                          <p className="text-gray-800 font-medium">{ user.name } {user.lastname}</p>
+                          <p className="text-gray-800 font-medium">
+                            { user.name } { user.lastname }
+                          </p>
                           <p className="text-gray-500 text-sm">{ user.email }</p>
                         </div>
                       </div>
@@ -141,24 +161,6 @@ const Navbar = () => {
                     </div>
                   ) }
                 </div>
-
-                <svg
-                  className="mr-8"
-                  viewBox="0 0 22 20"
-                  width="26"
-                  height="26"
-                  fill="#4b5563"
-                >
-                  <path d="M1.795 10.556a6.195 6.195 0 018.782-8.742l.423.424.424-.424a6.193 6.193 0 018.76 0 6.197 6.197 0 01.02 8.742l-8.404 8.9a1.1 1.1 0 01-1.6 0zM11 17.098l7.607-8.055.023-.022a3.999 3.999 0 000-5.651 3.997 3.997 0 00-5.652 0l-1.2 1.201a1.1 1.1 0 01-1.556 0L9.021 3.37A3.993 3.993 0 002.2 6.195a3.994 3.994 0 001.19 2.848z"></path>
-                </svg>
-                <svg
-                  viewBox="0 0 22 22"
-                  width="28"
-                  height="28"
-                  fill="#4b5563"
-                >
-                  <path d="M19.45 15.24a.86.86 0 00.848-.719l1.69-10.14a.86.86 0 00-.848-1H4.91L4.229.65A.86.86 0 003.395 0H.858a.86.86 0 100 1.719h1.865l.673 2.696L5.07 14.45v2.6a2.553 2.553 0 00-1.69 2.4A2.552 2.552 0 005.93 22c1.744 0 2.981-1.726 2.41-3.38h7.01c-.572 1.655.667 3.38 2.41 3.38a2.552 2.552 0 002.55-2.55 2.552 2.552 0 00-2.55-2.55H6.79v-1.66zm.676-10.141l-1.404 8.422H6.658L5.254 5.099zM6.76 19.45a.832.832 0 01-1.661 0 .832.832 0 011.661 0m11 .831a.832.832 0 010-1.661.832.832 0 010 1.661"></path>
-                </svg>
               </div>
             </div>
           ) : (
