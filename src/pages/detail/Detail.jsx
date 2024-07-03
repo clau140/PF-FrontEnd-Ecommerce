@@ -35,7 +35,7 @@ const Detail = () => {
 
     useEffect(() => {
         dispatch(getTemplateById(id)).then((response) => {
-            console.log('Response de getTemplateById:', response); 
+            console.log('getTemplateById:', response); 
             if (response && response.payload && response.payload.reviews) {
                 const userReview = response.payload.reviews.find(review => review.idUser === userId);
                 console.log('User Review encontrado:', userReview);
@@ -43,7 +43,9 @@ const Detail = () => {
             }
         });
         dispatch(getCategories());
-        dispatch(getReviewsTemplate(id))
+        dispatch(getReviewsTemplate(id)).then((response) => {
+            console.log("getReviewsTemplate:", response);
+        });
     }, [id, dispatch, userId]);
 
     
