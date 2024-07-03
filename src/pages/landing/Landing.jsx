@@ -16,9 +16,13 @@ const Landing = () => {
   }, [navigate]);
 
   return (
-    <div className='w-full h-full flex justify-center' style={{ background: 'linear-gradient(to bottom, silver, white)' }}>
+    <div className='w-full h-full flex justify-center' style={{ background: 'linear-gradient(to bottom, white, silver)' }}>
       
+      <div className='justify-center items-center'>
+
       <div className='mt-[5rem]'>
+
+        
         <motion.img
           src={logoVega}
           alt="logo"
@@ -38,6 +42,8 @@ const Landing = () => {
         />
       </div>
     </div>
+    </div>
+
   );
 };
 
