@@ -36,7 +36,23 @@ const Detail = () => {
         if (template && template.images) {
             setImages(template.images);
         }
-    }, [ template ]);
+    }, [template]);
+
+    useEffect(() => {
+        dispatch(getTemplateById(id)).then((response) => {
+            console.log('getTemplateById:', response); 
+            if (response && response.payload && response.payload.reviews) {
+                const userReview = response.payload.reviews.find(review => review.idUser === userId);
+                console.log('User Review encontrado:', userReview);
+                setHasUserReviewed(!!userReview);
+            }
+        });
+        dispatch(getCategories());
+        dispatch(getReviewsTemplate(id)).then((response) => {
+            console.log("getReviewsTemplate:", response);
+        });
+    }, [id, dispatch, userId]);
+
 
     const categories = template.categories || [];
     const technologies = template.technologies || [];

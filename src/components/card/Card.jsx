@@ -23,7 +23,6 @@ const isFavorite = myFavorites.includes(id);
       dispatch(addFav(id))
     } 
   };
-
   return (
     <div
       className="max-w-xs rounded relative overflow-hidden shadow-custom transition-transform transform hover:scale-105"
