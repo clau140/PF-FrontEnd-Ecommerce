@@ -3,7 +3,7 @@ function About() {
   return (
     <div className="bg-white text-gray-800 font-sans">
       <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-extrabold text-center mb-8 first-line:tracking-widest">
+        <h2 className="text-3xl font-extrabold text-center mb-8">
           Soluciones de diseño web a la medida de tus necesidades
         </h2>
         <p className="mb-6 first-letter:text-5xl first-letter:font-bold first-letter:mr-2 first-letter:mt-2 first-letter:float-left">

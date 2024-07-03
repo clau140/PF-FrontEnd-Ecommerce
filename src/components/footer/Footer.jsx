@@ -3,7 +3,7 @@ import { MdHome, MdShoppingCart, MdPerson, MdPhoneAndroid, MdEmail } from 'react
 
 const Footer = () => {
   return (
-    <div className="flex">
+    <div className="flex border-inherit shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1),0_-4px_6px_-2px_rgba(0,0,0,0.05)]">
       {/* Left Section */}
       <div className="flex-1 p-2 space-y-5">
         <h1 className="text-3xl text-[#06B6D4]">VEGA</h1>
