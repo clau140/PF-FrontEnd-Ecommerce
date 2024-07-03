@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
 
 const localUrl = 'http://localhost:3001';
 
@@ -8,6 +9,9 @@ function EmailAllUsers() {
     const [isLoading, setIsLoading] = useState(false); // los correos tardan.
     const [subject, setSubject] = useState('');
     const [message, setMessage] = useState('');
+
+    const notifySuccess = (message) => toast.success(message);
+    const notifyError = (message) => toast.error(message);
 
 
     const handleEmailSending = async () => {
@@ -25,7 +29,8 @@ function EmailAllUsers() {
             });
 
             if (response.ok) {
-                setSuccessMesage('Emails enviados exitosamente')
+            //    setSuccessMesage('Emails enviados exitosamente')
+            notifySuccess("Emails enviados exitosamente")
                 setIsLoading(false);
                 setError('');
                 // limpiar los inputs.
@@ -37,14 +42,16 @@ function EmailAllUsers() {
             const data = await response.json();
 
             if (data.missingData) {
-                setError('Faltan datos.')
+             //   setError('Faltan datos.')
+             notifyError('Faltan datos')
                 setSuccessMesage('')
                 setIsLoading(false)
                 return
             };
 
             if (data.noEmailsFound) {
-                setError('No se han encontrado correos.')
+             //   setError('No se han encontrado correos.')
+             notifyError('No se han encontrado emails')
                 setSuccessMesage('')
                 setIsLoading(false)
                 return
@@ -52,6 +59,7 @@ function EmailAllUsers() {
 
         } catch (error) {
             console.log(`error enviando correos: ${error}`);
+            notifyError('Ha ocurrido un error')
         } finally {
             setIsLoading(false)
         }
@@ -60,6 +68,7 @@ function EmailAllUsers() {
     // JSX
     return (
         <div className="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg">
+            < ToastContainer/>
             <h1 className="text-2xl font-bold mb-4">Enviar Email a Todos los Usuarios</h1>
             <form onSubmit={(e) => { e.preventDefault(); handleEmailSending(); }}>
                 <div className="mb-4">
@@ -91,8 +100,7 @@ function EmailAllUsers() {
                     {isLoading ? 'Enviando...' : 'Enviar Email'}
                 </button>
             </form>
-            {error && <p className="mt-4 text-red-500">{error}</p>}
-            {successMessage && <p className="mt-4 text-green-500">{successMessage}</p>}
+         
         </div>
     );
 };
