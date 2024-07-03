@@ -9,6 +9,7 @@ import ProfilePage from './pages/profilepage/ProfilePage';
 import Navbar from '../src/components/navbar/Navbar';
 import Favorites from './pages/favorites/Favorites';
 import ForgotPassword from './pages/Forgot Password/ForgotPassword';
+import About from './pages/about/About.jsx';
 
 import { AuthContextProvider } from './components/context/AuthContex.jsx';
 
@@ -28,6 +29,7 @@ function App() {
      <Route path='/ForgotPassword' element={<ForgotPassword />}/>
      <Route path='/Profile' element={<ProfilePage/>}/>
      <Route path='/favorites' element={<Favorites/>}/>
+     <Route path='/about' element={<About />}/>
     </Routes>
        </AuthContextProvider>
     </div>

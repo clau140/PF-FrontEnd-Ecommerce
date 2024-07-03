@@ -56,19 +56,28 @@ const Navbar = () => {
     <nav className="bg-white p-4 border-b-2 border-inherit shadow">
       <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex relative">
-            <Link to="/Home">
+         <div className="flex items-center"> 
+        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center space-y+15 mt-5">
+          <Link to="/Home">
             <img
-            src={logo}
-            alt="logo ReactiveMind"
-            className="w-[58px] h-[58px] mr-12 transform hover:rotate-90 transition-transform duration-300 ease-in-out"
+              src={logo}
+              alt="logo ReactiveMind"
+              className="w-[52px] h-[52px] transform hover:rotate-90 transition-transform duration-300 ease-in-out"
             />
-            </Link>
-            <Link
-              to="/About"
-            className="text-[28px] mt-3 font-inter font-light text-[#06B6D4] pb-2 transition-colors duration-300 tracking-wider hover:text-[#06B6D4] relative before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-[#06B6D4] before:transition-all before:duration-300 hover:before:w-full">
+          </Link>
+            <div className="text-[24px] font-light text-[#06B6D4] tracking-wider mb-3">
             VEGA
-            </Link>
+            </div>
+        </div>
+        </div>
+        <Link
+            to="/About"
+            className="text-[16px] font-bold text-[#06B6D4] tracking-wider ml-9 mt-4 
+              font-inter pb-2 transition-colors duration-300 hover:font-black  hover:text-green-500 relative before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px] before:bg-green-500 before:transition-all before:duration-300 hover:before:w-full"
+          >
+            SOBRE NOSOTROS
+          </Link>
           </div>
 
           <Searchbar handleChange={ handleChange } handleSearch={ handleSearch } />
@@ -156,18 +165,18 @@ const Navbar = () => {
             <div className="hidden md:block">
               <div className="ml-4 flex items-center md:ml-6">
                 <Link to="/SignIn">
-                  <button className="bg-white border-[1px] border-[#06B6D4] font-inter text-[#06B6D4] hover:scale-110 hover:bg-green-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium mr-8">
-                    Ingresar
+                  <button className="bg-white border-[2px] border-green-500 font-inter text-green-500 hover:scale-110 hover:border-green-500 hover:bg-green-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium mr-8">
+                    INGRESAR
                   </button>
                 </Link>
                 <Link to="/SignUp"> 
-                  <button className="bg-[#06B6D4] text-white hover:scale-110 hover:bg-white border-[1px] hover:border-green-500 font-inter hover:text-green-500 font-inter px-3 py-2 mr-8 rounded-md text-sm font-medium">
-                    Únete
+                  <button className="bg-white border-[2px] border-[#06B6D4] font-inter text-[#06B6D4] hover:scale-110 hover:border-[#06B6D4] hover:bg-[#06B6D4] hover:text-white px-3 py-2 rounded-md text-sm font-medium mr-8">
+                    UNETE
                   </button>
                 </Link>
 
                 <svg
-  className="mr-8 transform hover:rotate-[15deg] hover:scale-125 hover:fill-green-500 transition-all duration-300 cursor-pointer"
+  className="mr-8 transform origin-center hover:fill-green-500 hover:animate-rotate-scale cursor-pointer"
   viewBox="0 0 22 20"
   width="26"
   height="26"

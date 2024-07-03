@@ -68,18 +68,25 @@ const Detail = () => {
           </span>
           <br />
           <br />
-          <h2 className="ml-3 text-start text-sm text-bggris mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 tracking-wider  border-green-900">
+          <h2 className="ml-3 text-start text-sm text-bggris mr-8 mt-4 font-normal text-gray-800 pb-4 tracking-wider">
             Category{" "}
             {template?.categories && template.categories.map((c) => <p key={c.id}>{c.name}</p>)}
           </h2>
 
-          <h3 className="ml-3 text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 tracking-wider  border-green-900">
+          <h3 className="ml-3 text-start text-sm text-bggris  mr-8 mt-4 font-normal text-gray-800 pb-4 border-green-900">
             {template?.description}
           </h3>
-          <h3 className="ml-3 text-start text-sm text-bggris  mr-8 mt-4 font-inter font-bold text-gray-800 pb-4 tracking-wider  border-green-900">
-            Technologies{" "}
-            {template?.technologies && template.technologies.map((c) => <p key={c.id}>{c.name}</p>)}
-          </h3>
+                  <div className="flex flex-row flex-wrap">
+          {template?.technologies &&
+            template.technologies.map((c, index) => (
+              <h3
+              key={c.id}
+              className={`m-2 text-start text-sm text-bggris p-2 font-normal text-gray-800 border border-green-500 rounded`}
+            >
+              {c.name}
+            </h3>
+            ))}
+        </div>
         </div>
 
         <div className="ml-3 flex mb-4">
