@@ -22,6 +22,9 @@ const Detail = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [images, setImages] = useState([]);
     const [hasUserReviewed, setHasUserReviewed] = useState(false); 
+
+
+    
     const template = useSelector((state) => state.templates.detailTemplate);
     const allReviews = useSelector((state) => state.templates.detailTemplateCopy.reviews) || [];
     const loggedIn = useSelector((state) => state.user.loggedIn); 
