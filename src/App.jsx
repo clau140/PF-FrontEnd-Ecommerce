@@ -14,6 +14,7 @@ import { AuthContextProvider } from './components/context/authContex.jsx';
 import CartPage from './pages/cartPage/CartPage.jsx';
 // import PaySuccess from './components/paysuccess/PaySuccess.jsx';
 // import PayCancel from './components/payCancel/PayCancel.jsx';
+import Prueba from './components/Prueba.jsx';
 
 
 
@@ -43,7 +44,7 @@ function App() {
           < Route path='/createadmin' element={ < CreateAdminUser /> } />
           < Route path='/activateuserbyemail' element={ < ActivateUserByEmail /> } />
           < Route path='/emailallusers' element={ < EmailAllUsers /> } /> */}
-
+          <Route path='/prueba' element={ <Prueba /> } />
         </Routes>
       </AuthContextProvider>
     </div>
