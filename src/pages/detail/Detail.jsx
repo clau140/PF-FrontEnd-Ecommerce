@@ -96,26 +96,37 @@ const Detail = () => {
           </span>
           <br />
           <br />
-          <h2 className="ml-3 text-start text-sm text-bggris mr-8 mt-4 font-normal text-gray-800 pb-4 tracking-wider">
-            Category{" "}
-            {template?.categories && template.categories.map((c) => <p key={c.id}>{c.name}</p>)}
-          </h2>
+
+            <div>
+            <h2 className="mt-2 mb-2 text-sm text-bggris font-bold text-gray-800">
+                Category
+                </h2>
+                <div className="flex flex-row flex-wrap">
+                    {template?.categories?.map((c) => (
+                    <p key={c.id} className="m-2 text-start text-sm text-bggris p-2 font-normal text-gray-800 border border-green-500 rounded">
+                        {c.name}
+                    </p>
+                    ))}
+                </div>
+            </div>
+
 
           <h3 className="ml-3 text-start text-sm text-bggris  mr-8 mt-4 font-normal text-gray-800 pb-4 border-green-900">
             {template?.description}
           </h3>
-                  <div className="flex flex-row flex-wrap">
-          {template?.technologies &&
-            template.technologies.map((c, index) => (
-              <h3
-              key={c.id}
-              className={`m-2 text-start text-sm text-bggris p-2 font-normal text-gray-800 border border-green-500 rounded`}
-            >
-              {c.name}
-            </h3>
-            ))}
-        </div>
-        </div>
+                    <div className="flex flex-row flex-wrap">
+                        {template?.technologies &&
+                            template.technologies.map((c, index) => (
+                            <h3
+                            key={c.id}
+                            className={`m-2 text-start text-sm text-bggris p-2 font-normal text-gray-800 border border-[#06B6D4] rounded`}
+                            >
+                            {c.name}
+                            </h3>
+                            ))}
+                        </div>
+                    </div>
+
                         <br />
                         <div className="flex mb-4">
                             <div className="flex items-center mt-3 mb-10 w-1/2">
