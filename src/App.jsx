@@ -24,7 +24,7 @@ import CreateAdminUser from './components/admin/userCrud/createAdminUser.jsx';
 import ViewUsers from './components/admin/userCrud/seeAllUsers.jsx';
 import EmailAllUsers from './components/admin/userCrud/EmailAllUsers.jsx';
 import DisableUserByEmail from './components/admin/userCrud/disableUserByEmail.jsx';
-import AdminPage from './pages/adminpage/AdminPage';
+
 import { AuthContextProvider } from './components/context/authContex.jsx';
 import CartPage from './pages/cartPage/CartPage.jsx';
 import Prueba from './components/Prueba.jsx';
