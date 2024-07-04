@@ -16,7 +16,7 @@ import CreateAdminUser from './components/admin/userCrud/createAdminUser.jsx';
 import ViewUsers from './components/admin/userCrud/seeAllUsers.jsx';
 import EmailAllUsers from './components/admin/userCrud/EmailAllUsers.jsx';
 import DisableUserByEmail from './components/admin/userCrud/disableUserByEmail.jsx';
-
+import AdminPage from './pages/adminpage/AdminPage';
 import { AuthContextProvider } from './components/context/authContex.jsx';
 import CartPage from './pages/cartPage/CartPage.jsx';
 // import PaySuccess from './components/paysuccess/PaySuccess.jsx';
@@ -44,6 +44,7 @@ function App() {
           <Route path='/favorites' element={ <Favorites /> } />
           <Route path='/cartPage' element={ <CartPage /> } />
           <Route path='/About' element={ <About /> } />
+          <Route path='/AdminPage' element={<AdminPage/>}/>
           {/* <Route path="/paySuccess" element={ <PaySuccess /> } />
           <Route path="/payCancel" element={ <PayCancel /> } /> */}
   
