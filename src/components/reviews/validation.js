@@ -9,9 +9,9 @@ export const validate= (input)=> {
       errors.content = 'Debe contener al menos 15 caracteres'
     }
     if (input.content.length > 100 ) {
-      errors.content = 'Debe contener maximo 40 caracteres'
+      errors.content = 'Debe contener maximo 100 caracteres'
     }
-
+  
     return errors;
 
   }
