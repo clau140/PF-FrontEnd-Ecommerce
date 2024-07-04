@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import ImageGallery from 'react-image-gallery';
 import ImageGallery from 'react-image-gallery';
 import { Rating } from "@mui/material";
 import { getTemplateById, getCategories } from "../../redux/actions/templatesAction";
-import "react-image-gallery/styles/css/image-gallery.css";
 import "react-image-gallery/styles/css/image-gallery.css";
 import 'react-toastify/dist/ReactToastify.css';
 import ReviewForm from '../../components/reviews/ReviewForm';
@@ -16,26 +12,13 @@ import { promedio } from "./promedio";
 import { addToCart } from "../../redux/actions/cartActions";
 import { ToastContainer } from "react-toastify";
 import { useTranslation } from 'react-i18next';
-import { useTranslation } from 'react-i18next';
 
 const Detail = () => {
-    const { t, i18n } = useTranslation();
-    const changeLanguage = (lng) => i18n.changeLanguage(lng);
     const { t, i18n } = useTranslation();
     const changeLanguage = (lng) => i18n.changeLanguage(lng);
 
     const { id } = useParams();
     const dispatch = useDispatch();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [images, setImages] = useState([]);
-    const [hasUserReviewed, setHasUserReviewed] = useState(false); 
-
-
-    
-    const template = useSelector((state) => state.templates.detailTemplate);
-    const allReviews = useSelector((state) => state.templates.detailTemplateCopy.reviews) || [];
-    const loggedIn = useSelector((state) => state.user.loggedIn); 
-    const userId = useSelector(state => state.user.userInfo.id); 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [images, setImages] = useState([]);
     const [hasUserReviewed, setHasUserReviewed] = useState(false); 
@@ -56,7 +39,6 @@ const Detail = () => {
     useEffect(() => {
         dispatch(getTemplateById(id)).then((response) => {
             console.log('Response de getTemplateById:', response); 
-            console.log('Response de getTemplateById:', response); 
             if (response && response.payload && response.payload.reviews) {
                 const userReview = response.payload.reviews.find(review => review.idUser === userId);
                 console.log('User Review encontrado:', userReview);
@@ -65,13 +47,8 @@ const Detail = () => {
         });
         dispatch(getCategories());
         dispatch(getReviewsTemplate(id))
-        dispatch(getReviewsTemplate(id))
     }, [id, dispatch, userId]);
 
-    
-
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
     
 
     const openModal = () => setIsModalOpen(true);
@@ -80,7 +57,6 @@ const Detail = () => {
     const categories = template.categories || [];
     const technologies = template.technologies || [];
     const ratings = allReviews.map((e) => e.rating) || [];
-    const resultRating = ratings.length > 0 ? promedio(ratings) : 0;
     const resultRating = ratings.length > 0 ? promedio(ratings) : 0;
 
     return (
@@ -157,16 +133,17 @@ const Detail = () => {
                         <br />
                         <div className="flex mb-4">
                             <div className="flex items-center mt-3 mb-10 w-1/2">
-                                <button onClick={() => dispatch(addToCart(template.id))} className="bg-black text-white font-inter hover:bg-gray-900 font-bold py-2 px-4 rounded-full">
+                                <button onClick={ () => dispatch(addToCart(template.id)) } className="bg-[#06B6D4] text-white font-inter hover:scale-110 hover:bg-green-500 font-bold py-2 px-4 rounded-full">
                                     Añadir a carrito
                                 </button>
                             </div>
                             <div className="flex items-center mt-3 mb-10 w-1/2">
-                                <button className="bg-black text-white font-inter hover:bg-gray-900 font-bold py-2 px-4 rounded-full">
+                                <button className="bg-[#06B6D4] text-white font-inter hover:scale-110 hover:bg-green-500 font-bold py-2 px-4 rounded-full">
                                     Comprar ahora
                                 </button>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -201,13 +178,7 @@ const Detail = () => {
                                     <Rating className="mb-2" readOnly value={r.rating} />
                                     <p className="text-gray-600">{r.date}</p>
                                     <span className="text-gray-800">{r.content}</span>
-                            {allReviews.map((r) => (
-                                <div key={r.id} className="mb-4">
-                                    <Rating className="mb-2" readOnly value={r.rating} />
-                                    <p className="text-gray-600">{r.date}</p>
-                                    <span className="text-gray-800">{r.content}</span>
                                 </div>
-                            ))}
                             ))}
                         </div>
                     </div>
@@ -222,28 +193,19 @@ const Detail = () => {
                 {isModalOpen && (
                     <div className="fixed inset-0 flex items-start justify-center bg-black bg-opacity-50 z-50">
                         <div className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md mt-8">
-                )}
-
-                {isModalOpen && (
-                    <div className="fixed inset-0 flex items-start justify-center bg-black bg-opacity-50 z-50">
-                        <div className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md mt-8">
                             <button
-                                onClick={closeModal}
                                 onClick={closeModal}
                                 className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 focus:outline-none"
                             >
                                 X
                             </button>
                             <ReviewForm templateId={id} />
-                            <ReviewForm templateId={id} />
                         </div>
                     </div>
-                )}
                 )}
             </div>
         </div>
     );
-};
 };
 
 export default Detail;
