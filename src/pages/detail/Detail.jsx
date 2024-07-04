@@ -99,7 +99,7 @@ const Detail = () => {
 
             <div>
             <h2 className="mt-2 mb-2 text-sm text-bggris font-bold text-gray-800">
-                Category
+                Categorias
                 </h2>
                 <div className="flex flex-row flex-wrap">
                     {template?.categories?.map((c) => (
@@ -117,6 +117,9 @@ const Detail = () => {
           <h3 className="ml-3 text-start text-sm text-bggris  mr-8 mt-4 font-normal text-gray-800 pb-4 border-green-900">
             {template?.description}
           </h3>
+          <h2 className="mt-2 mb-2 text-sm text-bggris font-bold text-gray-800">
+                Tecnologias
+                </h2>
                     <div className="flex flex-row flex-wrap">
                         {template?.technologies &&
                             template.technologies.map((c, index) => (
