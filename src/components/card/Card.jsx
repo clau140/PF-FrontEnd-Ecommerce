@@ -23,7 +23,7 @@ const isFavorite = myFavorites.includes(id);
       dispatch(addFav(id))
     } 
   };
-
+console.log(template);
   return (
     <div
       className="max-w-xs rounded relative overflow-hidden shadow-custom transition-transform transform hover:scale-105"
@@ -53,7 +53,7 @@ const isFavorite = myFavorites.includes(id);
           <div>
     {template.images.map((image) => (
       <div>
-        {(image.isCover === true && image.set === `${image.category}${1}`) && <img className="w-full" key={image.id} src={image.original} alt={template.name} />}
+        {(image.isCover === true) && <img className="w-full" key={image.id} src={image.original} alt={template.name} />}
       </div>
     ))}
   </div>
