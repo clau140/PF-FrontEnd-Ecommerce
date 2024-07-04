@@ -300,144 +300,113 @@ const CreateTemplate = () => {
       };
     
       return (
-        <div>
-          <form  onSubmit={handleSubmit}>
-            <div>
-              <div>
-                <label>Nombre</label>
-                <input onChange={handleChange} name="name" type="text" />
-                {errors.name ? <label>{errors.name}</label> : null}
-              </div>
-              <div>
-                <label>Descripcion</label>
-                <textarea onChange={handleChange} name="description" type="text" />
-                {errors.description ? <label>{errors.description}</label> : null}
-              </div>
-              <div>
-                <label>Precio</label>
-                <input
-                  onChange={handleChange}
-                  name="price"
-                  type="number"
-                  min="0"
-                  step="any"
-                />
-                {errors.price ? <label>{errors.price}</label> : null}
-              </div>
-              <div>
-                <label>Imagen de portada</label>
-                <input
-                  onChange={changeUploadImageCover}
-                  name="isCover"
-                  type="file"
-                  accept="image/*"
-                />
-                {errors.isCover ? <label>{errors.isCover}</label> : null}
-                {templateData.isCover.length > 0 && (
-                  <div>
-                    {templateData.isCover.map((url, index) => (
-                      <div key={index}>
-                        <img
-                          src={url}
-                          alt={`Selected Image ${index}`}
-                          style={{ width: "100px", height: "auto" }}
-                        />
-                        <button onClick={removeImage("isCover", url)}>X</button>
-                      </div>
-                    ))}
+       <div className="flex justify-center items-center h-screen mt-64">
+      <form onSubmit={handleSubmit} className="bg-white shadow-xl rounded px-8 pt-6 pb-8 mb-4 w-full max-w-md">
+        <div className="mb-2">
+          <div className="mb-2">
+            <label className="block text-gray-900 font-bold mb-2">Nombre</label>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline" onChange={handleChange} name="name" type="text" />
+            {errors.name ? <label className="text-red-500">{errors.name}</label> : null}
+          </div>
+          <div className="mb-4">
+          <label className="block text-gray-900 font-bold mb-2">Descripcion</label>
+          <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32 overflow-auto resize-none" onChange={handleChange} name="description" type="text" />
+            {errors.description ? <label className="text-red-500">{errors.description}</label> : null}
+          </div>
+          <div className="mb-2">
+            <label className="block text-gray-900 font-bold mb-2">Precio</label>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={handleChange} name="price" type="number" min="0" step="any" />
+            {errors.price ? <label className="text-red-500">{errors.price}</label> : null}
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-900 font-bold mb-2">Imagen de portada</label>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={changeUploadImageCover} name="isCover" type="file" accept="image/*" />
+            {errors.isCover ? <label className="text-red-500">{errors.isCover}</label> : null}
+            {templateData.isCover.length > 0 && (
+              <div className="flex flex-wrap">
+                {templateData.isCover.map((url, index) => (
+                  <div key={index} className="mr-4 mb-4">
+                    <img src={url} alt={`Selected Image ${index}`} className="w-24 h-auto" />
+                    <button onClick={removeImage("isCover", url)} className="text-red-500">X</button>
                   </div>
-                )}
+                ))}
               </div>
-              <div>
-                <label>Imagenes de detalle</label>
-                <input
-                  onChange={changeUploadImageCover}
-                  name="image"
-                  type="file"
-                  multiple
-                  accept="image/*"
-                />
-                {errors.image ? <label>{errors.image}</label> : null}
-                {templateData.image.length > 0 && (
-                  <div>
-                    {templateData.image.map((image, index) => (
-                      <div key={index}>
-                        <img
-                          src={image}
-                          alt={`Selected Image`}
-                          style={{ width: "100px", height: "auto" }}
-                        />
-                        <button onClick={removeImage("image", image)}>X</button>
-                      </div>
-                    ))}
+            )}
+          </div>
+          <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2">Imagenes de detalle</label>
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={changeUploadImageCover} name="image" type="file" multiple accept="image/*" />
+            {errors.image ? <label className="text-red-500">{errors.image}</label> : null}
+            {templateData.image.length > 0 && (
+              <div className="flex flex-wrap">
+                {templateData.image.map((image, index) => (
+                  <div key={index} className="mr-4 mb-4">
+                    <img src={image} alt={`Selected Image`} className="w-24 h-auto" />
+                    <button onClick={removeImage("image", image)} className="text-red-500">X</button>
                   </div>
-                )}
+                ))}
               </div>
-              <div>
-                <label>Tecnologias</label>
-                <select onChange={handleChange} name="technology">
-                  <option>Seleccionar tecnologias</option>
-                  {[...technologies].sort().map((tech) => (
-                    <option key={tech.id} value={tech.name}>
-                      {tech.name}
-                    </option>
-                  ))}
-                </select>
-                {errors.technology ? <label>{errors.technology}</label> : null}
-                <div>
-                  {templateData.technology.map((tech, index) => (
-                    <div key={index}>
-                      <p>{tech}</p>
-                      <button onClick={handleRemove("technology", tech)}>X</button>
-                    </div>
-                  ))}
+            )}
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-bold mb-2">Tecnologias</label>
+            <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={handleChange} name="technology">
+              <option>Seleccionar tecnologias</option>
+              {[...technologies].sort().map((tech) => (
+                <option key={tech.id} value={tech.name}>
+                  {tech.name}
+                </option>
+              ))}
+            </select>
+            {errors.technology ? <label className="text-red-500">{errors.technology}</label> : null}
+            <div className="flex flex-wrap">
+              {templateData.technology.map((tech, index) => (
+                <div key={index} className="mr-4 mb-4">
+                  <p>{tech}</p>
+                  <button onClick={handleRemove("technology", tech)} className="text-red-500">X</button>
                 </div>
-                <label>Nueva Tecnologia</label>
-                <input
-                  onChange={(e) => setNewTechnology(e.target.value)}
-                  // onBlur={() => setNewTechnology("")} // Simplificado
-                  name="NewTechnology"
-                  type="text"
-                  value={NewTechnology}
-                />
-                {errors.NewTechnology ? (
-                  <label>{errors.NewTechnology}</label>
-                ) : null}
-                <button onClick={handleAddTechnology}>Agregar</button>
-              </div>
-              <div>
-                <label>Categorias</label>
-                <select onChange={handleChange} name="category">
-                  <option>Seleccionar categorias</option>
-                  {[...categories].sort().map((categ) => (
-                    <option key={categ.id} value={categ.name}>
-                      {categ.name}
-                    </option>
-                  ))}
-                </select>
-                <div>
-                  {templateData.category.map((categ, index) => (
-                    <div key={index}>
-                      <p>{categ}</p>
-                      <button onClick={handleRemove("category", categ)}>X</button>
-                    </div>
-                  ))}
-                  {errors.category ? <label>{errors.category}</label> : null}
-                </div>
-                <label>Nueva Categoria</label>
-                <input
-                  onChange={(e) => setNewCategory(e.target.value)}
-                  name="NewCategory"
-                  type="text"
-                  value={NewCategory}
-                />
-                {errors.NewCategory ? <label>{errors.NewCategory}</label> : null}
-                <button onClick={handleAddCategory}>Agregar</button>
-              </div>
+              ))}
             </div>
-            <button type="submit" disabled= {handleDisable()}>Crear</button>
-          </form>
+            <label className="block text-gray-700 font-bold mb-2">Nueva Tecnologia</label>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setNewTechnology(e.target.value)} name="NewTechnology" type="text" value={NewTechnology} />
+            {errors.NewTechnology ? <label className="text-red-500">{errors.NewTechnology}</label> : null}
+    
+            <div className="flex justify-center items-center mt-2">
+            <button onClick={handleAddTechnology} className="m-2 p-2 border-2 border-green-500 text-gray-900 hover:bg-green-500 hover:text-white font-bold py-2 px-4 rounded">Agregar</button>
+            </div>
+    
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-bold mb-2">Categorias</label>
+            <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={handleChange} name="category">
+              <option>Seleccionar categorias</option>
+              {[...categories].sort().map((categ) => (
+                <option key={categ.id} value={categ.name}>
+                  {categ.name}
+                </option>
+              ))}
+            </select>
+            <div className="flex flex-wrap">
+              {templateData.category.map((categ, index) => (
+                <div key={index} className="mr-4 mb-4">
+                  <p>{categ}</p>
+                  <button onClick={handleRemove("category", categ)} className="text-red-500">X</button>
+                </div>
+              ))}
+              {errors.category ? <label className="text-red-500">{errors.category}</label> : null}
+            </div>
+            <label className="block text-gray-700 font-bold mb-2">Nueva Categoria</label>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e) => setNewCategory(e.target.value)} name="NewCategory" type="text" value={NewCategory} />
+            {errors.NewCategory ? <label className="text-red-500">{errors.NewCategory}</label> : null}
+    
+            <div className="flex justify-center items-center mt-2">
+            <button onClick={handleAddCategory} className="m-2 p-2 border-2 border-green-500 text-gray-900 hover:bg-green-500 hover:text-white font-bold py-2 px-4 rounded">Agregar</button>
+            <button type="submit" disabled={handleDisable()} className="m-2 p-2 border-2 border-green-500 text-gray-900 hover:bg-green-500 hover:text-white font-bold py-2 px-4 rounded">Crear</button>
+            </div>
+          </div>
         </div>
+      </form>
+    </div>
       );
     
 };
