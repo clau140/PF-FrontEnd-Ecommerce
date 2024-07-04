@@ -6,9 +6,6 @@ import {
   DELETE_TEMPLATE_REQUEST,
   DELETE_TEMPLATE_SUCCESS,
   DELETE_TEMPLATE_FAILURE,
-  CREATE_TEMPLATE_REQUEST,
-  CREATE_TEMPLATE_SUCCESS,
-  CREATE_TEMPLATE_FAILURE,
 } from './action-types';
 
 const localURL = 'http://localhost:3001/admin/templates';
@@ -49,43 +46,14 @@ export const deleteTemplate = (templateId) => async (dispatch) => {
   }
 };
 
-export const createTemplate = (
-  name,
-  description,
-  price,
-  isCover,
-  imagen,
-  technology,
-  category
-) => async (dispatch) => {
-  dispatch({ type: CREATE_TEMPLATE_REQUEST });
-  try {
-    const templateData = {
-      name,
-      description,
-      price,
-      isCover,
-      imagen,
-      technology,
-      category,
+
+export const createTemplate = (templateData) => {
+    return async (dispatch) => {
+      try {
+        await axios.post("http://localhost:3001/admin/templates/create", templateData);
+        
+      } catch (error) {
+        console.log(error.message);
+      }
     };
-
-    const { data } = await axios.post(`${localURL}/create`, templateData);
-
-    dispatch({
-      type: CREATE_TEMPLATE_SUCCESS,
-      payload: data,
-    });
-
-    console.log('Plantilla creada exitosamente:', data);
-    return data;
-  } catch (error) {
-    dispatch({
-      type: CREATE_TEMPLATE_FAILURE,
-      payload: error.response.data,
-    });
-    console.error('Error al crear la plantilla:', error);
-
-    return { error: 'Error al crear la plantilla.' };
-  }
 };

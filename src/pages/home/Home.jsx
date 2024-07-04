@@ -21,14 +21,12 @@ const Home = () => {
   const [ selectedCategories, setSelectedCategories ] = useState([]);
   useEffect(() => {
     dispatch(getFilteredTemplates(selectedTechnologies, selectedCategories, sortBy, order, currentPage, itemsPerPage));
-}, [dispatch, selectedTechnologies, selectedCategories, sortBy, order, currentPage]);
+}, [dispatch, selectedTechnologies, selectedCategories, sortBy, order, currentPage,]);
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  // useEffect(() => {
-  //   dispatch(getTemplates());
-  // }, [ dispatch ]);
+  
 
   return (
     <div>

@@ -23,6 +23,7 @@ const isFavorite = myFavorites.includes(id);
       dispatch(addFav(id))
     } 
   };
+console.log(template);
   return (
     <div
       className="max-w-xs rounded relative overflow-hidden shadow-custom transition-transform transform hover:scale-105"
@@ -52,7 +53,7 @@ const isFavorite = myFavorites.includes(id);
           <div>
     {template.images.map((image) => (
       <div>
-        {(image.isCover === true && image.set === `${image.category}${1}`) && <img className="w-full h-32 object-cover" key={image.id} src={image.original} alt={template.name} />}
+        {(image.isCover === true) && <img className="w-full" key={image.id} src={image.original} alt={template.name} />}
       </div>
     ))}
   </div>
@@ -82,7 +83,12 @@ const isFavorite = myFavorites.includes(id);
       <div className="px-6 py-6">
         <div className="font-inter text-l">{template.name}</div>
         <div className="flex justify-between items-center">
-          <p className="text-black text-lg font-bold ml-auto">${template.price}</p>
+          <p className="text-black text-lg font-bold">${template.price}</p>
+          <div className="mt-2">
+          {template.technologies && template.technologies.map(tech => (
+            <span key={tech.id} className="text-[12px] border-2 border-[#06B6D4] text-gray-900 px-2 py-1 rounded p-2 m-2 hover:bg-[#06B6D4] hover:text-white">{tech.name}</span>
+          ))}
+        </div>
         </div>
       </div>
       <div className="px-6 py-6">
